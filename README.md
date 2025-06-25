@@ -150,7 +150,7 @@
     </main>
 
     <footer>
-        <p>برمجة د. عمر بابكر (Omer Bk)</p>
+        <p>برمجة د. عمر بابكر (Dr.Omer Bk)</p>
     </footer>
 
     <script>
