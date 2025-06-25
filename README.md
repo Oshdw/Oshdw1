@@ -9,13 +9,11 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
             transition: background-color 0.3s, color 0.3s;
         }
 
         header {
-            background: #007bff;
+            background-color: #4CAF50;
             color: white;
             padding: 10px 20px;
             display: flex;
@@ -25,57 +23,86 @@
 
         nav ul {
             list-style: none;
-            padding: 0;
+            display: flex;
         }
 
         nav ul li {
-            display: inline;
-            margin: 0 10px;
+            margin: 0 15px;
         }
 
-        nav ul li a {
+        nav a {
             color: white;
             text-decoration: none;
         }
 
-        .hero {
+        #hero {
+            background-image: url('hero-image.jpg'); /* استبدل هذا بالمسار الصحيح للصورة */
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
             text-align: center;
-            padding: 50px 20px;
-            background: #e9ecef;
         }
 
-        .service-box {
-            border: 1px solid #ccc;
+        #features {
+            display: flex;
+            justify-content: space-around;
             padding: 20px;
-            margin: 10px;
-            display: inline-block;
-            width: 200px;
+        }
+
+        .feature-box {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
             text-align: center;
+            transition: background-color 0.3s;
+            width: 20%;
         }
 
         footer {
             text-align: center;
-            padding: 20px;
-            background: #007bff;
+            padding: 10px;
+            background-color: #333;
             color: white;
         }
 
-        /* وضع داكن */
         body.dark-mode {
             background-color: #121212;
-            color: #ffffff;
+            color: white;
         }
 
-        body.dark-mode header {
-            background: #1f1f1f;
+        header.dark-mode {
+            background-color: #1F1F1F;
         }
 
-        body.dark-mode .hero {
-            background: #1e1e1e;
+        #hero.dark-mode {
+            background-color: #1F1F1F;
         }
 
-        body.dark-mode .service-box {
-            border: 1px solid #444;
+        .feature-box.dark-mode {
+            background-color: #2C2C2C;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -91,71 +118,58 @@
                 <li><a href="#contact">تواصل معنا</a></li>
             </ul>
         </nav>
-        <button id="toggle-darkmode">تبديل الوضع</button>
+        <button id="toggle-mode">تبديل الوضع</button>
     </header>
 
-    <main>
-        <section id="home" class="hero">
-            <h1>نظام إدارة الصيدليات</h1>
-            <button>جرب الآن</button>
-        </section>
+    <section id="hero">
+        <h1>نظام إدارة الصيدليات</h1>
+        <button>جرب الآن</button>
+    </section>
 
-        <section id="about">
-            <h2>عن النظام</h2>
-            <p>نظام متكامل لإدارة الصيدليات بكفاءة.</p>
-        </section>
+    <section id="features">
+        <div class="feature-box">إدارة المخزون</div>
+        <div class="feature-box">تقارير المبيعات</div>
+        <div class="feature-box">التنبيهات الدوائية</div>
+        <div class="feature-box">نظام نقاط البيع (POS)</div>
+    </section>
 
-        <section id="services">
-            <h2>الخدمات</h2>
-            <div class="service-box">
-                <h3>إدارة المخزون</h3>
-                <p>تتبع المخزون بسهولة.</p>
-            </div>
-            <div class="service-box">
-                <h3>تقارير المبيعات</h3>
-                <p>تحليل المبيعات بشكل دوري.</p>
-            </div>
-            <div class="service-box">
-                <h3>التنبيهات الدوائية</h3>
-                <p>تنبيهات حول الأدوية المنتهية.</p>
-            </div>
-            <div class="service-box">
-                <h3>نظام نقاط البيع (POS)</h3>
-                <p>نظام سهل الاستخدام لعمليات البيع.</p>
-            </div>
-        </section>
-
-        <section id="login">
-            <h2>تسجيل الدخول</h2>
-            <form id="login-form">
-                <input type="text" placeholder="اسم المستخدم" required>
-                <input type="password" placeholder="كلمة المرور" required>
-                <button type="submit">دخول</button>
-            </form>
-        </section>
-
-        <section id="contact">
-            <h2>تواصل معنا</h2>
-            <form>
-                <input type="text" placeholder="اسمك" required>
-                <input type="email" placeholder="بريدك الإلكتروني" required>
-                <textarea placeholder="رسالتك" required></textarea>
-                <button type="submit">إرسال</button>
-            </form>
-            <div class="social-icons">
-                <a href="https://wa.me/+249119441527">واتساب</a>
-                <a href="https://fb.com/oshdw">فيسبوك</a>
-            </div>
-        </section>
-    </main>
+    <section id="login">
+        <h2>تسجيل الدخول</h2>
+        <form>
+            <input type="text" placeholder="اسم المستخدم" required>
+            <input type="password" placeholder="كلمة المرور" required>
+            <button type="submit">دخول</button>
+        </form>
+    </section>
 
     <footer>
         <p>برمجة د. عمر بابكر (Dr.Omer Bk)</p>
     </footer>
 
     <script>
-        document.getElementById('toggle-darkmode').addEventListener('click', function() {
+        document.getElementById('toggle-mode').addEventListener('click', function() {
             document.body.classList.toggle('dark-mode');
+            document.querySelector('header').classList.toggle('dark-mode');
+            document.querySelector('#hero').classList.toggle('dark-mode');
+            document.querySelectorAll('.feature-box').forEach(box => {
+                box.classList.toggle('dark-mode');
+            });
+        });
+
+        const username = 'oshdw';
+        const password = 'omer bk';
+
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const userInput = document.querySelector('input[type="text"]').value;
+            const passInput = document.querySelector('input[type="password"]').value;
+
+            if (userInput === username && passInput === password) {
+                alert('دخول ناجح!');
+                // هنا يمكنك إضافة كود لتوجيه المستخدم إلى لوحة التحكم
+            } else {
+                alert('اسم المستخدم أو كلمة المرور غير صحيحة.');
+            }
         });
     </script>
 </body>
