@@ -1,167 +1,228 @@
-<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>نظام إدارة الصيدلية</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم - الصيدلية</title>
   <style>
     :root {
-      --bg-color: #f4f4f4;
-      --text-color: #222;
-      --card-color: #fff;
-      --accent: #3a86ff;
-    }
+      --primary: #3a86ff;
+      --bg: #f7f9fc;
+      --text: #222;
+      --card: #fff;
+    }body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
 
-    body.dark {
-      --bg-color: #121212;
-      --text-color: #f4f4f4;
-      --card-color: #1f1f1f;
-      --accent: #90e0ef;
-    }
+header {
+  background: var(--primary);
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-    }
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      line-height: 1.6;
-      transition: all 0.3s ease;
-    }
+.container {
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
 
-    header {
-      background: var(--accent);
-      color: white;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+.card {
+  background: var(--card);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
 
-    header h1 {
-      font-size: 1.5rem;
-    }
+.card:hover {
+  transform: scale(1.02);
+}
 
-    nav {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
+.card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  color: var(--primary);
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
+.logout {
+  background: #fff;
+  color: var(--primary);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
 
-    #toggle-theme {
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      color: white;
-    }
-
-    .hero {
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .cta {
-      padding: 0.7rem 1.5rem;
-      background: var(--accent);
-      border: none;
-      color: white;
-      font-size: 1rem;
-      margin-top: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      padding: 2rem;
-    }
-
-    .card {
-      background: var(--card-color);
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-    }
-
-    .card:hover {
-      transform: scale(1.03);
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background: #333;
-      color: white;
-    }
   </style>
 </head>
 <body>
   <header>
-    <h1>💊 نظام إدارة الصيدلية</h1>
-    <nav>
-      <a href="#">الرئيسية</a>
-      <a href="#">الأدوية</a>
-      <a href="#">المخزون</a>
-      <a href="#">التقارير</a>
-      <a href="#">تسجيل الخروج</a>
-      <button id="toggle-theme">🌓</button>
-    </nav>
-  </header>
+    <h1>لوحة التحكم - الصيدلية</h1>
+    <button class="logout" onclick="logout()">تسجيل الخروج</button>
+  </header>  <main class="container">
+    <div class="card">
+      <h3>عدد الأدوية</h3>
+      <p id="medicineCount">0</p>
+    </div>
+    <div class="card">
+      <h3>أدوية منتهية الصلاحية</h3>
+      <p id="expiredCount">0</p>
+    </div>
+    <div class="card">
+      <h3>تنبيهات المخزون</h3>
+      <p id="alerts">0</p>
+    </div>
+    <div class="card">
+      <h3>إجمالي الأصناف</h3>
+      <p id="totalItems">0</p>
+    </div>
+  </main>  <script>
+    // حماية الصفحة من الدخول بدون تسجيل
+    const user = localStorage.getItem("pharmacyUser");
+    if (!user) window.location.href = "index.html";
 
-  <main>
-    <section class="hero">
-      <h2>مرحباً بك في نظام صيدليتك</h2>
-      <p>نساعدك على إدارة الأدوية والمخزون والتقارير بكل سهولة واحترافية.</p>
-      <button class="cta">ابدأ الآن</button>
-    </section>
+    // بيانات وهمية
+    const medicines = [
+      { name: "باراسيتامول", expiry: "2024-12-01", quantity: 50 },
+      { name: "أموكسيسيلين", expiry: "2023-10-01", quantity: 0 },
+      { name: "إيبوبروفين", expiry: "2025-01-10", quantity: 12 },
+      { name: "ميترونيدازول", expiry: "2022-11-30", quantity: 8 },
+    ];
 
-    <section class="features">
-      <div class="card">
-        <h3>📦 إدارة المخزون</h3>
-        <p>راقب الأدوية والكميات وتاريخ الانتهاء بكل دقة.</p>
-      </div>
-      <div class="card">
-        <h3>💼 تقارير متقدمة</h3>
-        <p>أنشئ تقارير يومية وشهرية وتحليلات الأداء.</p>
-      </div>
-      <div class="card">
-        <h3>🔒 تسجيل دخول آمن</h3>
-        <p>نظام دخول وخروج للمستخدمين مع حماية عالية.</p>
-      </div>
-    </section>
-  </main>
+    document.getElementById("medicineCount").textContent = medicines.length;
+    document.getElementById("expiredCount").textContent = medicines.filter(m => new Date(m.expiry) < new Date()).length;
+    document.getElementById("alerts").textContent = medicines.filter(m => m.quantity < 10).length;
+    document.getElementById("totalItems").textContent = medicines.reduce((sum, m) => sum + m.quantity, 0);
 
-  <footer>
-    <p>جميع الحقوق محفوظة © <span id="year"></span> عمر بابكر (Omer Babiker - Omer Bk)</p>
-  </footer>
+    function logout() {
+      localStorage.removeItem("pharmacyUser");
+      window.location.href = "index.html";
+    }
+  </script></body>
+</html>
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم - الصيدلية</title>
+  <style>
+    :root {
+      --primary: #3a86ff;
+      --bg: #f7f9fc;
+      --text: #222;
+      --card: #fff;
+    }body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
 
-  <script>
-    // تفعيل الوضع الداكن والفاتح
-    const toggleBtn = document.getElementById("toggle-theme");
-    const body = document.body;
+header {
+  background: var(--primary);
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    toggleBtn.addEventListener("click", () => {
-      body.classList.toggle("dark");
-      toggleBtn.textContent = body.classList.contains("dark") ? "🌞" : "🌓";
-    });
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
 
-    // تحديث السنة تلقائياً في الفوتر
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
-</body>
+.container {
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--card);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  color: var(--primary);
+}
+
+.logout {
+  background: #fff;
+  color: var(--primary);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>لوحة التحكم - الصيدلية</h1>
+    <button class="logout" onclick="logout()">تسجيل الخروج</button>
+  </header>  <main class="container">
+    <div class="card">
+      <h3>عدد الأدوية</h3>
+      <p id="medicineCount">0</p>
+    </div>
+    <div class="card">
+      <h3>أدوية منتهية الصلاحية</h3>
+      <p id="expiredCount">0</p>
+    </div>
+    <div class="card">
+      <h3>تنبيهات المخزون</h3>
+      <p id="alerts">0</p>
+    </div>
+    <div class="card">
+      <h3>إجمالي الأصناف</h3>
+      <p id="totalItems">0</p>
+    </div>
+  </main>  <script>
+    // حماية الصفحة من الدخول بدون تسجيل
+    const user = localStorage.getItem("pharmacyUser");
+    if (!user) window.location.href = "index.html";
+
+    // بيانات وهمية
+    const medicines = [
+      { name: "باراسيتامول", expiry: "2024-12-01", quantity: 50 },
+      { name: "أموكسيسيلين", expiry: "2023-10-01", quantity: 0 },
+      { name: "إيبوبروفين", expiry: "2025-01-10", quantity: 12 },
+      { name: "ميترونيدازول", expiry: "2022-11-30", quantity: 8 },
+    ];
+
+    document.getElementById("medicineCount").textContent = medicines.length;
+    document.getElementById("expiredCount").textContent = medicines.filter(m => new Date(m.expiry) < new Date()).length;
+    document.getElementById("alerts").textContent = medicines.filter(m => m.quantity < 10).length;
+    document.getElementById("totalItems").textContent = medicines.reduce((sum, m) => sum + m.quantity, 0);
+
+    function logout() {
+      localStorage.removeItem("pharmacyUser");
+      window.location.href = "index.html";
+    }
+  </script></body>
 </html>
