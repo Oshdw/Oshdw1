@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -72,7 +73,7 @@
     }
 
     /* ---- إدارة الأدوية ---- */
-    #medicinesPage input[type=\"text\"] {
+    #medicinesPage input[type="text"] {
       padding: 0.5rem; width: 250px;
       margin-bottom: 1rem;
     }
@@ -131,7 +132,7 @@
       </div>
     </main>
     <div style="text-align:center; margin-top:2rem;">
-      <button onclick=\"showMedicinesPage()\">إدارة الأدوية</button>
+      <button onclick="showMedicinesPage()">إدارة الأدوية</button>
     </div>
   </section>
 
@@ -164,7 +165,7 @@
       const user = document.getElementById('username').value;
       const pass = document.getElementById('password').value;
       if (user === 'admin' && pass === '1234') {
-        localStorage.setItem('pharmacyUser', user);
+        localStorage.setItem('pharmacyUser ', user);
         showDashboard();
       } else {
         alert('بيانات غير صحيحة');
@@ -172,13 +173,13 @@
     }
 
     function logout() {
-      localStorage.removeItem('pharmacyUser');
+      localStorage.removeItem('pharmacyUser ');
       location.reload();
     }
 
     // حماية الدخول
-    const currentUser = localStorage.getItem('pharmacyUser');
-    if (currentUser) showDashboard();
+    const currentUser  = localStorage.getItem('pharmacyUser ');
+    if (currentUser ) showDashboard();
 
     function showDashboard() {
       document.getElementById('loginPage').classList.add('hidden');
@@ -188,8 +189,8 @@
 
     // بيانات الأدوية
     let medicines = JSON.parse(localStorage.getItem('medicines')) || [
-      { name: \"باراسيتامول\", quantity: 20, expiry: \"2024-12-01\" },
-      { name: \"أموكسيسيلين\", quantity: 0, expiry: \"2023-10-01\" }
+      { name: "باراسيتامول", quantity: 20, expiry: "2024-12-01" },
+      { name: "أموكسيسيلين", quantity: 0, expiry: "2023-10-01" }
     ];
 
     function updateDashboardStats() {
@@ -221,8 +222,8 @@
             <td>${med.quantity}</td>
             <td>${med.expiry}</td>
             <td>
-              <button onclick=\"editMedicine(${i})\">تعديل</button>
-              <button onclick=\"deleteMedicine(${i})\">حذف</button>
+              <button onclick="editMedicine(${i})">تعديل</button>
+              <button onclick="deleteMedicine(${i})">حذف</button>
             </td>
           </tr>
         `;
