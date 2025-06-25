@@ -8,6 +8,35 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     /* CSS styles remain unchanged */
+    :root {
+      --color-bg-light: #f9fafb;
+      --color-bg-dark: #121212;
+      --color-primary-light: #2563eb;
+      --color-primary-dark: #3b82f6;
+      --color-text-light: #1f2937;
+      --color-text-dark: #e5e7eb;
+      --color-card-light: #ffffff;
+      --color-card-dark: #1f2937;
+      --color-glass-light: rgba(255, 255, 255, 0.15);
+      --color-glass-dark: rgba(0, 0, 0, 0.3);
+    }
+
+    html, body {
+      font-family: "Cairo", sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.light {
+      background-color: var(--color-bg-light);
+      color: var(--color-text-light);
+    }
+
+    body.dark {
+      background-color: var(--color-bg-dark);
+      color: var(--color-text-dark);
+    }
+
+    /* Additional styles for cards, buttons, etc. */
   </style>
 </head>
 <body class="light flex flex-col min-h-screen">
@@ -156,9 +185,20 @@
     <p class="text-gray-700 dark:text-gray-400 font-semibold">تصميم بواسطة عمر بابكر (Omer Babiker - Omer Bk)</p>
   </footer>
   <script>
-    // JavaScript code remains unchanged, but add email sending functionality
-    // Use a service like EmailJS or a backend server to send emails
-    // Example: sendEmail(username, password, email) function to be called on registration
-  </script>
-</body>
-</html>
+    // JavaScript code for functionality
+    const darkModeToggle = document.getElementById("dark-mode-toggle");
+    const body = document.body;
+
+    // Load theme from localStorage or system preference
+    function loadTheme() {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) {
+        body.classList.remove("light", "dark");
+        body.classList.add(savedTheme);
+      } else {
+        body.classList.add("light");
+      }
+    }
+
+    darkModeToggle.addEventListener("click", () => {
+      if (body.classList
