@@ -9,16 +9,15 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.5s, color 0.5s;
         }
 
         header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 20px;
+            background-color: #f8f9fa;
         }
 
         nav ul {
@@ -30,100 +29,80 @@
             margin: 0 15px;
         }
 
-        nav a {
-            color: white;
+        nav ul li a {
             text-decoration: none;
+            color: #333;
         }
 
         #hero {
-            background-image: url('hero-image.jpg'); /* استبدل هذا بالمسار الصحيح للصورة */
-            height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
             text-align: center;
-        }
-
-        #features {
-            display: flex;
-            justify-content: space-around;
-            padding: 20px;
+            padding: 50px 0;
         }
 
         .feature-box {
-            background-color: #f4f4f4;
-            padding: 20px;
-            border-radius: 5px;
+            display: inline-block;
+            width: 200px;
+            height: 100px;
+            margin: 20px;
+            background-color: #e9ecef;
             text-align: center;
-            transition: background-color 0.3s;
-            width: 20%;
+            line-height: 100px;
+            border-radius: 10px;
         }
 
         footer {
             text-align: center;
-            padding: 10px;
-            background-color: #333;
-            color: white;
+            padding: 20px;
+            background-color: #f8f9fa;
         }
 
         body.dark-mode {
-            background-color: #121212;
-            color: white;
+            background-color: #343a40;
+            color: #ffffff;
         }
 
         header.dark-mode {
-            background-color: #1F1F1F;
+            background-color: #495057;
         }
 
-        #hero.dark-mode {
-            background-color: #1F1F1F;
+        nav ul li a.dark-mode {
+            color: #ffffff;
         }
 
         .feature-box.dark-mode {
-            background-color: #2C2C2C;
+            background-color: #6c757d;
         }
 
-        input[type="text"], input[type="password"] {
-            width: 100%;
+        input {
+            display: block;
+            margin: 10px auto;
             padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            width: 200px;
         }
 
         button {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            padding: 10px 20px;
             cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">شعار الصيدلية</div>
+        <div class="logo">صيدلية حديثة HD</div>
         <nav>
             <ul>
                 <li><a href="#home">الرئيسية</a></li>
-                <li><a href="#about">عن النظام</a></li>
                 <li><a href="#services">الخدمات</a></li>
                 <li><a href="#login">تسجيل الدخول</a></li>
                 <li><a href="#contact">تواصل معنا</a></li>
             </ul>
         </nav>
-        <button id="toggle-mode">تبديل الوضع</button>
+        <button id="toggle-mode">🌓</button>
     </header>
 
     <section id="hero">
         <h1>نظام إدارة الصيدليات</h1>
-        <button>جرب الآن</button>
+        <button onclick="startNow()">ابدأ الاستخدام</button>
     </section>
 
     <section id="features">
@@ -135,42 +114,42 @@
 
     <section id="login">
         <h2>تسجيل الدخول</h2>
-        <form>
-            <input type="text" placeholder="اسم المستخدم" required>
-            <input type="password" placeholder="كلمة المرور" required>
+        <form onsubmit="return login(event)">
+            <input type="text" placeholder="اسم المستخدم" id="username" required>
+            <input type="password" placeholder="كلمة المرور" id="password" required>
             <button type="submit">دخول</button>
         </form>
     </section>
 
     <footer>
-        <p>برمجة د. عمر بابكر (Dr.Omer Bk)</p>
+        <p>تصميم بواسطة د. عمر بابكر (Omer Bk)</p>
     </footer>
 
     <script>
+        function startNow() {
+            alert("ابدأ الاستخدام الآن!");
+        }
+
         document.getElementById('toggle-mode').addEventListener('click', function() {
             document.body.classList.toggle('dark-mode');
-            document.querySelector('header').classList.toggle('dark-mode');
-            document.querySelector('#hero').classList.toggle('dark-mode');
-            document.querySelectorAll('.feature-box').forEach(box => {
-                box.classList.toggle('dark-mode');
-            });
+            const links = document.querySelectorAll('nav ul li a');
+            links.forEach(link => link.classList.toggle('dark-mode'));
+            const featureBoxes = document.querySelectorAll('.feature-box');
+            featureBoxes.forEach(box => box.classList.toggle('dark-mode'));
         });
 
-        const username = 'oshdw';
-        const password = 'omer bk';
-
-        document.querySelector('form').addEventListener('submit', function(event) {
+        function login(event) {
             event.preventDefault();
-            const userInput = document.querySelector('input[type="text"]').value;
-            const passInput = document.querySelector('input[type="password"]').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
 
-            if (userInput === username && passInput === password) {
-                alert('دخول ناجح!');
+            if (username === 'oshdw' && password === 'omer bk') {
+                alert("تم تسجيل الدخول بنجاح!");
                 // هنا يمكنك إضافة كود لتوجيه المستخدم إلى لوحة التحكم
             } else {
-                alert('اسم المستخدم أو كلمة المرور غير صحيحة.');
+                alert("اسم المستخدم أو كلمة المرور غير صحيحة.");
             }
-        });
+        }
     </script>
 </body>
 </html>
