@@ -1,530 +1,279 @@
-<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>نظام إدارة الصيدلية المتكامل</title>
+  <title>نظام إدارة الصيدلية</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="نظام متكامل لإدارة مخزون الصيدلية مع لوحة تحكم تفاعلية">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --primary-color: #4361ee;
-      --primary-hover: #3a56d4;
-      --secondary-color: #3f37c9;
-      --danger-color: #f72585;
-      --success-color: #4cc9f0;
-      --warning-color: #f8961e;
-      --light-bg: #f8f9fa;
-      --dark-bg: #212529;
-      --text-light: #f8f9fa;
-      --text-dark: #212529;
-      --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Tajawal', 'Segoe UI', sans-serif;
-    }
-
+    * { box-sizing: border-box; }
     body {
-      transition: var(--transition);
-      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }:root {
+  --bg: #f4f6f8;
+  --text: #222;
+  --card: white;
+  --primary: #3a86ff;
+  --border: #ccc;
+}
+
+.dark-mode {
+  --bg: #121212;
+  --text: #f4f4f4;
+  --card: #1e1e1e;
+  --primary: #90caf9;
+  --border: #444;
+}
+
+header {
+  background: var(--primary);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+main { padding: 2rem; }
+
+#loginPage, #dashboardPage, #medicinesPage, #usersPage {
+  display: none;
+}
+
+.active { display: block; }
+
+#loginBox, .card, table {
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 1rem;
+  margin: auto;
+}
+
+input, button {
+  width: 100%; padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button { background: var(--primary); color: white; cursor: pointer; }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+table {
+  width: 100%; border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.75rem;
+  text-align: center;
+}
+
+th { background: #e9f0fb; }
+.dark-mode th { background: #333; }
+
+.top-actions {
+  display: flex; justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.logout, .toggle-dark {
+  width: auto; padding: 0.5rem 1rem;
+  position: absolute; top: 1rem;
+}
+
+.logout { left: 1rem; }
+.toggle-dark { right: 1rem; }
+
+  </style>
+</head>
+<body>
+  <section id="loginPage" class="active">
+    <div id="loginBox">
+      <h2>تسجيل الدخول</h2>
+      <input id="username" placeholder="اسم المستخدم">
+      <input type="password" id="password" placeholder="كلمة المرور">
+      <button onclick="login()">دخول</button>
+    </div>
+  </section>  <section id="dashboardPage">
+    <header>
+      <h1>لوحة التحكم</h1>
+      <button class="logout" onclick="logout()">تسجيل الخروج</button>
+      <button class="toggle-dark" onclick="toggleDarkMode()">🌓</button>
+    </header>
+    <main class="cards">
+      <div class="card">
+        <h3>عدد الأدوية</h3>
+        <p id="medicineCount">0</p>
+      </div>
+      <div class="card">
+        <h3>منتهية الصلاحية</h3>
+        <p id="expiredCount">0</p>
+      </div>
+      <div class="card">
+        <h3>تنبيهات</h3>
+        <p id="alerts">0</p>
+      </div>
+      <div class="card">
+        <h3>إجمالي الكمية</h3>
+        <p id="totalItems">0</p>
+      </div>
+    </main>
+    <div class="top-actions">
+      <button onclick="showSection('medicinesPage')">إدارة الأدوية</button>
+      <button onclick="showSection('usersPage')">المستخدمين</button>
+    </div>
+  </section>  <section id="medicinesPage">
+    <header>
+      <h1>إدارة الأدوية</h1>
+      <button onclick="showSection('dashboardPage')">رجوع</button>
+    </header>
+    <main>
+      <input type="text" id="search" placeholder="ابحث..." oninput="searchMedicine()">
+      <button onclick="addMedicinePrompt()">+ إضافة دواء</button>
+      <table>
+        <thead>
+          <tr><th>الاسم</th><th>الكمية</th><th>الصلاحية</th><th>خيارات</th></tr>
+        </thead>
+        <tbody id="medicineTable"></tbody>
+      </table>
+    </main>
+  </section>  <section id="usersPage">
+    <header>
+      <h1>إدارة المستخدمين</h1>
+      <button onclick="showSection('dashboardPage')">رجوع</button>
+    </header>
+    <main>
+      <input type="text" id="newUser" placeholder="اسم المستخدم الجديد">
+      <input type="password" id="newPass" placeholder="كلمة المرور">
+      <button onclick="addUser()">إضافة مستخدم</button>
+      <ul id="userList"></ul>
+    </main>
+  </section>  <script>
+    const users = JSON.parse(localStorage.getItem('users')) || [{user:'admin', pass:'1234'}];
+    const medicines = JSON.parse(localStorage.getItem('medicines')) || [];
+
+    function login() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      const found = users.find(x => x.user === u && x.pass === p);
+      if (found) {
+        localStorage.setItem('currentUser', u);
+        showSection('dashboardPage');
+        updateDashboardStats();
+      } else alert('بيانات غير صحيحة');
     }
 
-    body.light {
-      background-color: var(--light-bg);
-      color: var(--text-dark);
+    function logout() {
+      localStorage.removeItem('currentUser');
+      showSection('loginPage');
     }
 
-    body.dark {
-      background-color: var(--dark-bg);
-      color: var(--text-light);
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      if (id === 'usersPage') renderUsers();
     }
 
-    /* Header Styles */
-    header {
-      background-color: var(--primary-color);
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      position: relative;
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
     }
 
-    body.dark header {
-      background-color: #121212;
-      border-bottom: 1px solid #333;
-    }
-
-    /* Navigation */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 2rem;
-      background-color: var(--primary-color);
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-    }
-
-    .nav-links li {
-      margin-left: 1.5rem;
-    }
-
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-    }
-
-    .nav-links a:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    /* Main Content */
-    main {
-      padding: 2rem;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    /* Theme Toggle */
-    #themeToggle {
-      position: fixed;
-      bottom: 2rem;
-      left: 2rem;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      z-index: 100;
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-    }
-
-    #themeToggle:hover {
-      transform: scale(1.1);
-    }
-
-    /* Login Page */
-    #loginPage {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    }
-
-    body.dark #loginPage {
-      background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
-    }
-
-    #loginBox {
-      background: white;
-      padding: 2.5rem;
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-      width: 100%;
-      max-width: 450px;
-      text-align: center;
-      transition: var(--transition);
-    }
-
-    body.dark #loginBox {
-      background: #2a2a2a;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    #loginBox h2 {
-      margin-bottom: 1.5rem;
-      color: var(--primary-color);
-    }
-
-    .input-group {
-      margin-bottom: 1.5rem;
-      text-align: right;
-    }
-
-    .input-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-
-    input {
-      padding: 0.75rem 1rem;
-      margin-bottom: 1rem;
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-size: 1rem;
-      transition: var(--transition);
-    }
-
-    body.dark input {
-      background-color: #333;
-      color: white;
-      border-color: #444;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
-    }
-
-    /* Buttons */
-    button {
-      padding: 0.75rem 1.5rem;
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-
-    button:hover {
-      background-color: var(--primary-hover);
-      transform: translateY(-2px);
-    }
-
-    button:active {
-      transform: translateY(0);
-    }
-
-    button.secondary {
-      background-color: #6c757d;
-    }
-
-    button.danger {
-      background-color: var(--danger-color);
-    }
-
-    button.success {
-      background-color: var(--success-color);
-    }
-
-    button.warning {
-      background-color: var(--warning-color);
-    }
-
-    /* Dashboard */
-    #dashboardPage .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-      text-align: center;
-      transition: var(--transition);
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    body.dark .card {
-      background: #2a2a2a;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .card h3 {
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-    }
-
-    .card .value {
-      font-size: 2rem;
-      font-weight: bold;
-      margin: 0.5rem 0;
-    }
-
-    .card .description {
-      color: #6c757d;
-      font-size: 0.9rem;
-    }
-
-    body.dark .card .description {
-      color: #aaa;
-    }
-
-    /* Quick Actions */
-    .quick-actions {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin: 2rem 0;
-      flex-wrap: wrap;
-    }
-
-    /* Medicines Page */
-    #medicinesPage .search-container {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    #medicinesPage input[type="text"] {
-      flex: 1;
-      min-width: 250px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: var(--card-shadow);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    body.dark table {
-      background: #2a2a2a;
-    }
-
-    th, td {
-      padding: 1rem;
-      border: 1px solid #ddd;
-      text-align: center;
-    }
-
-    body.dark th, body.dark td {
-      border-color: #444;
-    }
-
-    th {
-      background-color: var(--primary-color);
-      color: white;
-      font-weight: 500;
-    }
-
-    body.dark th {
-      background-color: #1a1a2e;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f8f9fa;
-    }
-
-    body.dark tr:nth-child(even) {
-      background-color: #333;
-    }
-
-    tr:hover {
-      background-color: #e9ecef;
-    }
-
-    body.dark tr:hover {
-      background-color: #3a3a3a;
-    }
-
-    .action-buttons {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-    }
-
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 500px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    body.dark .modal-content {
-      background-color: #2a2a2a;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .modal-header h3 {
-      color: var(--primary-color);
-    }
-
-    .close-modal {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #6c757d;
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-
-    .modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      nav {
-        flex-direction: column;
-        padding: 1rem;
-      }
-
-      .nav-links {
-        margin-top: 1rem;
-        width: 100%;
-        justify-content: space-around;
-      }
-
-      .nav-links li {
-        margin-left: 0;
-      }
-
-      main {
-        padding: 1rem;
-      }
-
-      table {
-        display: block;
-        overflow-x: auto;
+    function addUser() {
+      const user = document.getElementById('newUser').value;
+      const pass = document.getElementById('newPass').value;
+      if (user && pass) {
+        users.push({ user, pass });
+        localStorage.setItem('users', JSON.stringify(users));
+        renderUsers();
       }
     }
 
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    function renderUsers() {
+      const list = document.getElementById('userList');
+      list.innerHTML = '';
+      users.forEach(u => {
+        list.innerHTML += `<li>${u.user}</li>`;
+      });
     }
 
-    .fade-in {
-      animation: fadeIn 0.5s ease forwards;
+    function addMedicinePrompt() {
+      const name = prompt('اسم الدواء');
+      const quantity = +prompt('الكمية');
+      const expiry = prompt('تاريخ الانتهاء YYYY-MM-DD');
+      if (name && quantity && expiry) {
+        medicines.push({ name, quantity, expiry });
+        saveAndRender();
+      }
     }
 
-    /* Utility Classes */
-    .hidden {
-      display: none !important;
+    function searchMedicine() {
+      const q = document.getElementById('search').value;
+      const filtered = medicines.filter(m => m.name.includes(q));
+      renderMedicines(filtered);
     }
 
-    .text-center {
-      text-align: center;
+    function renderMedicines(list = medicines) {
+      const table = document.getElementById('medicineTable');
+      table.innerHTML = '';
+      list.forEach((m, i) => {
+        table.innerHTML += `
+          <tr>
+            <td>${m.name}</td>
+            <td>${m.quantity}</td>
+            <td>${m.expiry}</td>
+            <td>
+              <button onclick="editMedicine(${i})">تعديل</button>
+              <button onclick="deleteMedicine(${i})">حذف</button>
+            </td>
+          </tr>`;
+      });
     }
 
-    .mt-1 { margin-top: 0.5rem; }
-    .mt-2 { margin-top: 1rem; }
-    .mt-3 { margin-top: 1.5rem; }
-    .mt-4 { margin-top: 2rem; }
-    .mt-5 { margin-top: 3rem; }
-
-    .mb-1 { margin-bottom: 0.5rem; }
-    .mb-2 { margin-bottom: 1rem; }
-    .mb-3 { margin-bottom: 1.5rem; }
-    .mb-4 { margin-bottom: 2rem; }
-    .mb-5 { margin-bottom: 3rem; }
-
-    .flex {
-      display: flex;
+    function editMedicine(i) {
+      const m = medicines[i];
+      const name = prompt('اسم الدواء', m.name);
+      const quantity = +prompt('الكمية', m.quantity);
+      const expiry = prompt('الانتهاء', m.expiry);
+      if (name && quantity && expiry) {
+        medicines[i] = { name, quantity, expiry };
+        saveAndRender();
+      }
     }
 
-    .justify-between {
-      justify-content: space-between;
+    function deleteMedicine(i) {
+      if (confirm('هل تريد الحذف؟')) {
+        medicines.splice(i, 1);
+        saveAndRender();
+      }
     }
 
-    .items-center {
-      align-items: center;
+    function saveAndRender() {
+      localStorage.setItem('medicines', JSON.stringify(medicines));
+      renderMedicines();
+      updateDashboardStats();
     }
 
-    /* Notifications */
-    .notification {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      padding: 1rem 1.5rem;
-      border-radius: 8px;
-      color: white;
-      box-shadow: var(--card-shadow);
-      z-index: 1000;
-      transform: translateX(200%);
-      transition: transform 0.3s ease;
+    function updateDashboardStats() {
+      document.getElementById('medicineCount').textContent = medicines.length;
+      document.getElementById('expiredCount').textContent = medicines.filter(m => new Date(m.expiry) < new Date()).length;
+      document.getElementById('alerts').textContent = medicines.filter(m => m.quantity < 10).length;
+      document.getElementById('totalItems').textContent = medicines.reduce((a, b) => a + b.quantity, 0);
     }
 
-    .notification.show {
-      transform: translateX(0);
+    // استئناف الجلسة
+    if (localStorage.getItem('currentUser')) {
+      showSection('dashboardPage');
+      updateDashboardStats();
     }
-
-    .notification.success {
-      background-color: var(--success-color);
-    }
-
-    .notification.error {
-      background-color: var(--danger-color);
-    }
-
-    .notification.warning {
-      background-color: var(--warning-color);
-    }
-
-    /* Loading Spinner */
-    .spinner {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,.3);
-      border-radius: 50%;
-      border-top-color: white;
-      animation: spin 1s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg);
+  </script></body>
+</html>
