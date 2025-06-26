@@ -396,3 +396,55 @@
   const sidebar = document.getElementById('sidebar');
   const toggleSidebarBtn = document.getElementById('toggleSidebar');
   const toggleDarkModeBtn
+const sidebar = document.getElementById('sidebar');
+const toggleSidebarBtn = document.getElementById('toggleSidebar');
+const toggleDarkModeBtn = document.getElementById('toggleDarkMode');
+const pages = document.querySelectorAll('section.page');
+const sidebarButtons = sidebar.querySelectorAll('button[data-page]');
+
+toggleSidebarBtn.addEventListener('click', () => {
+  sidebar.classList.toggle('hide');
+});
+
+toggleDarkModeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  sidebar.classList.toggle('dark');
+});
+
+// التنقل بين الصفحات
+sidebarButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    sidebarButtons.forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+
+    const pageToShow = button.getAttribute('data-page');
+    pages.forEach(page => {
+      page.style.display = (page.id === pageToShow) ? 'block' : 'none';
+    });
+  });
+});
+
+// أزرار الآلة الحاسبة
+const calcDisplay = document.getElementById('calcDisplay');
+const calcButtons = document.querySelectorAll('.calc-btn');
+const calcClearBtn = document.getElementById('calcClear');
+const calcEqualBtn = document.getElementById('calcEqual');
+
+calcButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    calcDisplay.value += btn.getAttribute('data-val');
+  });
+});
+
+calcClearBtn.addEventListener('click', () => {
+  calcDisplay.value = '';
+});
+
+calcEqualBtn.addEventListener('click', () => {
+  try {
+    // eval آمنة هنا لأنه يقتصر على إدخال الأزرار فقط
+    calcDisplay.value = eval(calcDisplay.value);
+  } catch {
+    calcDisplay.value = 'خطأ';
+  }
+});
