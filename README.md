@@ -1654,3 +1654,420 @@
     }
 
     // Update
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نظام إدارة الصيدلية</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* CSS السابق يبقى كما هو */
+    /* ... */
+  </style>
+</head>
+<body>
+  <!-- HTML السابق يبقى كما هو -->
+  <!-- ... -->
+
+  <!-- Prescriptions Page -->
+  <div id="prescriptions" class="page">
+    <div class="card">
+      <h3>إضافة وصفة طبية</h3>
+      <div id="prescription-message" class="message"></div>
+      <div class="form-group">
+        <label for="prescriptionCustomer">العميل</label>
+        <select id="prescriptionCustomer">
+          <option value="">اختر العميل</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="prescriptionDoctor">الطبيب</label>
+        <input type="text" id="prescriptionDoctor" placeholder="أدخل اسم الطبيب">
+      </div>
+      <div class="form-group">
+        <label for="prescriptionDate">التاريخ</label>
+        <input type="date" id="prescriptionDate">
+      </div>
+      <div class="form-group">
+        <label for="prescriptionNotes">ملاحظات</label>
+        <textarea id="prescriptionNotes" rows="3" placeholder="أدخل أي ملاحظات"></textarea>
+      </div>
+      <div class="btn-group">
+        <button id="addPrescriptionBtn">إضافة وصفة</button>
+        <button class="danger" id="clearPrescriptionBtn">مسح النموذج</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>قائمة الوصفات الطبية</h3>
+      <div class="search-container">
+        <input type="text" id="prescription-search" placeholder="ابحث عن وصفة...">
+      </div>
+      <table id="prescriptionTable">
+        <thead>
+          <tr>
+            <th>رقم الوصفة</th>
+            <th>العميل</th>
+            <th>الطبيب</th>
+            <th>التاريخ</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Calculator Page -->
+  <div id="calculator" class="page">
+    <div class="card">
+      <h3>آلة حاسبة</h3>
+      <div class="calculator">
+        <input type="text" id="calc-display" readonly>
+        <button class="clear">C</button>
+        <button class="operator">±</button>
+        <button class="operator">%</button>
+        <button class="operator">÷</button>
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button class="operator">×</button>
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button class="operator">-</button>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button class="operator">+</button>
+        <button>0</button>
+        <button>.</button>
+        <button class="equals" colspan="2">=</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Page -->
+  <div id="statistics" class="page">
+    <div class="card">
+      <h3>إحصائيات المبيعات</h3>
+      <div class="chart-container">
+        <canvas id="salesChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <h3>إحصائيات الأدوية</h3>
+      <div class="chart-container">
+        <canvas id="medicinesChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Page -->
+  <div id="settings" class="page">
+    <div class="card">
+      <h3>الإعدادات</h3>
+      <div class="form-group">
+        <label for="pharmacyName">اسم الصيدلية</label>
+        <input type="text" id="pharmacyName" placeholder="أدخل اسم الصيدلية">
+      </div>
+      <div class="form-group">
+        <label for="pharmacyAddress">عنوان الصيدلية</label>
+        <input type="text" id="pharmacyAddress" placeholder="أدخل عنوان الصيدلية">
+      </div>
+      <div class="form-group">
+        <label for="pharmacyPhone">هاتف الصيدلية</label>
+        <input type="tel" id="pharmacyPhone" placeholder="أدخل هاتف الصيدلية">
+      </div>
+      <div class="form-group">
+        <label for="defaultTheme">الوضع الافتراضي</label>
+        <select id="defaultTheme">
+          <option value="light">فاتح</option>
+          <option value="dark">غامق</option>
+        </select>
+      </div>
+      <button id="saveSettingsBtn">حفظ الإعدادات</button>
+    </div>
+  </div>
+
+  <footer>
+    نظام إدارة الصيدلية &copy; 2023 - جميع الحقوق محفوظة
+  </footer>
+
+  <script>
+    // DOM Elements
+    const sidebar = document.getElementById('sidebar');
+    const main = document.getElementById('main');
+    const toggleSidebarBtn = document.getElementById('toggleSidebar');
+    const toggleThemeBtn = document.getElementById('toggleTheme');
+    const printBtn = document.getElementById('printBtn');
+    const pageTitle = document.getElementById('page-title');
+    
+    // Page buttons
+    const pageButtons = {
+      dashboard: document.getElementById('dashboardBtn'),
+      medicines: document.getElementById('medicinesBtn'),
+      suppliers: document.getElementById('suppliersBtn'),
+      customers: document.getElementById('customersBtn'),
+      orders: document.getElementById('ordersBtn'),
+      prescriptions: document.getElementById('prescriptionsBtn'),
+      calculator: document.getElementById('calculatorBtn'),
+      statistics: document.getElementById('statisticsBtn'),
+      settings: document.getElementById('settingsBtn')
+    };
+    
+    // Pages
+    const pages = {
+      dashboard: document.getElementById('dashboard'),
+      medicines: document.getElementById('medicines'),
+      suppliers: document.getElementById('suppliers'),
+      customers: document.getElementById('customers'),
+      orders: document.getElementById('orders'),
+      prescriptions: document.getElementById('prescriptions'),
+      calculator: document.getElementById('calculator'),
+      statistics: document.getElementById('statistics'),
+      settings: document.getElementById('settings')
+    };
+    
+    // Page titles
+    const pageTitles = {
+      dashboard: 'لوحة التحكم',
+      medicines: 'إدارة الأدوية',
+      suppliers: 'الموردون',
+      customers: 'العملاء',
+      orders: 'الفواتير',
+      prescriptions: 'الوصفات الطبية',
+      calculator: 'الآلة الحاسبة',
+      statistics: 'الإحصائيات',
+      settings: 'الإعدادات'
+    };
+    
+    // Toggle sidebar
+    toggleSidebarBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('hidden');
+      main.classList.toggle('full');
+    });
+    
+    // Toggle theme
+    toggleThemeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      toggleThemeBtn.textContent = isDark ? 'light_mode' : 'dark_mode';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+    
+    // Check for saved theme preference
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      toggleThemeBtn.textContent = 'light_mode';
+    }
+    
+    // Print functionality
+    printBtn.addEventListener('click', () => {
+      window.print();
+    });
+    
+    // Navigation between pages
+    Object.keys(pageButtons).forEach(page => {
+      pageButtons[page].addEventListener('click', () => {
+        // Hide all pages
+        Object.values(pages).forEach(p => p.classList.remove('active'));
+        // Show selected page
+        pages[page].classList.add('active');
+        // Update page title
+        pageTitle.textContent = pageTitles[page];
+        
+        // Close sidebar on mobile
+        if (window.innerWidth <= 768) {
+          sidebar.classList.add('hidden');
+          main.classList.add('full');
+        }
+      });
+    });
+    
+    // Calculator functionality
+    const calculator = document.querySelector('.calculator');
+    const display = document.getElementById('calc-display');
+    let currentInput = '0';
+    let previousInput = '';
+    let operation = null;
+    let resetInput = false;
+    
+    calculator.addEventListener('click', (e) => {
+      if (!e.target.matches('button')) return;
+      
+      const button = e.target;
+      const value = button.textContent;
+      
+      if (button.classList.contains('clear')) {
+        currentInput = '0';
+        previousInput = '';
+        operation = null;
+      } else if (button.classList.contains('operator')) {
+        if (operation !== null) calculate();
+        previousInput = currentInput;
+        currentInput = '0';
+        operation = value;
+      } else if (button.classList.contains('equals')) {
+        calculate();
+        operation = null;
+      } else {
+        if (currentInput === '0' || resetInput) {
+          currentInput = value;
+          resetInput = false;
+        } else {
+          currentInput += value;
+        }
+      }
+      
+      display.value = currentInput;
+    });
+    
+    function calculate() {
+      let result;
+      const prev = parseFloat(previousInput);
+      const current = parseFloat(currentInput);
+      
+      if (isNaN(prev) || isNaN(current)) return;
+      
+      switch (operation) {
+        case '+':
+          result = prev + current;
+          break;
+        case '-':
+          result = prev - current;
+          break;
+        case '×':
+          result = prev * current;
+          break;
+        case '÷':
+          result = prev / current;
+          break;
+        case '%':
+          result = prev % current;
+          break;
+        default:
+          return;
+      }
+      
+      currentInput = result.toString();
+      resetInput = true;
+    }
+    
+    // Initialize charts
+    function initCharts() {
+      // Expiry Chart
+      const expiryCtx = document.getElementById('expiryChart').getContext('2d');
+      new Chart(expiryCtx, {
+        type: 'bar',
+        data: {
+          labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'],
+          datasets: [{
+            label: 'أدوية تنتهي',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: 'rgba(255, 159, 64, 0.7)'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      
+      // Sales Chart
+      const salesCtx = document.getElementById('salesChart').getContext('2d');
+      new Chart(salesCtx, {
+        type: 'line',
+        data: {
+          labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'],
+          datasets: [{
+            label: 'المبيعات',
+            data: [12000, 19000, 3000, 5000, 2000, 3000],
+            borderColor: 'rgba(25, 118, 210, 1)',
+            backgroundColor: 'rgba(25, 118, 210, 0.1)',
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      
+      // Medicines Chart
+      const medicinesCtx = document.getElementById('medicinesChart').getContext('2d');
+      new Chart(medicinesCtx, {
+        type: 'pie',
+        data: {
+          labels: ['مضادات حيوية', 'مسكنات', 'مضادات هستامين', 'أخرى'],
+          datasets: [{
+            data: [300, 50, 100, 150],
+            backgroundColor: [
+              'rgba(25, 118, 210, 0.7)',
+              'rgba(255, 159, 64, 0.7)',
+              'rgba(56, 142, 60, 0.7)',
+              'rgba(211, 47, 47, 0.7)'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    }
+    
+    // Initialize the app
+    function init() {
+      // Set dashboard as active page
+      pageButtons.dashboard.click();
+      
+      // Initialize charts
+      initCharts();
+      
+      // Update stats (mock data)
+      document.getElementById('med-count').textContent = '125';
+      document.getElementById('expiring-soon').textContent = '12';
+      document.getElementById('expired').textContent = '5';
+      document.getElementById('sales').textContent = '24,750';
+      
+      // Add mock data to recent orders
+      const recentOrders = [
+        { id: 1001, date: '2023-05-15', customer: 'أحمد محمد', amount: 450, status: 'مدفوعة' },
+        { id: 1002, date: '2023-05-14', customer: 'علي حسن', amount: 320, status: 'مدفوعة' },
+        { id: 1003, date: '2023-05-13', customer: 'مريم خالد', amount: 210, status: 'مدفوعة' },
+        { id: 1004, date: '2023-05-12', customer: 'سارة عبدالله', amount: 180, status: 'مدفوعة' },
+        { id: 1005, date: '2023-05-11', customer: 'خالد أحمد', amount: 540, status: 'مدفوعة' }
+      ];
+      
+      const recentOrdersTable = document.getElementById('recent-orders');
+      recentOrders.forEach(order => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${order.id}</td>
+          <td>${order.date}</td>
+          <td>${order.customer}</td>
+          <td>${order.amount} ر.س</td>
+          <td>${order.status}</td>
+        `;
+        recentOrdersTable.appendChild(row);
+      });
+    }
+    
+    // Initialize the app when DOM is loaded
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
