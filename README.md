@@ -6,6 +6,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    /* CSS styles هنا */
     :root {
       --primary: #1976d2;
       --primary-dark: #1565c0;
@@ -531,240 +532,71 @@
       </div>
     </div>
 
-    <!-- Medicines Management Page -->
-    <div id="medicines" class="page">
-      <div class="card">
-        <h3>إضافة دواء جديد</h3>
-        <div id="med-message" class="message"></div>
-        <div class="form-group">
-          <label for="medName">اسم الدواء</label>
-          <input type="text" id="medName" placeholder="أدخل اسم الدواء">
-        </div>
-        <div class="form-group">
-          <label for="medGeneric">الاسم العلمي</label>
-          <input type="text" id="medGeneric" placeholder="أدخل الاسم العلمي">
-        </div>
-        <div class="form-group">
-          <label for="medCategory">الفئة</label>
-          <select id="medCategory">
-            <option value="">اختر الفئة</option>
-            <option value="antibiotic">مضاد حيوي</option>
-            <option value="analgesic">مسكن</option>
-            <option value="antihistamine">مضاد هستامين</option>
-            <option value="antacid">مضاد حموضة</option>
-            <option value="other">أخرى</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="medQty">الكمية</label>
-          <input type="number" id="medQty" placeholder="أدخل الكمية">
-        </div>
-        <div class="form-group">
-          <label for="medPrice">سعر البيع</label>
-          <input type="number" step="0.01" id="medPrice" placeholder="أدخل سعر البيع">
-        </div>
-        <div class="form-group">
-          <label for="medExp">تاريخ الانتهاء</label>
-          <input type="date" id="medExp">
-        </div>
-        <div class="btn-group">
-          <button onclick="addMedicine()">إضافة دواء</button>
-          <button class="danger" onclick="clearMedicineForm()">مسح النموذج</button>
-        </div>
-      </div>
+    <!-- JavaScript functions هنا -->
+    <script>
+      // Global variables
+      let darkMode = false;
+      let medicines = [];
+      let suppliers = [];
+      let customers = [];
+      let orders = [];
+      let prescriptions = [];
+      let settings = {
+        pharmacyName: "صيدليتي",
+        pharmacyAddress: "",
+        pharmacyPhone: "",
+        currency: "ج",
+        taxRate: 0,
+        enableNotifications: true,
+        enableExpiryAlerts: true,
+        daysBeforeExpiry: 30
+      };
+      let currentPrescriptionId = 1;
+      let currentOrderId = 1;
 
-      <div class="card">
-        <h3>قائمة الأدوية</h3>
-        <div class="search-container">
-          <input type="text" id="med-search" placeholder="ابحث عن دواء..." oninput="searchMedicine(this.value)">
-        </div>
-        <table id="medTable">
-          <thead>
-            <tr>
-              <th>الاسم</th>
-              <th>الاسم العلمي</th>
-              <th>الفئة</th>
-              <th>الكمية</th>
-              <th>السعر</th>
-              <th>تاريخ الانتهاء</th>
-              <th>إجراءات</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Suppliers Page -->
-    <div id="suppliers" class="page">
-      <div class="card">
-        <h3>إدارة الموردين</h3>
-        <div id="supplier-message" class="message"></div>
-        <div class="form-group">
-          <label for="supplierName">اسم المورد</label>
-          <input type="text" id="supplierName" placeholder="أدخل اسم المورد">
-        </div>
-        <div class="form-group">
-          <label for="supplierPhone">رقم الهاتف</label>
-          <input type="tel" id="supplierPhone" placeholder="أدخل رقم الهاتف">
-        </div>
-        <div class="form-group">
-          <label for="supplierEmail">البريد الإلكتروني</label>
-          <input type="email" id="supplierEmail" placeholder="أدخل البريد الإلكتروني">
-        </div>
-        <div class="form-group">
-          <label for="supplierAddress">العنوان</label>
-          <input type="text" id="supplierAddress" placeholder="أدخل العنوان">
-        </div>
-        <div class="btn-group">
-          <button onclick="addSupplier()">إضافة مورد</button>
-          <button class="danger" onclick="clearSupplierForm()">مسح النموذج</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>قائمة الموردين</h3>
-        <div class="search-container">
-          <input type="text" id="supplier-search" placeholder="ابحث عن مورد..." oninput="searchSupplier(this.value)">
-        </div>
-        <table id="supplierTable">
-          <thead>
-            <tr>
-              <th>اسم المورد</th>
-              <th>رقم الهاتف</th>
-              <th>البريد الإلكتروني</th>
-              <th>العنوان</th>
-              <th>إجراءات</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Customers Page -->
-    <div id="customers" class="page">
-      <div class="card">
-        <h3>إدارة العملاء</h3>
-        <div id="customer-message" class="message"></div>
-        <div class="form-group">
-          <label for="customerName">اسم العميل</label>
-          <input type="text" id="customerName" placeholder="أدخل اسم العميل">
-        </div>
-        <div class="form-group">
-          <label for="customerPhone">رقم الهاتف</label>
-          <input type="tel" id="customerPhone" placeholder="أدخل رقم الهاتف">
-        </div>
-        <div class="form-group">
-          <label for="customerAddress">العنوان</label>
-          <input type="text" id="customerAddress" placeholder="أدخل العنوان">
-        </div>
-        <div class="form-group">
-          <label for="customerMedicalHistory">تاريخ مرضي (اختياري)</label>
-          <input type="text" id="customerMedicalHistory" placeholder="أدخل التاريخ المرضي">
-        </div>
-        <div class="btn-group">
-          <button onclick="addCustomer()">إضافة عميل</button>
-          <button class="danger" onclick="clearCustomerForm()">مسح النموذج</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>قائمة العملاء</h3>
-        <div class="search-container">
-          <input type="text" id="customer-search" placeholder="ابحث عن عميل..." oninput="searchCustomer(this.value)">
-        </div>
-        <table id="customerTable">
-          <thead>
-            <tr>
-              <th>اسم العميل</th>
-              <th>رقم الهاتف</th>
-              <th>العنوان</th>
-              <th>التاريخ المرضي</th>
-              <th>إجراءات</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Orders Page -->
-    <div id="orders" class="page">
-      <div class="card">
-        <h3>إنشاء فاتورة جديدة</h3>
-        <div id="order-message" class="message"></div>
-        <div class="form-group">
-          <label for="orderCustomer">العميل</label>
-          <select id="orderCustomer">
-            <option value="">اختر العميل</option>
-          </select>
-        </div>
+      // DOM Ready
+      document.addEventListener('DOMContentLoaded', function() {
+        // Load sample data
+        loadSampleData();
         
-        <div class="form-group">
-          <label for="orderMedicine">الدواء</label>
-          <select id="orderMedicine" onchange="addMedicineToOrder()">
-            <option value="">اختر الدواء</option>
-          </select>
-        </div>
+        // Load settings from localStorage
+        loadSettings();
         
-        <div class="form-group">
-          <label for="orderQty">الكمية</label>
-          <input type="number" id="orderQty" min="1" value="1">
-        </div>
+        // Initialize charts
+        initCharts();
         
-        <table id="orderItems">
-          <thead>
-            <tr>
-              <th>الدواء</th>
-              <th>الكمية</th>
-              <th>السعر</th>
-              <th>الإجمالي</th>
-              <th>إجراءات</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-          <tfoot>
-            <tr>
-              <td colspan="3" style="text-align: left;">المجموع:</td>
-              <td id="orderTotal">0.00</td>
-              <td></td>
-            </tr>
-          </tfoot>
-        </table>
+        // Set current page title
+        document.getElementById('page-title').textContent = 'لوحة التحكم';
         
-        <div class="btn-group">
-          <button onclick="createOrder()">إنشاء الفاتورة</button>
-          <button class="danger" onclick="clearOrderForm()">إلغاء</button>
-          <button class="no-print" onclick="printOrder()">طباعة الفاتورة</button>
-        </div>
-      </div>
+        // Set current date for date inputs
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('medExp').min = today;
+        document.getElementById('prescriptionDate').value = today;
+        
+        // Populate customer dropdowns
+        updateCustomerDropdowns();
+        
+        // Populate medicine dropdowns
+        updateMedicineDropdowns();
+      });
 
-      <div class="card">
-        <h3>سجل الفواتير</h3>
-        <div class="search-container">
-          <input type="text" id="order-search" placeholder="ابحث عن فاتورة..." oninput="searchOrder(this.value)">
-        </div>
-        <table id="orderTable">
-          <thead>
-            <tr>
-              <th>رقم الفاتورة</th>
-              <th>التاريخ</th>
-              <th>العميل</th>
-              <th>المبلغ</th>
-              <th>الحالة</th>
-              <th>إجراءات</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Prescriptions Page -->
-    <div id="prescriptions" class="page">
-      <div class="card">
-        <h3>إضافة وصفة طبية</h3>
-        <div id="prescription-message" class="message"></div>
-        <div class="form-group">
-   
+      // Load sample data for demonstration
+      function loadSampleData() {
+        // Sample medicines
+        medicines = [
+          { id: 1, name: "باراسيتامول", generic: "Paracetamol", category: "analgesic", qty: 150, price: 5.50, exp: "2023-12-31" },
+          { id: 2, name: "أموكسيسيلين", generic: "Amoxicillin", category: "antibiotic", qty: 80, price: 12.75, exp: "2024-06-30" },
+          { id: 3, name: "سيتريزين", generic: "Cetirizine", category: "antihistamine", qty: 45, price: 8.25, exp: "2023-11-15" },
+          { id: 4, name: "أوميبرازول", generic: "Omeprazole", category: "antacid", qty: 60, price: 15.00, exp: "2024-03-31" },
+          { id: 5, name: "ايبوبروفين", generic: "Ibuprofen", category: "analgesic", qty: 90, price: 7.50, exp: "2023-10-31" }
+        ];
+        
+        // Sample suppliers
+        suppliers = [
+          { id: 1, name: "شركة الأدوية المتحدة", phone: "0123456789", email: "info@unitedmeds.com", address: "القاهرة، مصر" },
+          { id: 2, name: "المستورد للأدوية", phone: "0111222333", email: "contact@almoustawared.com", address: "الإسكندرية، مصر" }
+        ];
+        
+        // Sample customers
+        customers = [
+          { id: 1, name: "أحمد محمد", phone: "01001234567", address: "شارع النصر
