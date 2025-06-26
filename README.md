@@ -270,3 +270,124 @@
 
   <!-- إدارة الطلبات -->
   <section id="
+<script>
+  // تبديل الوضع الليلي
+  const toggleDarkModeBtn = document.getElementById('toggleDarkMode');
+  toggleDarkModeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    document.getElementById('sidebar').classList.toggle('dark');
+  });
+
+  // إظهار/إخفاء القائمة الجانبية
+  const toggleSidebarBtn = document.getElementById('toggleSidebar');
+  const sidebar = document.getElementById('sidebar');
+  const main = document.querySelector('main');
+
+  toggleSidebarBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hide');
+  });
+
+  // التنقل بين الصفحات
+  const pages = document.querySelectorAll('.page');
+  const sidebarButtons = sidebar.querySelectorAll('button');
+
+  sidebarButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // إزالة الحالة النشطة من جميع الأزرار
+      sidebarButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // إخفاء كل الصفحات
+      pages.forEach(page => page.style.display = 'none');
+
+      // إظهار الصفحة المختارة
+      const pageId = button.getAttribute('data-page');
+      document.getElementById(pageId).style.display = 'block';
+    });
+  });
+
+  // مثال بسيط على عرض إحصائيات وهمية في لوحة التحكم
+  document.getElementById('statMedicines').textContent = '120';
+  document.getElementById('statExpired').textContent = '5';
+  document.getElementById('statPendingOrders').textContent = '7';
+  document.getElementById('statTotalSales').textContent = '3450 ج.س';
+
+  // إضافة/تحديث دواء
+  const medicineForm = document.getElementById('medicineForm');
+  const medTableBody = document.getElementById('medTableBody');
+  const medSearch = document.getElementById('medSearch');
+  const message = document.getElementById('message');
+
+  let medicines = [];
+
+  medicineForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('medName').value.trim();
+    const quantity = parseInt(document.getElementById('medQuantity').value);
+    const expiry = document.getElementById('medExpiry').value;
+
+    if (!name || isNaN(quantity) || !expiry) {
+      showMessage('يرجى تعبئة جميع الحقول بشكل صحيح', 'error');
+      return;
+    }
+
+    const existing = medicines.find(med => med.name === name);
+    if (existing) {
+      existing.quantity = quantity;
+      existing.expiry = expiry;
+      showMessage('تم تحديث الدواء بنجاح', 'success');
+    } else {
+      medicines.push({ name, quantity, expiry });
+      showMessage('تمت إضافة الدواء بنجاح', 'success');
+    }
+
+    medicineForm.reset();
+    renderMedicines();
+  });
+
+  function renderMedicines(filter = '') {
+    medTableBody.innerHTML = '';
+    medicines
+      .filter(med => med.name.includes(filter))
+      .forEach((med, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${med.name}</td>
+          <td>${med.quantity}</td>
+          <td>${med.expiry}</td>
+          <td>
+            <button class="btn" onclick="editMedicine(${index})">تعديل</button>
+            <button class="btn danger" onclick="deleteMedicine(${index})">حذف</button>
+          </td>
+        `;
+        medTableBody.appendChild(row);
+      });
+  }
+
+  medSearch.addEventListener('input', (e) => {
+    renderMedicines(e.target.value.trim());
+  });
+
+  window.editMedicine = function(index) {
+    const med = medicines[index];
+    document.getElementById('medName').value = med.name;
+    document.getElementById('medQuantity').value = med.quantity;
+    document.getElementById('medExpiry').value = med.expiry;
+  };
+
+  window.deleteMedicine = function(index) {
+    if (confirm('هل أنت متأكد من حذف هذا الدواء؟')) {
+      medicines.splice(index, 1);
+      renderMedicines();
+      showMessage('تم حذف الدواء بنجاح', 'success');
+    }
+  };
+
+  function showMessage(text, type) {
+    message.textContent = text;
+    message.className = '';
+    message.classList.add(type === 'success' ? 'success' : 'error');
+    message.style.display = 'block';
+    setTimeout(() => message.style.display = 'none', 3000);
+  }
+</script>
