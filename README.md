@@ -1,84 +1,126 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pharmacy Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pharmacy Management System</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
-      --bg-light: #f5f5f5;
-      --bg-dark: #1e1e2f;
+      --primary: #1976d2;
+      --background-light: #ffffff;
+      --background-dark: #121212;
       --text-light: #ffffff;
-      --text-dark: #1e1e2f;
-      --primary: #4caf50;
-      --accent: #2196f3;
-      --danger: #f44336;
-      --card-bg-light: #ffffff;
-      --card-bg-dark: #2b2b3c;
-    }body {
+      --text-dark: #000000;
+    }* {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: var(--bg-light);
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  background-color: var(--background-light);
   color: var(--text-dark);
-  transition: all 0.3s ease;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-body.dark-mode {
-  background-color: var(--bg-dark);
-  color: var(--text-light);
-}
-
-body.dark-mode .card {
-  background-color: var(--card-bg-dark);
-}
-
-.navbar {
+.sidebar {
+  width: 250px;
   background-color: var(--primary);
-  color: #fff;
+  color: white;
+  height: 100vh;
   padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
 }
 
-.navbar h2 {
-  margin: 0;
+.sidebar.hidden {
+  transform: translateX(-100%);
 }
 
-.nav-links {
-  display: flex;
-  gap: 1rem;
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-.page {
-  display: none;
-  padding: 1rem;
-}
-
-.page.active {
-  display: block;
-}
-
-.card {
-  background-color: var(--card-bg-light);
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  background-color: var(--accent);
-  color: #fff;
+.sidebar button {
+  background: none;
   border: none;
-  border-radius: 6px;
+  color: white;
+  font-size: 1.1rem;
+  width: 100%;
+  text-align: left;
+  margin: 0.5rem 0;
   cursor: pointer;
 }
 
-input {
-  padding: 0.5rem;
-  margin: 0.2rem 0;
+.main {
+  margin-left: 250px;
+  padding: 2rem;
+  flex-grow: 1;
+  transition: margin-left 0.3s;
   width: 100%;
+}
+
+.main.full {
+  margin-left: 0;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.toggle-sidebar {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.toggle-theme {
+  cursor: pointer;
+}
+
+.card {
+  background-color: #f0f0f0;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+canvas {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.calculator {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.calculator input {
+  grid-column: span 4;
+  height: 40px;
+  font-size: 1.2rem;
+  text-align: right;
+}
+
+.calculator button {
+  padding: 1rem;
+  font-size: 1.2rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 5px;
 }
 
 table {
@@ -87,76 +129,101 @@ table {
   margin-top: 1rem;
 }
 
-table th, table td {
+table, th, td {
   border: 1px solid #ccc;
-  padding: 0.5rem;
-  text-align: center;
 }
 
-.dark-mode table th, .dark-mode table td {
-  border: 1px solid #444;
-  background-color: #333;
-  color: #fff;
+th, td {
+  padding: 10px;
+  text-align: left;
 }
 
-.search-box {
-  margin-bottom: 1rem;
+#medTable tr:nth-child(even) {
+  background-color: #eaf1fb;
+}
+
+body.dark {
+  background-color: var(--background-dark);
+  color: var(--text-light);
+}
+
+body.dark .card,
+body.dark canvas,
+body.dark table,
+body.dark th,
+body.dark td {
+  background-color: #2a2a2a;
+  color: white;
 }
 
 @media (max-width: 768px) {
-  .nav-links {
-    flex-direction: column;
+  .sidebar {
+    position: absolute;
+    z-index: 1000;
   }
 
-  .navbar {
-    text-align: center;
+  .main {
+    margin-left: 0;
+    padding: 1rem;
   }
+}
+
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: gray;
 }
 
   </style>
 </head>
 <body>
-  <div class="navbar">
+  <div class="sidebar" id="sidebar">
     <h2>Pharmacy</h2>
-    <div class="nav-links">
-      <button onclick="showPage('dashboard')">لوحة التحكم</button>
-      <button onclick="showPage('medicines')">إدارة الأدوية</button>
-      <button onclick="showPage('orders')">إدارة الطلبات</button>
-      <button onclick="showPage('calculator')">الآلة الحاسبة</button>
-      <button onclick="showPage('statistics')">الإحصائيات</button>
-      <button onclick="toggleDarkMode()">الوضع الليلي</button>
+    <button onclick="navigate('dashboard')">لوحة التحكم</button>
+    <button onclick="navigate('medicines')">إدارة الأدوية</button>
+    <button onclick="navigate('orders')">إدارة الطلبات</button>
+    <button onclick="navigate('calculator')">الآلة الحاسبة</button>
+    <button onclick="navigate('statistics')">الإحصائيات</button>
+  </div>
+  <div class="main" id="main">
+    <div class="topbar">
+      <span class="material-icons toggle-sidebar" onclick="toggleSidebar()">menu</span>
+      <span class="material-icons toggle-theme" onclick="toggleTheme()">dark_mode</span>
     </div>
-  </div>  <div id="dashboard" class="page active">
-    <div class="card">عدد الأدوية: <span id="med-count">0</span></div>
-    <div class="card">أدوية منتهية الصلاحية: <span id="expired">0</span></div>
-    <div class="card">طلبات معلقة: <span id="pending">0</span></div>
-    <div class="card">إجمالي المبيعات: <span id="sales">0</span> ج</div>
-  </div>  <div id="medicines" class="page">
-    <div class="card">
-      <h3>إضافة/تحديث الدواء</h3>
-      <input placeholder="اسم الدواء" id="medName" />
-      <input placeholder="الكمية" id="medQty" type="number" />
-      <input placeholder="تاريخ الانتهاء" id="medExp" type="date" />
-      <button onclick="addMedicine()">إضافة</button>
-      <p id="add-msg"></p>
-    </div><div class="card">
-  <input class="search-box" id="searchBox" placeholder="ابحث عن دواء..." oninput="filterMedicines()" />
-  <table id="medTable">
-    <thead>
-      <tr><th>الاسم</th><th>الكمية</th><th>الصلاحية</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</div>
-
-  </div>  <div id="orders" class="page">
-    <div class="card">لا توجد طلبات حالياً</div>
-  </div>  <div id="calculator" class="page">
-    <div class="card">
-      <h3>الآلة الحاسبة</h3>
-      <div class="calculator">
-        <input type="text" id="calc-display" readonly>
-        <div>
+    <div id="dashboard" class="page">
+      <div class="card">عدد الأدوية: <span id="med-count">0</span></div>
+      <div class="card">أدوية منتهية الصلاحية: <span id="expired">0</span></div>
+      <div class="card">طلبات معلقة: <span id="pending">0</span></div>
+      <div class="card">إجمالي المبيعات: <span id="sales">0</span> ج</div>
+    </div>
+    <div id="medicines" class="page" style="display:none">
+      <div class="card">
+        <h3>إضافة/تحديث الدواء</h3>
+        <input placeholder="اسم الدواء" id="medName" />
+        <input placeholder="الكمية" id="medQty" />
+        <input placeholder="تاريخ الانتهاء" id="medExp" />
+        <button onclick="addMedicine()">إضافة</button>
+        <input placeholder="بحث عن دواء" oninput="searchMedicine(this.value)">
+        <p id="add-msg"></p>
+      </div>
+      <div class="card">
+        <table id="medTable">
+          <thead>
+            <tr><th>الاسم</th><th>الكمية</th><th>تاريخ الانتهاء</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="orders" class="page" style="display:none">
+      <div class="card">لا توجد طلبات حالياً</div>
+    </div>
+    <div id="calculator" class="page" style="display:none">
+      <div class="card">
+        <h3>الآلة الحاسبة</h3>
+        <div class="calculator">
+          <input type="text" id="calc-display" readonly>
           <button onclick="calc('1')">1</button>
           <button onclick="calc('2')">2</button>
           <button onclick="calc('3')">3</button>
@@ -176,64 +243,106 @@ table th, table td {
         </div>
       </div>
     </div>
-  </div>  <div id="statistics" class="page">
-    <div class="card">
-      <h3>رسم بياني للمبيعات</h3>
-      <canvas id="salesChart" width="400" height="200"></canvas>
+    <div id="statistics" class="page" style="display:none">
+      <div class="card">
+        <h3>رسم بياني للمبيعات</h3>
+        <canvas id="salesChart" width="400" height="200"></canvas>
+      </div>
     </div>
-  </div>  <script>
-    const medicines = [];
+    <footer>© 2025 عمر بابكر (Omer Babiker - Omer Bk)</footer>
+  </div>
+  <script>
+    let darkMode = false;
+    let medicines = [];function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('hidden');
+  document.getElementById('main').classList.toggle('full');
+}
 
-    function showPage(id) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
+function toggleTheme() {
+  darkMode = !darkMode;
+  document.body.classList.toggle('dark', darkMode);
+}
 
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-    }
+function navigate(pageId) {
+  const pages = document.querySelectorAll('.page');
+  pages.forEach(p => p.style.display = 'none');
+  document.getElementById(pageId).style.display = 'block';
+}
 
-    function addMedicine() {
-      const name = document.getElementById('medName').value;
-      const qty = document.getElementById('medQty').value;
-      const exp = document.getElementById('medExp').value;
-      if (!name || !qty || !exp) return alert('يرجى ملء كل الحقول');
-      medicines.push({ name, qty, exp });
-      updateMedTable();
-      document.getElementById('add-msg').innerText = 'تمت الإضافة بنجاح';
-      document.getElementById('med-count').innerText = medicines.length;
-    }
+function addMedicine() {
+  const name = document.getElementById('medName').value;
+  const qty = document.getElementById('medQty').value;
+  const exp = document.getElementById('medExp').value;
+  if(name && qty && exp) {
+    medicines.push({ name, qty, exp });
+    updateMedTable();
+    document.getElementById('add-msg').textContent = 'تمت الإضافة بنجاح';
+    document.getElementById('add-msg').style.color = darkMode ? 'lightgreen' : 'green';
+  } else {
+    document.getElementById('add-msg').textContent = 'يرجى ملء جميع الحقول';
+    document.getElementById('add-msg').style.color = 'red';
+  }
+}
 
-    function updateMedTable() {
-      const tbody = document.querySelector('#medTable tbody');
-      tbody.innerHTML = '';
-      medicines.forEach(med => {
-        const row = `<tr><td>${med.name}</td><td>${med.qty}</td><td>${med.exp}</td></tr>`;
-        tbody.innerHTML += row;
-      });
-    }
+function updateMedTable() {
+  const tbody = document.querySelector('#medTable tbody');
+  tbody.innerHTML = '';
+  medicines.forEach(med => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${med.name}</td><td>${med.qty}</td><td>${med.exp}</td>`;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('med-count').textContent = medicines.length;
+}
 
-    function filterMedicines() {
-      const query = document.getElementById('searchBox').value.toLowerCase();
-      const rows = document.querySelectorAll('#medTable tbody tr');
-      rows.forEach(row => {
-        const text = row.innerText.toLowerCase();
-        row.style.display = text.includes(query) ? '' : 'none';
-      });
-    }
+function searchMedicine(query) {
+  const rows = document.querySelectorAll('#medTable tbody tr');
+  rows.forEach(row => {
+    const name = row.children[0].textContent;
+    row.style.display = name.includes(query) ? '' : 'none';
+  });
+}
 
-    function calc(value) {
-      document.getElementById('calc-display').value += value;
-    }
+let calcValue = '';
+function calc(val) {
+  calcValue += val;
+  document.getElementById('calc-display').value = calcValue;
+}
 
-    function calculate() {
-      const display = document.getElementById('calc-display');
-      display.value = eval(display.value);
-    }
+function calculate() {
+  try {
+    calcValue = eval(calcValue).toString();
+    document.getElementById('calc-display').value = calcValue;
+  } catch (e) {
+    document.getElementById('calc-display').value = 'خطأ';
+  }
+}
 
-    function clearCalc() {
-      document.getElementById('calc-display').value = '';
+function clearCalc() {
+  calcValue = '';
+  document.getElementById('calc-display').value = '';
+}
+
+const ctx = document.getElementById('salesChart').getContext('2d');
+const salesChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['يناير', 'فبراير', 'مارس', 'أبريل'],
+    datasets: [{
+      label: 'المبيعات (ج)',
+      data: [5000, 7000, 4000, 9000],
+      backgroundColor: 'rgba(25, 118, 210, 0.7)',
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      title: { display: true, text: 'مبيعات الأشهر الأخيرة' }
     }
-  </script>  <footer style="text-align:center; padding:1rem; color:gray">عمر بابكر (Omer Babiker - Omer Bk)</footer>
+  }
+});
+
+  </script>
 </body>
 </html>
