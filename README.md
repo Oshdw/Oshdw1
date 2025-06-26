@@ -1,11 +1,13 @@
-<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>نظام إدارة الصيدلية الديناميكي</title>
+<title>نظام إدارة الصيدلية </title>
+
+<!-- مكتبة أيقونات Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <style>
-  /* --- أساسي --- */
   * {
     box-sizing: border-box;
   }
@@ -26,20 +28,29 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10;
   }
   header h1 {
     margin: 0;
     font-weight: 700;
   }
-  #toggleDarkMode {
+  #toggleDarkMode, #toggleSidebar {
     cursor: pointer;
     background: transparent;
     border: none;
     color: white;
-    font-size: 1.25rem;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #toggleSidebar {
+    margin-left: 1rem;
   }
 
-  /* --- الشريط الجانبي --- */
   #sidebar {
     position: fixed;
     top: 60px;
@@ -52,6 +63,7 @@
     flex-direction: column;
     padding-top: 1rem;
     transition: transform 0.3s ease;
+    z-index: 9;
   }
   #sidebar.dark {
     background-color: #0d47a1;
@@ -63,11 +75,14 @@
     background: none;
     border: none;
     color: white;
-    padding: 1rem;
+    padding: 1rem 1.5rem;
     text-align: right;
     font-size: 1rem;
     cursor: pointer;
     border-left: 4px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
     transition: background-color 0.2s, border-left-color 0.2s;
   }
   #sidebar button.active,
@@ -75,9 +90,12 @@
     background-color: rgba(255,255,255,0.2);
     border-left-color: #fff;
   }
+  #sidebar button .material-icons {
+    font-size: 1.4rem;
+  }
 
-  /* --- المحتوى الرئيسي --- */
   main {
+    margin-top: 60px;
     margin-right: 220px;
     padding: 1.5rem;
     min-height: calc(100vh - 60px);
@@ -87,7 +105,6 @@
     margin-right: 0;
   }
 
-  /* --- أزرار --- */
   button.btn {
     background-color: #1976d2;
     color: white;
@@ -107,7 +124,6 @@
     background-color: #b71c1c;
   }
 
-  /* --- جداول --- */
   table {
     width: 100%;
     border-collapse: collapse;
@@ -136,7 +152,6 @@
     background-color: #0d47a1;
   }
 
-  /* --- النماذج --- */
   form > div {
     margin-bottom: 1rem;
   }
@@ -153,46 +168,6 @@
     color: #eee;
   }
 
-  /* --- الآلة الحاسبة --- */
-  #calculator {
-    max-width: 320px;
-    margin: auto;
-  }
-  #calcDisplay {
-    width: 100%;
-    height: 50px;
-    font-size: 1.5rem;
-    text-align: right;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-  #calcButtons {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
-  }
-  #calcButtons button {
-    padding: 1rem;
-    font-size: 1.2rem;
-    border-radius: 6px;
-    border: none;
-    background-color: #1976d2;
-    color: white;
-    cursor: pointer;
-  }
-  #calcButtons button.operator {
-    background-color: #f57c00;
-  }
-  #calcButtons button:active {
-    background-color: #115293;
-  }
-  #calcButtons button.operator:active {
-    background-color: #ef6c00;
-  }
-
-  /* --- رسائل التنبيه --- */
   #message {
     margin-bottom: 1rem;
     padding: 0.75rem 1rem;
@@ -212,24 +187,31 @@
 <body>
 
 <header>
-  <h1>نظام إدارة الصيدلية الديناميكي</h1>
-  <button id="toggleDarkMode" title="تبديل الوضع الليلي">🌙</button>
+  <div style="display:flex; align-items:center;">
+    <button id="toggleSidebar" title="إظهار/إخفاء القائمة الجانبية">
+      <span class="material-icons">menu</span>
+    </button>
+    <h1>نظام إدارة الصيدلية</h1>
+  </div>
+  <button id="toggleDarkMode" title="تبديل الوضع الليلي">
+    <span class="material-icons">dark_mode</span>
+  </button>
 </header>
 
 <div id="sidebar" class="dark">
-  <button data-page="dashboard" class="active">🏠 لوحة التحكم</button>
-  <button data-page="medicines">💊 إدارة الأدوية</button>
-  <button data-page="orders">📦 إدارة الطلبات</button>
-  <button data-page="sales">💰 تقارير المبيعات</button>
-  <button data-page="expenses">🧾 سجل المنصرفات</button>
-  <button data-page="statistics">📊 الإحصائيات</button>
-  <button data-page="calculator">🧮 الآلة الحاسبة</button>
+  <button data-page="dashboard" class="active"><span class="material-icons">dashboard</span> لوحة التحكم</button>
+  <button data-page="medicines"><span class="material-icons">local_pharmacy</span> إدارة الأدوية</button>
+  <button data-page="orders"><span class="material-icons">inventory_2</span> إدارة الطلبات</button>
+  <button data-page="sales"><span class="material-icons">attach_money</span> تقارير المبيعات</button>
+  <button data-page="expenses"><span class="material-icons">receipt_long</span> سجل المنصرفات</button>
+  <button data-page="statistics"><span class="material-icons">bar_chart</span> الإحصائيات</button>
+  <button data-page="calculator"><span class="material-icons">calculate</span> الآلة الحاسبة</button>
 </div>
 
 <main>
-
   <div id="message"></div>
 
+  <!-- لوحة التحكم -->
   <section id="dashboard" class="page">
     <h2>لوحة التحكم</h2>
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
@@ -252,6 +234,7 @@
     </div>
   </section>
 
+  <!-- إدارة الأدوية -->
   <section id="medicines" class="page" style="display:none;">
     <h2>إدارة الأدوية</h2>
     <form id="medicineForm">
@@ -284,6 +267,7 @@
     </table>
   </section>
 
+  <!-- إدارة الطلبات -->
   <section id="orders" class="page" style="display:none;">
     <h2>إدارة الطلبات</h2>
     <form id="orderForm">
@@ -292,7 +276,7 @@
         <input type="text" id="orderMedName" required />
       </div>
       <div>
-        <label>الكمية:</label>
+        <label>الكمية المطلوبة:</label>
         <input type="number" id="orderQuantity" min="1" required />
       </div>
       <button type="submit" class="btn">إضافة طلب</button>
@@ -301,8 +285,7 @@
     <table>
       <thead>
         <tr>
-          <th>رقم الطلب</th>
-          <th>اسم الدواء</th>
+          <th>الدواء</th>
           <th>الكمية</th>
           <th>الحالة</th>
           <th>خيارات</th>
@@ -312,15 +295,16 @@
     </table>
   </section>
 
+  <!-- تقارير المبيعات -->
   <section id="sales" class="page" style="display:none;">
     <h2>تقارير المبيعات</h2>
-    <form id="saleForm">
+    <form id="salesForm">
       <div>
         <label>اسم الدواء:</label>
         <input type="text" id="saleMedName" required />
       </div>
       <div>
-        <label>الكمية:</label>
+        <label>الكمية المباعة:</label>
         <input type="number" id="saleQuantity" min="1" required />
       </div>
       <div>
@@ -333,12 +317,10 @@
     <table>
       <thead>
         <tr>
-          <th>رقم البيع</th>
-          <th>اسم الدواء</th>
+          <th>الدواء</th>
           <th>الكمية</th>
-          <th>السعر لكل وحدة</th>
+          <th>السعر للوحدة</th>
           <th>الإجمالي</th>
-          <th>التاريخ</th>
           <th>خيارات</th>
         </tr>
       </thead>
@@ -346,6 +328,7 @@
     </table>
   </section>
 
+  <!-- سجل المنصرفات -->
   <section id="expenses" class="page" style="display:none;">
     <h2>سجل المنصرفات</h2>
     <form id="expenseForm">
@@ -355,4 +338,61 @@
       </div>
       <div>
         <label>المبلغ:</label>
-        <input type="number" id="expenseAmount"
+        <input type="number" id="expenseAmount" min="0" step="0.01" required />
+      </div>
+      <button type="submit" class="btn">إضافة صرف</button>
+    </form>
+    <hr />
+    <table>
+      <thead>
+        <tr>
+          <th>الوصف</th>
+          <th>المبلغ</th>
+          <th>خيارات</th>
+        </tr>
+      </thead>
+      <tbody id="expenseTableBody"></tbody>
+    </table>
+  </section>
+
+  <!-- الإحصائيات -->
+  <section id="statistics" class="page" style="display:none;">
+    <h2>الإحصائيات</h2>
+    <p>هذه الصفحة يمكن تطويرها لإظهار إحصائيات متقدمة بناءً على البيانات المدخلة.</p>
+  </section>
+
+  <!-- الآلة الحاسبة -->
+  <section id="calculator" class="page" style="display:none;">
+    <h2>الآلة الحاسبة</h2>
+    <input type="text" id="calcDisplay" readonly style="width:100%; padding:0.5rem; font-size:1.5rem; margin-bottom:1rem; text-align:right;" />
+    <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
+      <button class="btn calc-btn" data-val="7">7</button>
+      <button class="btn calc-btn" data-val="8">8</button>
+      <button class="btn calc-btn" data-val="9">9</button>
+      <button class="btn calc-btn" data-val="/">÷</button>
+
+      <button class="btn calc-btn" data-val="4">4</button>
+      <button class="btn calc-btn" data-val="5">5</button>
+      <button class="btn calc-btn" data-val="6">6</button>
+      <button class="btn calc-btn" data-val="*">×</button>
+
+      <button class="btn calc-btn" data-val="1">1</button>
+      <button class="btn calc-btn" data-val="2">2</button>
+      <button class="btn calc-btn" data-val="3">3</button>
+      <button class="btn calc-btn" data-val="-">−</button>
+
+      <button class="btn calc-btn" data-val="0">0</button>
+      <button class="btn calc-btn" data-val=".">.</button>
+      <button class="btn" id="calcClear">C</button>
+      <button class="btn calc-btn" data-val="+">+</button>
+
+      <button class="btn" id="calcEqual" style="grid-column: span 4; background-color: #388e3c;">=</button>
+    </div>
+  </section>
+</main>
+
+<script>
+  // عناصر DOM الأساسية
+  const sidebar = document.getElementById('sidebar');
+  const toggleSidebarBtn = document.getElementById('toggleSidebar');
+  const toggleDarkModeBtn
