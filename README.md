@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
@@ -681,7 +682,7 @@
             <tr>
               <th>اسم العميل</th>
               <th>رقم الهاتف</th>
-              <th>العنوا��</th>
+              <th>العنوان</th>
               <th>التاريخ المرضي</th>
               <th>إجراءات</th>
             </tr>
@@ -772,7 +773,869 @@
         <div id="prescription-message" class="message"></div>
         <div class="form-group">
           <label for="prescriptionCustomer">العميل</label>
-     // Edit supplier
+          <select id="prescriptionCustomer">
+            <option value="">اختر العميل</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="prescriptionDoctor">الطبيب</label>
+          <input type="text" id="prescriptionDoctor" placeholder="أدخل اسم الطبيب">
+        </div>
+        <div class="form-group">
+          <label for="prescriptionDate">تاريخ الوصفة</label>
+          <input type="date" id="prescriptionDate">
+        </div>
+        <div class="form-group">
+          <label for="prescriptionNotes">ملاحظات</label>
+          <textarea id="prescriptionNotes" rows="3" placeholder="أدخل أي ملاحظات"></textarea>
+        </div>
+        
+        <h4>أدوية الوصفة</h4>
+        <div class="form-group">
+          <label for="prescriptionMedicine">الدواء</label>
+          <select id="prescriptionMedicine">
+            <option value="">اختر الدواء</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="prescriptionMedicineQty">الكمية</label>
+          <input type="number" id="prescriptionMedicineQty" min="1" value="1">
+        </div>
+        <div class="form-group">
+          <label for="prescriptionDosage">الجرعة</label>
+          <input type="text" id="prescriptionDosage" placeholder="أدخل الجرعة">
+        </div>
+        <button id="addMedicineToPrescriptionBtn">إضافة دواء للوصفة</button>
+        
+        <table id="prescriptionItems">
+          <thead>
+            <tr>
+              <th>الدواء</th>
+              <th>الكمية</th>
+              <th>الجرعة</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        
+        <div class="btn-group">
+          <button id="savePrescriptionBtn">حفظ الوصفة</button>
+          <button class="danger" id="clearPrescriptionBtn">إلغاء</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>سجل الوصفات الطبية</h3>
+        <div class="search-container">
+          <input type="text" id="prescription-search" placeholder="ابحث عن وصفة...">
+        </div>
+        <table id="prescriptionTable">
+          <thead>
+            <tr>
+              <th>رقم الوصفة</th>
+              <th>التاريخ</th>
+              <th>العميل</th>
+              <th>الطبيب</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Calculator Page -->
+    <div id="calculator" class="page">
+      <div class="card">
+        <h3>الآلة الحاسبة</h3>
+        <div class="calculator">
+          <input type="text" id="calc-display" readonly>
+          <button onclick="calc('7')">7</button>
+          <button onclick="calc('8')">8</button>
+          <button onclick="calc('9')">9</button>
+          <button class="operator" onclick="calc('/')">÷</button>
+          <button onclick="calc('4')">4</button>
+          <button onclick="calc('5')">5</button>
+          <button onclick="calc('6')">6</button>
+          <button class="operator" onclick="calc('*')">×</button>
+          <button onclick="calc('1')">1</button>
+          <button onclick="calc('2')">2</button>
+          <button onclick="calc('3')">3</button>
+          <button class="operator" onclick="calc('-')">-</button>
+          <button onclick="calc('0')">0</button>
+          <button onclick="calc('.')">.</button>
+          <button class="equals" onclick="calculate()">=</button>
+          <button class="operator" onclick="calc('+')">+</button>
+          <button class="clear" onclick="clearCalc()">C</button>
+          <button onclick="backspace()">⌫</button>
+          <button onclick="calc('(')">(</button>
+          <button onclick="calc(')')">)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Page -->
+    <div id="statistics" class="page">
+      <div class="card">
+        <h3>إحصائيات المبيعات</h3>
+        <div class="chart-container">
+          <canvas id="salesChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>إحصائيات الأدوية</h3>
+        <div class="chart-container">
+          <canvas id="medicinesChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>تقرير الأدوية المنتهية الصلاحية</h3>
+        <table id="expiryReportTable">
+          <thead>
+            <tr>
+              <th>اسم الدواء</th>
+              <th>الكمية</th>
+              <th>تاريخ الانتهاء</th>
+              <th>الأيام المتبقية</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Settings Page -->
+    <div id="settings" class="page">
+      <div class="card">
+        <h3>إعدادات النظام</h3>
+        <div id="settings-message" class="message"></div>
+        
+        <div class="form-group">
+          <label for="pharmacyName">اسم الصيدلية</label>
+          <input type="text" id="pharmacyName" placeholder="أدخل اسم الصيدلية">
+        </div>
+        
+        <div class="form-group">
+          <label for="pharmacyAddress">عنوان الصيدلية</label>
+          <input type="text" id="pharmacyAddress" placeholder="أدخل عنوان الصيدلية">
+        </div>
+        
+        <div class="form-group">
+          <label for="pharmacyPhone">هاتف الصيدلية</label>
+          <input type="tel" id="pharmacyPhone" placeholder="أدخل هاتف الصيدلية">
+        </div>
+        
+        <div class="form-group">
+          <label for="currency">العملة</label>
+          <select id="currency">
+            <option value="ج">جنيه (ج)</option>
+            <option value="$">دولار ($)</option>
+            <option value="€">يورو (€)</option>
+            <option value="ريال">ريال</option>
+            <option value="د.إ">درهم (د.إ)</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="taxRate">معدل الضريبة (%)</label>
+          <input type="number" id="taxRate" min="0" max="100" step="0.1" value="0">
+        </div>
+        
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="enableNotifications"> تمكين الإشعارات
+          </label>
+        </div>
+        
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="enableExpiryAlerts"> تمكين تنبيهات انتهاء الصلاحية
+          </label>
+        </div>
+        
+        <div class="form-group">
+          <label for="daysBeforeExpiry">عدد الأيام للتنبيه قبل انتهاء الصلاحية</label>
+          <input type="number" id="daysBeforeExpiry" min="1" value="30">
+        </div>
+        
+        <div class="btn-group">
+          <button id="saveSettingsBtn">حفظ الإعدادات</button>
+          <button class="danger" id="resetSettingsBtn">إعادة تعيين</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © 2023 نظام إدارة الصيدلية | تم التطوير بواسطة عمر بابكر
+    </footer>
+  </div>
+
+  <script>
+    // Global variables
+    let darkMode = false;
+    let medicines = [];
+    let suppliers = [];
+    let customers = [];
+    let orders = [];
+    let prescriptions = [];
+    let settings = {
+      pharmacyName: "صيدليتي",
+      pharmacyAddress: "",
+      pharmacyPhone: "",
+      currency: "ج",
+      taxRate: 0,
+      enableNotifications: true,
+      enableExpiryAlerts: true,
+      daysBeforeExpiry: 30
+    };
+    let currentPrescriptionId = 1;
+    let currentOrderId = 1;
+
+    // DOM Ready
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize the application
+      initApp();
+      
+      // Setup all event listeners
+      setupEventListeners();
+    });
+
+    function initApp() {
+      // Load sample data
+      loadSampleData();
+      
+      // Load settings from localStorage
+      loadSettings();
+      
+      // Initialize charts
+      initCharts();
+      
+      // Set current page title
+      document.getElementById('page-title').textContent = 'لوحة التحكم';
+      
+      // Set current date for date inputs
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('medExp').min = today;
+      document.getElementById('prescriptionDate').value = today;
+      
+      // Populate customer dropdowns
+      updateCustomerDropdowns();
+      
+      // Populate medicine dropdowns
+      updateMedicineDropdowns();
+      
+      // Update dashboard stats
+      updateDashboardStats();
+    }
+
+    function setupEventListeners() {
+      // Navigation buttons
+      const navButtons = {
+        'dashboardBtn': 'dashboard',
+        'medicinesBtn': 'medicines',
+        'suppliersBtn': 'suppliers',
+        'customersBtn': 'customers',
+        'ordersBtn': 'orders',
+        'prescriptionsBtn': 'prescriptions',
+        'calculatorBtn': 'calculator',
+        'statisticsBtn': 'statistics',
+        'settingsBtn': 'settings'
+      };
+
+      Object.entries(navButtons).forEach(([id, page]) => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.addEventListener('click', () => navigate(page));
+        }
+      });
+
+      // Topbar actions
+      document.getElementById('toggleSidebar')?.addEventListener('click', toggleSidebar);
+      document.getElementById('toggleTheme')?.addEventListener('click', toggleTheme);
+      document.getElementById('printBtn')?.addEventListener('click', printPage);
+
+      // Medicines page
+      document.getElementById('addMedicineBtn')?.addEventListener('click', addMedicine);
+      document.getElementById('clearMedicineBtn')?.addEventListener('click', clearMedicineForm);
+      document.getElementById('med-search')?.addEventListener('input', function() {
+        searchMedicine(this.value);
+      });
+
+      // Suppliers page
+      document.getElementById('addSupplierBtn')?.addEventListener('click', addSupplier);
+      document.getElementById('clearSupplierBtn')?.addEventListener('click', clearSupplierForm);
+      document.getElementById('supplier-search')?.addEventListener('input', function() {
+        searchSupplier(this.value);
+      });
+
+      // Customers page
+      document.getElementById('addCustomerBtn')?.addEventListener('click', addCustomer);
+      document.getElementById('clearCustomerBtn')?.addEventListener('click', clearCustomerForm);
+      document.getElementById('customer-search')?.addEventListener('input', function() {
+        searchCustomer(this.value);
+      });
+
+      // Orders page
+      document.getElementById('addMedicineToOrderBtn')?.addEventListener('click', addMedicineToOrder);
+      document.getElementById('createOrderBtn')?.addEventListener('click', createOrder);
+      document.getElementById('clearOrderBtn')?.addEventListener('click', clearOrderForm);
+      document.getElementById('printOrderBtn')?.addEventListener('click', printOrder);
+      document.getElementById('order-search')?.addEventListener('input', function() {
+        searchOrder(this.value);
+      });
+
+      // Prescriptions page
+      document.getElementById('addMedicineToPrescriptionBtn')?.addEventListener('click', addMedicineToPrescription);
+      document.getElementById('savePrescriptionBtn')?.addEventListener('click', savePrescription);
+      document.getElementById('clearPrescriptionBtn')?.addEventListener('click', clearPrescriptionForm);
+      document.getElementById('prescription-search')?.addEventListener('input', function() {
+        searchPrescription(this.value);
+      });
+
+      // Settings page
+      document.getElementById('saveSettingsBtn')?.addEventListener('click', saveSettings);
+      document.getElementById('resetSettingsBtn')?.addEventListener('click', resetSettings);
+    }
+
+    // Load sample data for demonstration
+    function loadSampleData() {
+      // Sample medicines
+      medicines = [
+        { id: 1, name: "باراسيتامول", generic: "Paracetamol", category: "analgesic", qty: 150, price: 5.50, exp: "2023-12-31" },
+        { id: 2, name: "أموكسيسيلين", generic: "Amoxicillin", category: "antibiotic", qty: 80, price: 12.75, exp: "2024-06-30" },
+        { id: 3, name: "سيتريزين", generic: "Cetirizine", category: "antihistamine", qty: 45, price: 8.25, exp: "2023-11-15" },
+        { id: 4, name: "أوميبرازول", generic: "Omeprazole", category: "antacid", qty: 60, price: 15.00, exp: "2024-03-31" },
+        { id: 5, name: "ايبوبروفين", generic: "Ibuprofen", category: "analgesic", qty: 90, price: 7.50, exp: "2023-10-31" }
+      ];
+      
+      // Sample suppliers
+      suppliers = [
+        { id: 1, name: "شركة الأدوية المتحدة", phone: "0123456789", email: "info@unitedmeds.com", address: "القاهرة، مصر" },
+        { id: 2, name: "المستورد للأدوية", phone: "0111222333", email: "contact@almoustawared.com", address: "الإسكندرية، مصر" }
+      ];
+      
+      // Sample customers
+      customers = [
+        { id: 1, name: "أحمد محمد", phone: "01001234567", address: "شارع النصر، المنصورة", medicalHistory: "حساسية من البنسلين" },
+        { id: 2, name: "مريم علي", phone: "01159876543", address: "حي الزهور، القاهرة", medicalHistory: "" },
+        { id: 3, name: "خالد عبد الرحمن", phone: "01287654321", address: "مدينة نصر، القاهرة", medicalHistory: "ضغط دم مرتفع" }
+      ];
+      
+      // Sample orders
+      orders = [
+        { id: 1, customerId: 1, date: "2023-05-15", items: [
+          { medicineId: 1, qty: 2, price: 5.50 },
+          { medicineId: 3, qty: 1, price: 8.25 }
+        ], total: 19.25, status: "مكتمل" },
+        { id: 2, customerId: 2, date: "2023-05-18", items: [
+          { medicineId: 2, qty: 1, price: 12.75 },
+          { medicineId: 4, qty: 1, price: 15.00 }
+        ], total: 27.75, status: "مكتمل" }
+      ];
+      
+      // Sample prescriptions
+      prescriptions = [
+        { id: 1, customerId: 3, doctor: "د. وائل عبد الله", date: "2023-05-10", notes: "حساسية موسمية", items: [
+          { medicineId: 3, qty: 1, dosage: "قرص يومياً لمدة أسبوع" }
+        ] },
+        { id: 2, customerId: 1, doctor: "د. هناء محمود", date: "2023-05-12", notes: "آلام أسنان", items: [
+          { medicineId: 1, qty: 2, dosage: "قرص كل 6 ساعات عند اللزوم" },
+          { medicineId: 5, qty: 1, dosage: "قرص عند اللزوم للألم الشديد" }
+        ] }
+      ];
+      
+      // Update all tables
+      updateMedTable();
+      updateSupplierTable();
+      updateCustomerTable();
+      updateOrderTable();
+      updatePrescriptionTable();
+    }
+
+    // Load settings from localStorage
+    function loadSettings() {
+      const savedSettings = localStorage.getItem('pharmacySettings');
+      if (savedSettings) {
+        settings = JSON.parse(savedSettings);
+        applySettings();
+      }
+    }
+
+    // Apply settings to the UI
+    function applySettings() {
+      document.getElementById('pharmacyName').value = settings.pharmacyName;
+      document.getElementById('pharmacyAddress').value = settings.pharmacyAddress;
+      document.getElementById('pharmacyPhone').value = settings.pharmacyPhone;
+      document.getElementById('currency').value = settings.currency;
+      document.getElementById('taxRate').value = settings.taxRate;
+      document.getElementById('enableNotifications').checked = settings.enableNotifications;
+      document.getElementById('enableExpiryAlerts').checked = settings.enableExpiryAlerts;
+      document.getElementById('daysBeforeExpiry').value = settings.daysBeforeExpiry;
+    }
+
+    // Save settings to localStorage
+    function saveSettings() {
+      settings.pharmacyName = document.getElementById('pharmacyName').value;
+      settings.pharmacyAddress = document.getElementById('pharmacyAddress').value;
+      settings.pharmacyPhone = document.getElementById('pharmacyPhone').value;
+      settings.currency = document.getElementById('currency').value;
+      settings.taxRate = parseFloat(document.getElementById('taxRate').value);
+      settings.enableNotifications = document.getElementById('enableNotifications').checked;
+      settings.enableExpiryAlerts = document.getElementById('enableExpiryAlerts').checked;
+      settings.daysBeforeExpiry = parseInt(document.getElementById('daysBeforeExpiry').value);
+      
+      localStorage.setItem('pharmacySettings', JSON.stringify(settings));
+      
+      showMessage('settings-message', 'تم حفظ الإعدادات بنجاح', 'success');
+    }
+
+    // Reset settings to defaults
+    function resetSettings() {
+      if (confirm('هل أنت متأكد من إعادة تعيين جميع الإعدادات إلى القيم الافتراضية؟')) {
+        localStorage.removeItem('pharmacySettings');
+        settings = {
+          pharmacyName: "صيدليتي",
+          pharmacyAddress: "",
+          pharmacyPhone: "",
+          currency: "ج",
+          taxRate: 0,
+          enableNotifications: true,
+          enableExpiryAlerts: true,
+          daysBeforeExpiry: 30
+        };
+        applySettings();
+        showMessage('settings-message', 'تم إعادة تعيين الإعدادات', 'success');
+      }
+    }
+
+    // Initialize charts
+    function initCharts() {
+      // Sales Chart
+      const salesCtx = document.getElementById('salesChart').getContext('2d');
+      const salesChart = new Chart(salesCtx, {
+        type: 'bar',
+        data: {
+          labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'],
+          datasets: [{
+            label: 'المبيعات (' + settings.currency + ')',
+            data: [12500, 18700, 14200, 20900, 15800, 23100],
+            backgroundColor: 'rgba(25, 118, 210, 0.7)',
+            borderColor: 'rgba(25, 118, 210, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'top', rtl: true },
+            title: { display: true, text: 'مبيعات الأشهر الستة الأخيرة', rtl: true }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      // Medicines Chart
+      const medsCtx = document.getElementById('medicinesChart').getContext('2d');
+      const medicinesChart = new Chart(medsCtx, {
+        type: 'pie',
+        data: {
+          labels: ['مضادات حيوية', 'مسكنات', 'مضادات هستامين', 'مضادات حموضة', 'أخرى'],
+          datasets: [{
+            data: [35, 25, 15, 10, 15],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(255, 206, 86, 0.7)',
+              'rgba(75, 192, 192, 0.7)',
+              'rgba(153, 102, 255, 0.7)'
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'right', rtl: true },
+            title: { display: true, text: 'توزيع الأدوية حسب الفئة', rtl: true }
+          }
+        }
+      });
+
+      // Expiry Chart
+      const expiryCtx = document.getElementById('expiryChart').getContext('2d');
+      const expiryChart = new Chart(expiryCtx, {
+        type: 'line',
+        data: {
+          labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+          datasets: [{
+            label: 'الأدوية المنتهية الصلاحية',
+            data: [12, 19, 8, 15],
+            fill: false,
+            backgroundColor: 'rgba(211, 47, 47, 0.7)',
+            borderColor: 'rgba(211, 47, 47, 1)',
+            tension: 0.1
+          }, {
+            label: 'الأدوية التي تنتهي قريباً',
+            data: [5, 7, 14, 10],
+            fill: false,
+            backgroundColor: 'rgba(255, 160, 0, 0.7)',
+            borderColor: 'rgba(255, 160, 0, 1)',
+            tension: 0.1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'top', rtl: true },
+            title: { display: true, text: 'اتجاهات انتهاء صلاحية الأدوية', rtl: true }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    // Toggle sidebar visibility
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('hidden');
+      document.getElementById('main').classList.toggle('full');
+    }
+
+    // Toggle dark/light theme
+    function toggleTheme() {
+      darkMode = !darkMode;
+      document.body.classList.toggle('dark', darkMode);
+      localStorage.setItem('darkMode', darkMode);
+    }
+
+    // Navigate between pages
+    function navigate(pageId) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      
+      // Update page title
+      const pageTitles = {
+        'dashboard': 'لوحة التحكم',
+        'medicines': 'إدارة الأدوية',
+        'suppliers': 'الموردون',
+        'customers': 'العملاء',
+        'orders': 'الفواتير',
+        'prescriptions': 'الوصفات الطبية',
+        'calculator': 'الآلة الحاسبة',
+        'statistics': 'الإحصائيات',
+        'settings': 'الإعدادات'
+      };
+      document.getElementById('page-title').textContent = pageTitles[pageId];
+      
+      // Update charts when navigating to statistics page
+      if (pageId === 'statistics') {
+        updateCharts();
+      }
+      
+      // Update dashboard stats when navigating to dashboard
+      if (pageId === 'dashboard') {
+        updateDashboardStats();
+        updateExpiryReport();
+      }
+    }
+
+    // Show message
+    function showMessage(elementId, text, type) {
+      const element = document.getElementById(elementId);
+      element.textContent = text;
+      element.className = 'message ' + type;
+      
+      // Hide message after 5 seconds
+      setTimeout(() => {
+        element.className = 'message';
+        element.textContent = '';
+      }, 5000);
+    }
+
+    // Add a new medicine
+    function addMedicine() {
+      const name = document.getElementById('medName').value.trim();
+      const generic = document.getElementById('medGeneric').value.trim();
+      const category = document.getElementById('medCategory').value;
+      const qty = parseInt(document.getElementById('medQty').value);
+      const price = parseFloat(document.getElementById('medPrice').value);
+      const exp = document.getElementById('medExp').value;
+      
+      // Validate inputs
+      if (!name || !generic || !category || isNaN(qty) || isNaN(price) || !exp) {
+        showMessage('med-message', 'يرجى ملء جميع الحقول بشكل صحيح', 'error');
+        return;
+      }
+      
+      if (qty <= 0) {
+        showMessage('med-message', 'الكمية يجب أن تكون أكبر من الصفر', 'error');
+        return;
+      }
+      
+      if (price <= 0) {
+        showMessage('med-message', 'السعر يجب أن يكون أكبر من الصفر', 'error');
+        return;
+      }
+      
+      // Create new medicine
+      const newMedicine = {
+        id: medicines.length > 0 ? Math.max(...medicines.map(m => m.id)) + 1 : 1,
+        name,
+        generic,
+        category,
+        qty,
+        price,
+        exp
+      };
+      
+      medicines.push(newMedicine);
+      updateMedTable();
+      updateMedicineDropdowns();
+      updateDashboardStats();
+      updateExpiryReport();
+      
+      // Clear form
+      clearMedicineForm();
+      
+      showMessage('med-message', 'تم إضافة الدواء بنجاح', 'success');
+    }
+
+    // Clear medicine form
+    function clearMedicineForm() {
+      document.getElementById('medName').value = '';
+      document.getElementById('medGeneric').value = '';
+      document.getElementById('medCategory').value = '';
+      document.getElementById('medQty').value = '';
+      document.getElementById('medPrice').value = '';
+      document.getElementById('medExp').value = '';
+    }
+
+    // Update medicines table
+    function updateMedTable() {
+      const tbody = document.querySelector('#medTable tbody');
+      tbody.innerHTML = '';
+      
+      medicines.forEach(med => {
+        const tr = document.createElement('tr');
+        
+        // Calculate days until expiry
+        const today = new Date();
+        const expDate = new Date(med.exp);
+        const timeDiff = expDate.getTime() - today.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        
+        // Add class if expired or expiring soon
+        if (daysDiff <= 0) {
+          tr.classList.add('expired');
+        } else if (daysDiff <= settings.daysBeforeExpiry) {
+          tr.classList.add('expiring-soon');
+        }
+        
+        tr.innerHTML = `
+          <td>${med.name}</td>
+          <td>${med.generic}</td>
+          <td>${getCategoryName(med.category)}</td>
+          <td>${med.qty}</td>
+          <td>${med.price.toFixed(2)} ${settings.currency}</td>
+          <td>${formatDate(med.exp)}</td>
+          <td class="actions-cell">
+            <button class="no-print" onclick="editMedicine(${med.id})">تعديل</button>
+            <button class="no-print danger" onclick="deleteMedicine(${med.id})">حذف</button>
+          </td>
+        `;
+        
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Get category name
+    function getCategoryName(category) {
+      const categories = {
+        'antibiotic': 'مضاد حيوي',
+        'analgesic': 'مسكن',
+        'antihistamine': 'مضاد هستامين',
+        'antacid': 'مضاد حموضة',
+        'other': 'أخرى'
+      };
+      return categories[category] || category;
+    }
+
+    // Edit medicine
+    function editMedicine(id) {
+      const medicine = medicines.find(m => m.id === id);
+      if (!medicine) return;
+      
+      document.getElementById('medName').value = medicine.name;
+      document.getElementById('medGeneric').value = medicine.generic;
+      document.getElementById('medCategory').value = medicine.category;
+      document.getElementById('medQty').value = medicine.qty;
+      document.getElementById('medPrice').value = medicine.price;
+      document.getElementById('medExp').value = medicine.exp;
+      
+      // Scroll to form
+      document.getElementById('medName').scrollIntoView({ behavior: 'smooth' });
+      
+      // Change button to update
+      const addButton = document.querySelector('#medicines .btn-group button:first-child');
+      addButton.textContent = 'تحديث الدواء';
+      addButton.onclick = function() { updateMedicine(id); };
+    }
+
+    // Update medicine
+    function updateMedicine(id) {
+      const medicineIndex = medicines.findIndex(m => m.id === id);
+      if (medicineIndex === -1) return;
+      
+      const name = document.getElementById('medName').value.trim();
+      const generic = document.getElementById('medGeneric').value.trim();
+      const category = document.getElementById('medCategory').value;
+      const qty = parseInt(document.getElementById('medQty').value);
+      const price = parseFloat(document.getElementById('medPrice').value);
+      const exp = document.getElementById('medExp').value;
+      
+      // Validate inputs
+      if (!name || !generic || !category || isNaN(qty) || isNaN(price) || !exp) {
+        showMessage('med-message', 'يرجى ملء جميع الحقول بشكل صحيح', 'error');
+        return;
+      }
+      
+      // Update medicine
+      medicines[medicineIndex] = {
+        id,
+        name,
+        generic,
+        category,
+        qty,
+        price,
+        exp
+      };
+      
+      updateMedTable();
+      updateMedicineDropdowns();
+      updateDashboardStats();
+      updateExpiryReport();
+      
+      // Clear form and reset button
+      clearMedicineForm();
+      const addButton = document.querySelector('#medicines .btn-group button:first-child');
+      addButton.textContent = 'إضافة دواء';
+      addButton.onclick = function() { addMedicine(); };
+      
+      showMessage('med-message', 'تم تحديث الدواء بنجاح', 'success');
+    }
+
+    // Delete medicine
+    function deleteMedicine(id) {
+      if (confirm('هل أنت متأكد من حذف هذا الدواء؟')) {
+        medicines = medicines.filter(m => m.id !== id);
+        updateMedTable();
+        updateMedicineDropdowns();
+        updateDashboardStats();
+        updateExpiryReport();
+        showMessage('med-message', 'تم حذف الدواء بنجاح', 'success');
+      }
+    }
+
+    // Search medicines
+    function searchMedicine(query) {
+      const rows = document.querySelectorAll('#medTable tbody tr');
+      const lowerQuery = query.toLowerCase();
+      
+      rows.forEach(row => {
+        const name = row.cells[0].textContent.toLowerCase();
+        const generic = row.cells[1].textContent.toLowerCase();
+        const category = row.cells[2].textContent.toLowerCase();
+        
+        if (name.includes(lowerQuery) || generic.includes(lowerQuery) || category.includes(lowerQuery)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Add a new supplier
+    function addSupplier() {
+      const name = document.getElementById('supplierName').value.trim();
+      const phone = document.getElementById('supplierPhone').value.trim();
+      const email = document.getElementById('supplierEmail').value.trim();
+      const address = document.getElementById('supplierAddress').value.trim();
+      
+      // Validate inputs
+      if (!name || !phone) {
+        showMessage('supplier-message', 'يرجى إدخال اسم المورد ورقم الهاتف', 'error');
+        return;
+      }
+      
+      // Create new supplier
+      const newSupplier = {
+        id: suppliers.length > 0 ? Math.max(...suppliers.map(s => s.id)) + 1 : 1,
+        name,
+        phone,
+        email,
+        address
+      };
+      
+      suppliers.push(newSupplier);
+      updateSupplierTable();
+      
+      // Clear form
+      clearSupplierForm();
+      
+      showMessage('supplier-message', 'تم إضافة المورد بنجاح', 'success');
+    }
+
+    // Clear supplier form
+    function clearSupplierForm() {
+      document.getElementById('supplierName').value = '';
+      document.getElementById('supplierPhone').value = '';
+      document.getElementById('supplierEmail').value = '';
+      document.getElementById('supplierAddress').value = '';
+    }
+
+    // Update suppliers table
+    function updateSupplierTable() {
+      const tbody = document.querySelector('#supplierTable tbody');
+      tbody.innerHTML = '';
+      
+      suppliers.forEach(supplier => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${supplier.name}</td>
+          <td>${supplier.phone}</td>
+          <td>${supplier.email || '-'}</td>
+          <td>${supplier.address || '-'}</td>
+          <td class="actions-cell">
+            <button class="no-print" onclick="editSupplier(${supplier.id})">تعديل</button>
+            <button class="no-print danger" onclick="deleteSupplier(${supplier.id})">حذف</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Edit supplier
     function editSupplier(id) {
       const supplier = suppliers.find(s => s.id === id);
       if (!supplier) return;
