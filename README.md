@@ -1,348 +1,449 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pharmacy Management System</title>
+  <title>نظام إدارة الصيدلية</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --primary: #1976d2;
+      --primary-dark: #1565c0;
+      --danger: #d32f2f;
+      --warning: #ffa000;
+      --success: #388e3c;
       --background-light: #ffffff;
       --background-dark: #121212;
+      --card-light: #f5f5f5;
+      --card-dark: #1e1e1e;
       --text-light: #ffffff;
       --text-dark: #000000;
-    }* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
+      --border-light: #e0e0e0;
+      --border-dark: #424242;
+    }
 
-body {
-  display: flex;
-  background-color: var(--background-light);
-  color: var(--text-dark);
-  transition: background-color 0.3s, color 0.3s;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-.sidebar {
-  width: 250px;
-  background-color: var(--primary);
-  color: white;
-  height: 100vh;
-  padding: 1rem;
-  position: fixed;
-  left: 0;
-  top: 0;
-  overflow-y: auto;
-  transition: transform 0.3s ease-in-out;
-}
+    body {
+      display: flex;
+      background-color: var(--background-light);
+      color: var(--text-dark);
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-.sidebar.hidden {
-  transform: translateX(-100%);
-}
+    body.dark {
+      background-color: var(--background-dark);
+      color: var(--text-light);
+    }
 
-.sidebar h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-}
+    .sidebar {
+      width: 250px;
+      background-color: var(--primary);
+      color: white;
+      height: 100vh;
+      padding: 1rem;
+      position: fixed;
+      left: 0;
+      top: 0;
+      overflow-y: auto;
+      transition: transform 0.3s ease-in-out;
+      z-index: 1000;
+    }
 
-.sidebar button {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.1rem;
-  width: 100%;
-  text-align: left;
-  margin: 0.5rem 0;
-  cursor: pointer;
-}
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
 
-.main {
-  margin-left: 250px;
-  padding: 2rem;
-  flex-grow: 1;
-  transition: margin-left 0.3s;
-  width: 100%;
-}
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
 
-.main.full {
-  margin-left: 0;
-}
+    .sidebar button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      width: 100%;
+      text-align: right;
+      padding: 0.8rem 1rem;
+      margin: 0.25rem 0;
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      transition: background-color 0.2s;
+    }
 
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
+    .sidebar button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
 
-.toggle-sidebar {
-  font-size: 2rem;
-  cursor: pointer;
-}
+    .sidebar button .material-icons {
+      margin-left: 8px;
+    }
 
-.toggle-theme {
-  cursor: pointer;
-}
+    .main {
+      margin-right: 250px;
+      padding: 2rem;
+      flex-grow: 1;
+      transition: margin-right 0.3s;
+      width: 100%;
+    }
 
-.card {
-  background-color: #f0f0f0;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+    .main.full {
+      margin-right: 0;
+    }
 
-canvas {
-  background-color: white;
-  padding: 1rem;
-  border-radius: 8px;
-}
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-light);
+    }
 
-.calculator {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin-top: 2rem;
-}
+    body.dark .topbar {
+      border-bottom-color: var(--border-dark);
+    }
 
-.calculator input {
-  grid-column: span 4;
-  height: 40px;
-  font-size: 1.2rem;
-  text-align: right;
-}
+    .topbar-actions {
+      display: flex;
+      gap: 1rem;
+    }
 
-.calculator button {
-  padding: 1rem;
-  font-size: 1.2rem;
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
+    .toggle-sidebar, .toggle-theme {
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
+    .toggle-sidebar:hover, .toggle-theme:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
 
-table, th, td {
-  border: 1px solid #ccc;
-}
+    body.dark .toggle-sidebar:hover, 
+    body.dark .toggle-theme:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
 
-th, td {
-  padding: 10px;
-  text-align: left;
-}
+    .page {
+      display: none;
+    }
 
-#medTable tr:nth-child(even) {
-  background-color: #eaf1fb;
-}
+    .page.active {
+      display: block;
+    }
 
-body.dark {
-  background-color: var(--background-dark);
-  color: var(--text-light);
-}
+    .card {
+      background-color: var(--card-light);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
 
-body.dark .card,
-body.dark canvas,
-body.dark table,
-body.dark th,
-body.dark td {
-  background-color: #2a2a2a;
-  color: white;
-}
+    body.dark .card {
+      background-color: var(--card-dark);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
 
-@media (max-width: 768px) {
-  .sidebar {
-    position: absolute;
-    z-index: 1000;
-  }
+    .card h3 {
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
 
-  .main {
-    margin-left: 0;
-    padding: 1rem;
-  }
-}
+    body.dark .card h3 {
+      color: var(--primary-dark);
+    }
 
-footer {
-  text-align: center;
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: gray;
-}
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
 
+    .stat-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+      border-radius: 8px;
+      background-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-card.warning {
+      background-color: var(--warning);
+    }
+
+    .stat-card.danger {
+      background-color: var(--danger);
+    }
+
+    .stat-card.success {
+      background-color: var(--success);
+    }
+
+    .stat-card .value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 0.5rem 0;
+    }
+
+    .stat-card .label {
+      font-size: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border-color 0.3s, background-color 0.3s;
+    }
+
+    body.dark input, 
+    body.dark select {
+      background-color: var(--card-dark);
+      border-color: var(--border-dark);
+      color: var(--text-light);
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: var(--primary-dark);
+    }
+
+    button.danger {
+      background-color: var(--danger);
+    }
+
+    button.danger:hover {
+      background-color: #b71c1c;
+    }
+
+    button.warning {
+      background-color: var(--warning);
+    }
+
+    button.warning:hover {
+      background-color: #ff8f00;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .message {
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .message.success {
+      background-color: rgba(56, 142, 60, 0.2);
+      color: var(--success);
+      border: 1px solid var(--success);
+      display: block;
+    }
+
+    .message.error {
+      background-color: rgba(211, 47, 47, 0.2);
+      color: var(--danger);
+      border: 1px solid var(--danger);
+      display: block;
+    }
+
+    .search-container {
+      margin-bottom: 1.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: right;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    body.dark th, 
+    body.dark td {
+      border-bottom-color: var(--border-dark);
+    }
+
+    th {
+      background-color: var(--primary);
+      color: white;
+      font-weight: 500;
+    }
+
+    tr:hover {
+      background-color: rgba(25, 118, 210, 0.05);
+    }
+
+    body.dark tr:hover {
+      background-color: rgba(25, 118, 210, 0.1);
+    }
+
+    .actions-cell {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-start;
+    }
+
+    .calculator {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .calculator input {
+      grid-column: span 4;
+      height: 50px;
+      font-size: 1.5rem;
+      text-align: left;
+      padding-right: 1rem;
+    }
+
+    .calculator button {
+      padding: 1rem;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .calculator button.operator {
+      background-color: var(--primary-dark);
+    }
+
+    .calculator button.equals {
+      background-color: var(--success);
+    }
+
+    .calculator button.clear {
+      background-color: var(--danger);
+    }
+
+    .chart-container {
+      position: relative;
+      height: 400px;
+      margin-top: 2rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-light);
+      color: gray;
+      font-size: 0.9rem;
+    }
+
+    body.dark footer {
+      border-top-color: var(--border-dark);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.visible {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-right: 0;
+        padding: 1rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Print styles */
+    @media print {
+      .sidebar, .topbar {
+        display: none;
+      }
+
+      .main {
+        margin-right: 0;
+      }
+
+      .page {
+        display: block !important;
+      }
+
+      .no-print {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="sidebar" id="sidebar">
-    <h2>Pharmacy</h2>
-    <button onclick="navigate('dashboard')">لوحة التحكم</button>
-    <button onclick="navigate('medicines')">إدارة الأدوية</button>
-    <button onclick="navigate('orders')">إدارة الطلبات</button>
-    <button onclick="navigate('calculator')">الآلة الحاسبة</button>
-    <button onclick="navigate('statistics')">الإحصائيات</button>
-  </div>
-  <div class="main" id="main">
-    <div class="topbar">
-      <span class="material-icons toggle-sidebar" onclick="toggleSidebar()">menu</span>
-      <span class="material-icons toggle-theme" onclick="toggleTheme()">dark_mode</span>
-    </div>
-    <div id="dashboard" class="page">
-      <div class="card">عدد الأدوية: <span id="med-count">0</span></div>
-      <div class="card">أدوية منتهية الصلاحية: <span id="expired">0</span></div>
-      <div class="card">طلبات معلقة: <span id="pending">0</span></div>
-      <div class="card">إجمالي المبيعات: <span id="sales">0</span> ج</div>
-    </div>
-    <div id="medicines" class="page" style="display:none">
-      <div class="card">
-        <h3>إضافة/تحديث الدواء</h3>
-        <input placeholder="اسم الدواء" id="medName" />
-        <input placeholder="الكمية" id="medQty" />
-        <input placeholder="تاريخ الانتهاء" id="medExp" />
-        <button onclick="addMedicine()">إضافة</button>
-        <input placeholder="بحث عن دواء" oninput="searchMedicine(this.value)">
-        <p id="add-msg"></p>
-      </div>
-      <div class="card">
-        <table id="medTable">
-          <thead>
-            <tr><th>الاسم</th><th>الكمية</th><th>تاريخ الانتهاء</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-    <div id="orders" class="page" style="display:none">
-      <div class="card">لا توجد طلبات حالياً</div>
-    </div>
-    <div id="calculator" class="page" style="display:none">
-      <div class="card">
-        <h3>الآلة الحاسبة</h3>
-        <div class="calculator">
-          <input type="text" id="calc-display" readonly>
-          <button onclick="calc('1')">1</button>
-          <button onclick="calc('2')">2</button>
-          <button onclick="calc('3')">3</button>
-          <button onclick="calc('+')">+</button>
-          <button onclick="calc('4')">4</button>
-          <button onclick="calc('5')">5</button>
-          <button onclick="calc('6')">6</button>
-          <button onclick="calc('-')">-</button>
-          <button onclick="calc('7')">7</button>
-          <button onclick="calc('8')">8</button>
-          <button onclick="calc('9')">9</button>
-          <button onclick="calc('*')">×</button>
-          <button onclick="calc('0')">0</button>
-          <button onclick="calc('.')">.</button>
-          <button onclick="calculate()">=</button>
-          <button onclick="clearCalc()">C</button>
-        </div>
-      </div>
-    </div>
-    <div id="statistics" class="page" style="display:none">
-      <div class="card">
-        <h3>رسم بياني للمبيعات</h3>
-        <canvas id="salesChart" width="400" height="200"></canvas>
-      </div>
-    </div>
-    <footer>© 2025 عمر بابكر (Omer Babiker - Omer Bk)</footer>
-  </div>
-  <script>
-    let darkMode = false;
-    let medicines = [];function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('hidden');
-  document.getElementById('main').classList.toggle('full');
-}
-
-function toggleTheme() {
-  darkMode = !darkMode;
-  document.body.classList.toggle('dark', darkMode);
-}
-
-function navigate(pageId) {
-  const pages = document.querySelectorAll('.page');
-  pages.forEach(p => p.style.display = 'none');
-  document.getElementById(pageId).style.display = 'block';
-}
-
-function addMedicine() {
-  const name = document.getElementById('medName').value;
-  const qty = document.getElementById('medQty').value;
-  const exp = document.getElementById('medExp').value;
-  if(name && qty && exp) {
-    medicines.push({ name, qty, exp });
-    updateMedTable();
-    document.getElementById('add-msg').textContent = 'تمت الإضافة بنجاح';
-    document.getElementById('add-msg').style.color = darkMode ? 'lightgreen' : 'green';
-  } else {
-    document.getElementById('add-msg').textContent = 'يرجى ملء جميع الحقول';
-    document.getElementById('add-msg').style.color = 'red';
-  }
-}
-
-function updateMedTable() {
-  const tbody = document.querySelector('#medTable tbody');
-  tbody.innerHTML = '';
-  medicines.forEach(med => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${med.name}</td><td>${med.qty}</td><td>${med.exp}</td>`;
-    tbody.appendChild(tr);
-  });
-  document.getElementById('med-count').textContent = medicines.length;
-}
-
-function searchMedicine(query) {
-  const rows = document.querySelectorAll('#medTable tbody tr');
-  rows.forEach(row => {
-    const name = row.children[0].textContent;
-    row.style.display = name.includes(query) ? '' : 'none';
-  });
-}
-
-let calcValue = '';
-function calc(val) {
-  calcValue += val;
-  document.getElementById('calc-display').value = calcValue;
-}
-
-function calculate() {
-  try {
-    calcValue = eval(calcValue).toString();
-    document.getElementById('calc-display').value = calcValue;
-  } catch (e) {
-    document.getElementById('calc-display').value = 'خطأ';
-  }
-}
-
-function clearCalc() {
-  calcValue = '';
-  document.getElementById('calc-display').value = '';
-}
-
-const ctx = document.getElementById('salesChart').getContext('2d');
-const salesChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['يناير', 'فبراير', 'مارس', 'أبريل'],
-    datasets: [{
-      label: 'المبيعات (ج)',
-      data: [5000, 7000, 4000, 9000],
-      backgroundColor: 'rgba(25, 118, 210, 0.7)',
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'top' },
-      title: { display: true, text: 'مبيعات الأشهر الأخيرة' }
-    }
-  }
-});
-
-  </script>
-</body>
-</html>
+    <h2>نظام إدارة الصيدلية</h2>
+    <button onclick="navigate('dashboard')">
+      <span class="material-icons">dashboard</span>
+      لوحة التحكم
+    </button>
+    <button onclick="navigate('medicines')">
+      <span class="material-icons">medication</span>
+      إدارة الأدوية
+    </button>
+    <button onclick="n
