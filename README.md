@@ -1,147 +1,177 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>نظام إدارة الصيدلية</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      transition: background-color 0.3s, color 0.3s;
-    }.container {
-  max-width: 800px;
-  margin: 0 auto;
+    :root {
+      --bg-light: #f9f9f9;
+      --bg-dark: #121212;
+      --text-light: #000;
+      --text-dark: #fff;
+      --accent-color: #4caf50;
+      --success-light: #e0ffe0;
+      --success-dark: #265e26;
+    }body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  transition: all 0.3s;
+}
+
+body.dark {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+.menu {
+  background-color: var(--accent-color);
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section {
   padding: 20px;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-input[type="text"],
-input[type="number"] {
-  padding: 10px;
-  border-radius: 5px;
+.box {
   border: 1px solid #ccc;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
 }
 
-button {
+.success-message {
+  background-color: var(--success-light);
+  color: #006400;
   padding: 10px;
-  border: none;
+  margin-top: 10px;
   border-radius: 5px;
-  background-color: #007bff;
-  color: white;
+}
+
+body.dark .success-message {
+  background-color: var(--success-dark);
+  color: #a5ffa5;
+}
+
+.toggle-mode {
   cursor: pointer;
-  transition: background-color 0.3s;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
-
-.dark-mode {
-  background-color: #121212;
-  color: #ffffff;
-}
-
-.dark-mode input,
-.dark-mode button {
-  background-color: #333;
-  color: #fff;
-  border: 1px solid #555;
-}
-
-.message {
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 5px;
-  color: #fff;
-}
-
-.success {
-  background-color: #4caf50;
+input, button {
+  padding: 5px;
+  margin: 5px 0;
 }
 
 .calculator {
-  margin-top: 30px;
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  margin-top: 20px;
 }
 
-.calculator input,
+.calculator input {
+  width: 100%;
+  padding: 8px;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
 .calculator button {
-  margin-top: 5px;
+  padding: 10px;
+  margin: 2px;
+  font-size: 16px;
 }
 
   </style>
-</head><body>
-  <div class="container">
-    <h1>نظام إدارة الصيدلية</h1>
-    <button onclick="toggleDarkMode()">تبديل الوضع</button><form id="medicineForm">
-  <input type="text" id="name" placeholder="اسم الدواء" required>
-  <input type="text" id="category" placeholder="الفئة" required>
-  <input type="number" id="price" placeholder="السعر" required>
-  <input type="number" id="quantity" placeholder="الكمية" required>
-  <button type="submit">إضافة الدواء</button>
-</form>
-
-<div id="message" class="message" style="display: none;"></div>
-
-<div class="calculator">
-  <h3>آلة حاسبة</h3>
-  <input type="number" id="num1" placeholder="العدد الأول">
-  <input type="number" id="num2" placeholder="العدد الثاني">
-  <button onclick="calculate()">احسب</button>
-  <div id="result"></div>
-</div>
-
+</head>
+<body>
+  <div class="menu">
+    <span>menu نظام إدارة الصيدلية</span>
+    <button class="toggle-mode" onclick="toggleDarkMode()">dark_mode</button>
+  </div>  <div class="section">
+    <h2>لوحة التحكم</h2>
+    <div class="box"><h3>عدد الأدوية</h3><p>0</p></div>
+    <div class="box"><h3>أدوية منتهية الصلاحية</h3><p>0</p></div>
+    <div class="box"><h3>طلبات معلقة</h3><p>0</p></div>
+    <div class="box"><h3>إجمالي المبيعات</h3><p>0</p></div>
+  </div>  <div class="section">
+    <h2>إدارة الأدوية</h2>
+    <label>اسم الدواء:</label><br>
+    <input type="text" id="medName"><br>
+    <label>الكمية:</label><br>
+    <input type="number" id="medQty"><br>
+    <label>تاريخ الانتهاء:</label><br>
+    <input type="date" id="medExp"><br>
+    <button onclick="addMedicine()">إضافة/تحديث الدواء</button>
+    <div id="successMsg" class="success-message" style="display: none;">تمت إضافة الدواء بنجاح!</div>
+  </div>  <div class="section">
+    <h2>إدارة الطلبات</h2>
+    <!-- يمكن إضافة نموذج الطلب هنا -->
+  </div>  <div class="section calculator">
+    <h2>الآلة الحاسبة</h2>
+    <input type="text" id="calcDisplay" readonly>
+    <div>
+      <button onclick="press('1')">1</button>
+      <button onclick="press('2')">2</button>
+      <button onclick="press('3')">3</button>
+      <button onclick="press('+')">+</button><br>
+      <button onclick="press('4')">4</button>
+      <button onclick="press('5')">5</button>
+      <button onclick="press('6')">6</button>
+      <button onclick="press('-')">-</button><br>
+      <button onclick="press('7')">7</button>
+      <button onclick="press('8')">8</button>
+      <button onclick="press('9')">9</button>
+      <button onclick="press('*')">×</button><br>
+      <button onclick="press('0')">0</button>
+      <button onclick="press('.')">.</button>
+      <button onclick="calculate()">=</button>
+      <button onclick="press('/')">÷</button><br>
+      <button onclick="clearCalc()">C</button>
+    </div>
   </div>  <script>
-    const form = document.getElementById('medicineForm');
-    const message = document.getElementById('message');
-    const body = document.body;
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const category = document.getElementById('category').value;
-      const price = document.getElementById('price').value;
-      const quantity = document.getElementById('quantity').value;
-
-      // مثال بسيط للتخزين المحلي (يمكن تعديله لاحقاً لتخزين فعلي)
-      console.log(`تمت إضافة الدواء: ${name}, ${category}, ${price}, ${quantity}`);
-
-      message.textContent = 'تمت إضافة الدواء بنجاح';
-      message.className = 'message success';
-      message.style.display = 'block';
-
-      setTimeout(() => {
-        message.style.display = 'none';
-      }, 3000);
-
-      form.reset();
-    });
-
     function toggleDarkMode() {
-      body.classList.toggle('dark-mode');
+      document.body.classList.toggle('dark');
+    }
+
+    function addMedicine() {
+      const name = document.getElementById('medName').value;
+      const qty = document.getElementById('medQty').value;
+      const exp = document.getElementById('medExp').value;
+      if (name && qty && exp) {
+        const msg = document.getElementById('successMsg');
+        msg.style.display = 'block';
+        setTimeout(() => msg.style.display = 'none', 3000);
+      }
+    }
+
+    let expression = '';
+    function press(val) {
+      expression += val;
+      document.getElementById('calcDisplay').value = expression;
     }
 
     function calculate() {
-      const num1 = parseFloat(document.getElementById('num1').value);
-      const num2 = parseFloat(document.getElementById('num2').value);
-      const resultDiv = document.getElementById('result');
-
-      if (!isNaN(num1) && !isNaN(num2)) {
-        resultDiv.textContent = `الناتج: ${num1 + num2}`;
-      } else {
-        resultDiv.textContent = 'يرجى إدخال عددين صالحين';
+      try {
+        const result = eval(expression);
+        document.getElementById('calcDisplay').value = result;
+        expression = '';
+      } catch {
+        document.getElementById('calcDisplay').value = 'خطأ';
+        expression = '';
       }
     }
-  </script></body></html>
+
+    function clearCalc() {
+      expression = '';
+      document.getElementById('calcDisplay').value = '';
+    }
+  </script></body>
+</html>
