@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
@@ -522,7 +521,7 @@
               <th>التاريخ</th>
               <th>العميل</th>
               <th>المبلغ</th>
-              <th>الح��لة</th>
+              <th>الحالة</th>
             </tr>
           </thead>
           <tbody id="recent-orders">
@@ -768,4 +767,4 @@
         <h3>إضافة وصفة طبية</h3>
         <div id="prescription-message" class="message"></div>
         <div class="form-group">
-  
+   
