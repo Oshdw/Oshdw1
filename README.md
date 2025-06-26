@@ -768,3 +768,543 @@
     <div id="prescriptions" class="page">
       <div class="card">
         <h3>إضافة وصفة طبية</
+        <p><strong>العميل:</strong> ${customer ? customer.name : 'غير معروف'}</p>
+        <p><strong>الحالة:</strong> ${order.status}</p>
+        <table>
+          <thead>
+            <tr>
+              <th>الدواء</th>
+              <th>الكمية</th>
+              <th>السعر</th>
+              <th>الإجمالي</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      
+      order.items.forEach(item => {
+        const medicine = medicines.find(m => m.id === item.medicineId);
+        details += `
+          <tr>
+            <td>${medicine ? medicine.name : 'غير معروف'}</td>
+            <td>${item.qty}</td>
+            <td>${item.price.toFixed(2)} ${settings.currency}</td>
+            <td>${(item.qty * item.price).toFixed(2)} ${settings.currency}</td>
+          </tr>
+        `;
+      });
+      
+      details += `
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" style="text-align: left;"><strong>المجموع:</strong></td>
+              <td><strong>${order.total.toFixed(2)} ${settings.currency}</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      `;
+      
+      // Show in a dialog
+      alert(details);
+    }
+
+    // Delete order
+    function deleteOrder(orderId) {
+      if (confirm('هل أنت متأكد من حذف هذه الفاتورة؟ لا يمكن التراجع عن هذا الإجراء.')) {
+        orders = orders.filter(o => o.id !== orderId);
+        updateOrderTable();
+        updateDashboardStats();
+        showMessage('order-message', 'تم حذف الفاتورة بنجاح', 'success');
+      }
+    }
+
+    // Search orders
+    function searchOrder(query) {
+      const rows = document.querySelectorAll('#orderTable tbody tr');
+      const lowerQuery = query.toLowerCase();
+      
+      rows.forEach(row => {
+        const id = row.cells[0].textContent.toLowerCase();
+        const date = row.cells[1].textContent.toLowerCase();
+        const customer = row.cells[2].textContent.toLowerCase();
+        const total = row.cells[3].textContent.toLowerCase();
+        const status = row.cells[4].textContent.toLowerCase();
+        
+        if (id.includes(lowerQuery) || date.includes(lowerQuery) || 
+            customer.includes(lowerQuery) || total.includes(lowerQuery) || 
+            status.includes(lowerQuery)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Print order
+    function printOrder() {
+      const customerId = parseInt(document.getElementById('orderCustomer').value);
+      const rows = document.querySelectorAll('#orderItems tbody tr');
+      
+      if (isNaN(customerId) {
+        showMessage('order-message', 'يرجى اختيار عميل', 'error');
+        return;
+      }
+      
+      if (rows.length === 0) {
+        showMessage('order-message', 'يرجى إضافة أدوية إلى الفاتورة', 'error');
+        return;
+      }
+      
+      const customer = customers.find(c => c.id === customerId);
+      const today = new Date().toISOString().split('T')[0];
+      
+      let printContent = `
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h2>${settings.pharmacyName}</h2>
+          <p>${settings.pharmacyAddress}</p>
+          <p>هاتف: ${settings.pharmacyPhone}</p>
+        </div>
+        <h3 style="text-align: center;">فاتورة بيع</h3>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+          <div>
+            <p><strong>رقم الفاتورة:</strong> ${currentOrderId}</p>
+            <p><strong>التاريخ:</strong> ${formatDate(today)}</p>
+          </div>
+          <div>
+            <p><strong>العميل:</strong> ${customer ? customer.name : 'غير معروف'}</p>
+            <p><strong>هاتف العميل:</strong> ${customer ? customer.phone : '-'}</p>
+          </div>
+        </div>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+          <thead>
+            <tr style="background-color: #f5f5f5;">
+              <th style="padding: 8px; border: 1px solid #ddd;">الدواء</th>
+              <th style="padding: 8px; border: 1px solid #ddd;">الكمية</th>
+              <th style="padding: 8px; border: 1px solid #ddd;">السعر</th>
+              <th style="padding: 8px; border: 1px solid #ddd;">الإجمالي</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      
+      let total = 0;
+      
+      rows.forEach(row => {
+        const medicineId = parseInt(row.dataset.medicineId);
+        const medicine = medicines.find(m => m.id === medicineId);
+        const qty = parseInt(row.cells[1].textContent);
+        const price = parseFloat(row.cells[2].textContent);
+        const itemTotal = qty * price;
+        total += itemTotal;
+        
+        printContent += `
+          <tr>
+            <td style="padding: 8px; border: 1px solid #ddd;">${medicine ? medicine.name : 'غير معروف'}</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">${qty}</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">${price.toFixed(2)} ${settings.currency}</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">${itemTotal.toFixed(2)} ${settings.currency}</td>
+          </tr>
+        `;
+      });
+      
+      printContent += `
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" style="text-align: left; padding: 8px; border: 1px solid #ddd;"><strong>المجموع:</strong></td>
+              <td style="padding: 8px; border: 1px solid #ddd;"><strong>${total.toFixed(2)} ${settings.currency}</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+        <div style="margin-top: 30px; text-align: center;">
+          <p>شكراً لثقتكم بنا</p>
+          <p>${settings.pharmacyName}</p>
+        </div>
+      `;
+      
+      // Open print window
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>فاتورة #${currentOrderId}</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 20px; }
+              table { width: 100%; border-collapse: collapse; }
+              th, td { padding: 8px; text-align: right; border: 1px solid #ddd; }
+              h2, h3 { color: #1976d2; }
+            </style>
+          </head>
+          <body>
+            ${printContent}
+            <script>
+              window.onload = function() {
+                window.print();
+              };
+            </script>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+    }
+
+    // Add medicine to prescription
+    function addMedicineToPrescription() {
+      const medicineId = parseInt(document.getElementById('prescriptionMedicine').value);
+      const qty = parseInt(document.getElementById('prescriptionMedicineQty').value);
+      const dosage = document.getElementById('prescriptionDosage').value.trim();
+      
+      if (isNaN(medicineId) {
+        showMessage('prescription-message', 'يرجى اختيار دواء', 'error');
+        return;
+      }
+      
+      if (isNaN(qty) {
+        showMessage('prescription-message', 'يرجى إدخال كمية صحيحة', 'error');
+        return;
+      }
+      
+      if (!dosage) {
+        showMessage('prescription-message', 'يرجى إدخال الجرعة', 'error');
+        return;
+      }
+      
+      const medicine = medicines.find(m => m.id === medicineId);
+      if (!medicine) return;
+      
+      const tbody = document.querySelector('#prescriptionItems tbody');
+      const tr = document.createElement('tr');
+      tr.dataset.medicineId = medicineId;
+      tr.innerHTML = `
+        <td>${medicine.name} (${medicine.generic})</td>
+        <td>${qty}</td>
+        <td>${dosage}</td>
+        <td class="actions-cell">
+          <button class="no-print danger" onclick="removePrescriptionItem(this)">حذف</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+      
+      // Reset medicine selection
+      document.getElementById('prescriptionMedicine').value = '';
+      document.getElementById('prescriptionMedicineQty').value = '1';
+      document.getElementById('prescriptionDosage').value = '';
+    }
+
+    // Remove item from prescription
+    function removePrescriptionItem(button) {
+      button.closest('tr').remove();
+    }
+
+    // Save prescription
+    function savePrescription() {
+      const customerId = parseInt(document.getElementById('prescriptionCustomer').value);
+      const doctor = document.getElementById('prescriptionDoctor').value.trim();
+      const date = document.getElementById('prescriptionDate').value;
+      const notes = document.getElementById('prescriptionNotes').value.trim();
+      const rows = document.querySelectorAll('#prescriptionItems tbody tr');
+      
+      if (isNaN(customerId)) {
+        showMessage('prescription-message', 'يرجى اختيار عميل', 'error');
+        return;
+      }
+      
+      if (!doctor) {
+        showMessage('prescription-message', 'يرجى إدخال اسم الطبيب', 'error');
+        return;
+      }
+      
+      if (rows.length === 0) {
+        showMessage('prescription-message', 'يرجى إضافة أدوية إلى الوصفة', 'error');
+        return;
+      }
+      
+      // Get prescription items
+      const items = Array.from(rows).map(row => {
+        const medicineId = parseInt(row.dataset.medicineId);
+        const qty = parseInt(row.cells[1].textContent);
+        const dosage = row.cells[2].textContent;
+        
+        return { medicineId, qty, dosage };
+      });
+      
+      // Create new prescription
+      const newPrescription = {
+        id: currentPrescriptionId++,
+        customerId,
+        doctor,
+        date,
+        notes,
+        items
+      };
+      
+      prescriptions.push(newPrescription);
+      updatePrescriptionTable();
+      
+      // Clear form
+      clearPrescriptionForm();
+      
+      showMessage('prescription-message', 'تم حفظ الوصفة الطبية بنجاح', 'success');
+    }
+
+    // Clear prescription form
+    function clearPrescriptionForm() {
+      document.getElementById('prescriptionCustomer').value = '';
+      document.getElementById('prescriptionDoctor').value = '';
+      document.getElementById('prescriptionDate').value = new Date().toISOString().split('T')[0];
+      document.getElementById('prescriptionNotes').value = '';
+      document.querySelector('#prescriptionItems tbody').innerHTML = '';
+      document.getElementById('prescriptionMedicine').value = '';
+      document.getElementById('prescriptionMedicineQty').value = '1';
+      document.getElementById('prescriptionDosage').value = '';
+    }
+
+    // Update prescriptions table
+    function updatePrescriptionTable() {
+      const tbody = document.querySelector('#prescriptionTable tbody');
+      tbody.innerHTML = '';
+      
+      prescriptions.forEach(prescription => {
+        const customer = customers.find(c => c.id === prescription.customerId);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${prescription.id}</td>
+          <td>${formatDate(prescription.date)}</td>
+          <td>${customer ? customer.name : 'غير معروف'}</td>
+          <td>${prescription.doctor}</td>
+          <td class="actions-cell">
+            <button class="no-print" onclick="viewPrescriptionDetails(${prescription.id})">عرض</button>
+            <button class="no-print danger" onclick="deletePrescription(${prescription.id})">حذف</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // View prescription details
+    function viewPrescriptionDetails(prescriptionId) {
+      const prescription = prescriptions.find(p => p.id === prescriptionId);
+      if (!prescription) return;
+      
+      const customer = customers.find(c => c.id === prescription.customerId);
+      
+      let details = `
+        <h3>تفاصيل الوصفة الطبية #${prescription.id}</h3>
+        <p><strong>التاريخ:</strong> ${formatDate(prescription.date)}</p>
+        <p><strong>العميل:</strong> ${customer ? customer.name : 'غير معروف'}</p>
+        <p><strong>الطبيب:</strong> ${prescription.doctor}</p>
+        <p><strong>ملاحظات:</strong> ${prescription.notes || 'لا توجد'}</p>
+        <h4>الأدوية:</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>الدواء</th>
+              <th>الكمية</th>
+              <th>الجرعة</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      
+      prescription.items.forEach(item => {
+        const medicine = medicines.find(m => m.id === item.medicineId);
+        details += `
+          <tr>
+            <td>${medicine ? medicine.name : 'غير معروف'}</td>
+            <td>${item.qty}</td>
+            <td>${item.dosage}</td>
+          </tr>
+        `;
+      });
+      
+      details += `
+          </tbody>
+        </table>
+      `;
+      
+      // Show in a dialog
+      alert(details);
+    }
+
+    // Delete prescription
+    function deletePrescription(prescriptionId) {
+      if (confirm('هل أنت متأكد من حذف هذه الوصفة الطبية؟ لا يمكن التراجع عن هذا الإجراء.')) {
+        prescriptions = prescriptions.filter(p => p.id !== prescriptionId);
+        updatePrescriptionTable();
+        showMessage('prescription-message', 'تم حذف الوصفة الطبية بن��اح', 'success');
+      }
+    }
+
+    // Search prescriptions
+    function searchPrescription(query) {
+      const rows = document.querySelectorAll('#prescriptionTable tbody tr');
+      const lowerQuery = query.toLowerCase();
+      
+      rows.forEach(row => {
+        const id = row.cells[0].textContent.toLowerCase();
+        const date = row.cells[1].textContent.toLowerCase();
+        const customer = row.cells[2].textContent.toLowerCase();
+        const doctor = row.cells[3].textContent.toLowerCase();
+        
+        if (id.includes(lowerQuery) || date.includes(lowerQuery) || 
+            customer.includes(lowerQuery) || doctor.includes(lowerQuery)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Calculator functions
+    function calc(value) {
+      document.getElementById('calc-display').value += value;
+    }
+
+    function clearCalc() {
+      document.getElementById('calc-display').value = '';
+    }
+
+    function backspace() {
+      const display = document.getElementById('calc-display');
+      display.value = display.value.slice(0, -1);
+    }
+
+    function calculate() {
+      try {
+        const display = document.getElementById('calc-display');
+        display.value = eval(display.value);
+      } catch (e) {
+        alert('تعبير رياضي غير صحيح');
+        clearCalc();
+      }
+    }
+
+    // Update dashboard statistics
+    function updateDashboardStats() {
+      // Total medicines
+      document.getElementById('med-count').textContent = medicines.length;
+      
+      // Expiring soon and expired medicines
+      const today = new Date();
+      const expiringSoonDate = new Date();
+      expiringSoonDate.setDate(today.getDate() + settings.daysBeforeExpiry);
+      
+      let expiringSoon = 0;
+      let expired = 0;
+      
+      medicines.forEach(med => {
+        const expDate = new Date(med.exp);
+        if (expDate < today) {
+          expired++;
+        } else if (expDate <= expiringSoonDate) {
+          expiringSoon++;
+        }
+      });
+      
+      document.getElementById('expiring-soon').textContent = expiringSoon;
+      document.getElementById('expired').textContent = expired;
+      
+      // Total sales
+      const totalSales = orders.reduce((sum, order) => sum + order.total, 0);
+      document.getElementById('sales').textContent = totalSales.toFixed(2);
+      
+      // Recent orders
+      const recentOrdersTbody = document.getElementById('recent-orders');
+      recentOrdersTbody.innerHTML = '';
+      
+      const sortedOrders = [...orders].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+      
+      sortedOrders.forEach(order => {
+        const customer = customers.find(c => c.id === order.customerId);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${order.id}</td>
+          <td>${formatDate(order.date)}</td>
+          <td>${customer ? customer.name : 'غير معروف'}</td>
+          <td>${order.total.toFixed(2)} ${settings.currency}</td>
+          <td>${order.status}</td>
+        `;
+        recentOrdersTbody.appendChild(tr);
+      });
+    }
+
+    // Update expiry report
+    function updateExpiryReport() {
+      const tbody = document.querySelector('#expiryReportTable tbody');
+      tbody.innerHTML = '';
+      
+      const today = new Date();
+      const expiringSoonDate = new Date();
+      expiringSoonDate.setDate(today.getDate() + settings.daysBeforeExpiry);
+      
+      medicines.forEach(med => {
+        const expDate = new Date(med.exp);
+        const timeDiff = expDate.getTime() - today.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        
+        if (daysDiff <= settings.daysBeforeExpiry) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${med.name}</td>
+            <td>${med.qty}</td>
+            <td>${formatDate(med.exp)}</td>
+            <td>${daysDiff > 0 ? daysDiff : 'منتهية'}</td>
+          `;
+          
+          if (daysDiff <= 0) {
+            tr.classList.add('expired');
+          } else {
+            tr.classList.add('expiring-soon');
+          }
+          
+          tbody.appendChild(tr);
+        }
+      });
+    }
+
+    // Update charts
+    function updateCharts() {
+      // This would be more sophisticated in a real app
+      // For now, we'll just simulate some data changes
+      const salesChart = Chart.getChart("salesChart");
+      if (salesChart) {
+        salesChart.data.datasets[0].data = salesChart.data.datasets[0].data.map(
+          () => Math.floor(Math.random() * 25000) + 5000
+        );
+        salesChart.update();
+      }
+      
+      const medicinesChart = Chart.getChart("medicinesChart");
+      if (medicinesChart) {
+        medicinesChart.data.datasets[0].data = medicinesChart.data.datasets[0].data.map(
+          () => Math.floor(Math.random() * 40) + 5
+        );
+        medicinesChart.update();
+      }
+      
+      const expiryChart = Chart.getChart("expiryChart");
+      if (expiryChart) {
+        expiryChart.data.datasets[0].data = expiryChart.data.datasets[0].data.map(
+          () => Math.floor(Math.random() * 20) + 1
+        );
+        expiryChart.data.datasets[1].data = expiryChart.data.datasets[1].data.map(
+          () => Math.floor(Math.random() * 15) + 1
+        );
+        expiryChart.update();
+      }
+    }
+
+    // Format date
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('ar-EG', options);
+    }
+
+    // Print current page
+    function printPage() {
+      window.print();
+    }
+  </script>
+</body>
+</html>
