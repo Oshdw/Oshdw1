@@ -269,7 +269,11 @@
   </section>
 
   <!-- إدارة الطلبات -->
-  <section id="
+<!-- إدارة الطلبات -->
+<section id="orders" class="page" style="display:none;">
+  <h2>إدارة الطلبات</h2>
+  <!-- أضف محتوى إدارة الطلبات هنا -->
+</section>
 <script>
   // تبديل الوضع الليلي
   const toggleDarkModeBtn = document.getElementById('toggleDarkMode');
