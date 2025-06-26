@@ -3,12 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>نظام إدارة الصيدلية الاحترافي</title>
+<title>نظام إدارة الصيدلية - متكامل</title>
 <style>
-  /* ========== Reset & Base Styles ========== */
-  * {
-    box-sizing: border-box;
-  }
+  /* عام */
   body, html {
     margin: 0; padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -22,18 +19,11 @@
     background-color: #001f4d;
     color: #cce0ff;
   }
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  /* ========== Container ========== */
   #container {
     display: flex;
     height: 100vh;
   }
-
-  /* ========== Sidebar ========== */
+  /* القائمة الجانبية */
   #sidebar {
     background-color: #004080;
     width: 260px;
@@ -55,13 +45,11 @@
   #sidebar.collapsed h2 {
     display: none;
   }
-  #sidebar nav {
-    flex-grow: 1;
-  }
   #sidebar ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    flex-grow: 1;
   }
   #sidebar ul li {
     cursor: pointer;
@@ -86,7 +74,6 @@
     width: 28px;
     text-align: center;
   }
-
   #toggleSidebar {
     background: none;
     border: none;
@@ -101,7 +88,6 @@
   #toggleSidebar.collapsed {
     transform: rotate(180deg);
   }
-
   #darkModeToggle {
     background-color: transparent;
     border: 2px solid white;
@@ -120,7 +106,6 @@
   #sidebar.collapsed #darkModeToggle {
     margin: 1rem auto;
   }
-
   #logoutBtn {
     background: transparent;
     border: 2px solid white;
@@ -138,8 +123,7 @@
     background-color: white;
     color: #004080;
   }
-
-  /* ========== Main Content ========== */
+  /* المحتوى الرئيسي */
   #mainContent {
     flex-grow: 1;
     background-color: white;
@@ -153,177 +137,276 @@
   h1, h2 {
     margin-top: 0;
   }
-
-  /* ========== Buttons ========== */
-  button {
-    cursor: pointer;
-    background-color: #004080;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    padding: 0.6rem 1.3rem;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-  }
-  button:hover {
-    background-color: #003060;
-  }
-  button:disabled {
-    background-color: #999;
-    cursor: not-allowed;
-  }
-
-  /* ========== Inputs ========== */
-  input[type="text"], input[type="number"], input[type="date"], input[type="password"] {
-    padding: 0.6rem;
-    font-size: 1rem;
-    border-radius: 6px;
-    border: 1px solid #004080;
-    width: 100%;
-    margin-bottom: 1rem;
-    transition: border-color 0.3s;
-  }
-  input:focus {
-    border-color: #ffcc00;
-    outline: none;
-  }
-
-  /* ========== Tables ========== */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-  }
-  th, td {
-    border: 1px solid #004080;
-    padding: 0.8rem;
-    text-align: center;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  th {
-    background-color: #cce0ff;
-  }
-  body.dark th {
-    background-color: #002244;
-    color: #cce0ff;
-  }
-  body.dark td {
-    background-color: #001833;
-    color: #aaddff;
-  }
-  .table-btn {
-    margin: 0 3px;
-    padding: 0.3rem 0.7rem;
-    font-size: 0.9rem;
-    border-radius: 5px;
-    border: none;
-    color: white;
-    transition: background-color 0.3s;
-  }
-  .edit-btn {
-    background-color: #ffcc00;
-    color: #003366;
-  }
-  .edit-btn:hover {
-    background-color: #e6b800;
-  }
-  .delete-btn {
-    background-color: #cc0000;
-  }
-  .delete-btn:hover {
-    background-color: #990000;
-  }
-
-  /* ========== Pages ========== */
   .page {
     display: none;
   }
   .page.active {
     display: block;
   }
-
-  /* ========== Alerts ========== */
-  .alert {
-    background-color: #cc0000;
+  /* جداول */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  table th, table td {
+    border: 1px solid #ccc;
+    padding: 0.5rem 0.7rem;
+    text-align: center;
+  }
+  body.dark table th, body.dark table td {
+    border-color: #66a3ff;
+  }
+  /* نماذج */
+  form {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  form label {
+    flex-basis: 100%;
+    font-weight: 600;
+  }
+  form input, form select, form button {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  form input, form select {
+    flex-grow: 1;
+    border: 1px solid #004080;
+    border-radius: 4px;
+  }
+  form button {
+    background-color: #004080;
     color: white;
-    padding: 0.7rem 1.2rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    font-weight: 700;
-    animation: pulse 1.5s infinite alternate;
-  }
-  @keyframes pulse {
-    0% {opacity: 1;}
-    100% {opacity: 0.7;}
-  }
-
-  /* ========== Calculator ========== */
-  #calculator {
-    max-width: 360px;
-    margin: 2rem auto;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-    background: #004080;
-    color: white;
-  }
-  #calcDisplay {
-    background: rgba(0,0,0,0.2);
-    font-size: 2rem;
-    padding: 1.2rem;
-    text-align: right;
-    letter-spacing: 1.2px;
-    user-select: none;
-    height: 60px;
-    line-height: 60px;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-  #calcButtons {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.4rem;
-    padding: 1rem;
-    background: #002b66;
-  }
-  #calcButtons button {
-    background: #003f99;
-    border-radius: 8px;
     border: none;
-    font-size: 1.5rem;
-    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 120px;
     transition: background-color 0.3s;
   }
-  #calcButtons button:hover {
-    background: #002a66;
+  form button:hover {
+    background-color: #3366cc;
   }
-  #calcButtons button.operator {
-    background: #ffcc00;
-    color: #003366;
+  /* أزرار في الجدول */
+  .btn-edit, .btn-delete {
+    cursor: pointer;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-weight: 600;
   }
-  #calcButtons button.operator:hover {
-    background: #e6b800;
+  .btn-edit {
+    background-color: #3399ff;
+    margin-right: 4px;
   }
-  #calcButtons button.zero {
-    grid-column: span 2;
+  .btn-edit:hover {
+    background-color: #66b2ff;
   }
+  .btn-delete {
+    background-color: #ff4d4d;
+  }
+  .btn-delete:hover {
+    background-color: #ff6666;
+  }
+  /* رسالة */
+  #message {
+    margin-top: 1rem;
+    padding: 0.7rem;
+    background-color: #dff0d8;
+    color: #3c763d;
+    border-radius: 4px;
+    display: none;
+  }
+  body.dark #message {
+    background-color: #4b7033;
+    color: #cdebb5;
+  }
+  /* الآلة الحاسبة */
+  #calculator form {
+    max-width: 400px;
+  }
+  #calculator label, #calculator input {
+    width: 100%;
+  }
+  #calculator button {
+    margin-top: 1rem;
+    width: 100%;
+  }
+</style>
+</head>
+<body>
+<div id="container">
+  <aside id="sidebar">
+    <h2>صيدليتك</h2>
+    <nav>
+      <ul>
+        <li class="active" data-page="dashboard"><span class="icon">🏠</span> <span class="text">الرئيسية</span></li>
+        <li data-page="medicines"><span class="icon">💊</span> <span class="text">إدارة الأدوية</span></li>
+        <li data-page="sales"><span class="icon">🛒</span> <span class="text">المبيعات</span></li>
+        <li data-page="orders"><span class="icon">📦</span> <span class="text">الطلبيات</span></li>
+        <li data-page="calculator"><span class="icon">🧮</span> <span class="text">الآلة الحاسبة</span></li>
+      </ul>
+    </nav>
+    <button id="darkModeToggle">تفعيل الوضع الداكن</button>
+    <button id="logoutBtn">تسجيل خروج</button>
+    <button id="toggleSidebar" title="طي القائمة">⮜</button>
+  </aside>
+  <main id="mainContent">
+    <!-- الرئيسية -->
+    <section id="dashboard" class="page active">
+      <h1>مرحبا بك في نظام إدارة الصيدلية</h1>
+      <p>هذا النظام يمكنك من إدارة الأدوية، المبيعات، الطلبيات والعمليات الحسابية بشكل احترافي وسهل.</p>
+    </section>
+    <!-- إدارة الأدوية -->
+    <section id="medicines" class="page">
+      <h1>إدارة الأدوية</h1>
+      <form id="medicineForm">
+        <input type="hidden" id="medicineId" />
+        <label for="medicineName">اسم الدواء:</label>
+        <input type="text" id="medicineName" required placeholder="أدخل اسم الدواء" />
+        <label for="medicineQuantity">الكمية:</label>
+        <input type="number" id="medicineQuantity" min="0" required placeholder="كمية الدواء" />
+        <label for="medicinePrice">سعر الوحدة:</label>
+        <input type="number" id="medicinePrice" min="0" step="0.01" required placeholder="سعر الوحدة" />
+        <button type="submit" id="addMedicineBtn">إضافة دواء</button>
+        <button type="button" id="cancelEditBtn" style="display:none;">إلغاء التعديل</button>
+      </form>
+      <table id="medicinesTable" aria-label="جدول الأدوية">
+        <thead>
+          <tr>
+            <th>اسم الدواء</th>
+            <th>الكمية</th>
+            <th>سعر الوحدة</th>
+            <th>الإجمالي</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- بيانات الأدوية تظهر هنا -->
+        </tbody>
+      </table>
+    </section>
+    <!-- المبيعات -->
+    <section id="sales" class="page">
+      <h1>تسجيل المبيعات</h1>
+      <form id="salesForm">
+        <label for="saleMedicineSelect">اختر دواء:</label>
+        <select id="saleMedicineSelect" required>
+          <!-- خيارات الأدوية -->
+        </select>
+        <label for="saleQuantity">الكمية المباعة:</label>
+        <input type="number" id="saleQuantity" min="1" required placeholder="كمية البيع" />
+        <button type="submit">تسجيل البيع</button>
+      </form>
+      <table id="salesTable" aria-label="جدول المبيعات">
+        <thead>
+          <tr>
+            <th>اسم الدواء</th>
+            <th>الكمية المباعة</th>
+            <th>السعر لكل وحدة</th>
+            <th>الإجمالي</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- بيانات المبيعات تظهر هنا -->
+        </tbody>
+      </table>
+    </section>
+    <!-- الطلبيات -->
+    <section id="orders" class="page">
+      <h1>إدارة الطلبيات</h1>
+      <form id="ordersForm">
+        <label for="orderMedicineName">اسم الدواء:</label>
+        <input type="text" id="orderMedicineName" required placeholder="اسم الدواء المطلوب" />
+        <label for="orderQuantity">الكمية المطلوبة:</label>
+        <input type="number" id="orderQuantity" min="1" required placeholder="الكمية" />
+        <button type="submit">إضافة طلبية</button>
+      </form>
+      <table id="ordersTable" aria-label="جدول الطلبيات">
+        <thead>
+          <tr>
+            <th>اسم الدواء</th>
+            <th>الكمية المطلوبة</th>
+            <th>حذف</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- بيانات الطلبيات تظهر هنا -->
+        </tbody>
+      </table>
+    </section>
+    <!-- الآلة الحاسبة -->
+    <section id="calculator" class="page">
+      <h1>آلة حاسبة تكلفة البيع</h1>
+      <form id="calculatorForm">
+        <label for="calcPrice">سعر الوحدة:</label>
+        <input type="number" id="calcPrice" min="0" step="0.01" required placeholder="أدخل سعر الوحدة" />
+        <label for="calcQuantity">الكمية:</label>
+        <input type="number" id="calcQuantity" min="1" required placeholder="أدخل الكمية" />
+        <button type="submit">احسب التكلفة</button>
+      </form>
+      <p id="calcResult" style="margin-top: 1rem; font-weight: 600;"></p>
+    </section>
+  </main>
+</div>
 
-  /* ========== Responsive ========== */
-  @media (max-width: 768px) {
-    #container {
-      flex-direction: column;
-    }
-    #sidebar {
-      width: 100%;
-      height: auto;
-      flex-direction: row;
-      overflow-x: auto;
-    }
-    #sidebar.collapsed {
-      width: 100%;
-    }
-    #sidebar nav ul {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-    }
+<script>
+  // البيانات المبدئية
+  let medicines = [];
+  let sales = [];
+  let orders = [];
+
+  // اختيار العناصر
+  const sidebarItems = document.querySelectorAll('#sidebar nav ul li');
+  const pages = document.querySelectorAll('.page');
+  const sidebar = document.getElementById('sidebar');
+  const toggleSidebarBtn = document.getElementById('toggleSidebar');
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  // التنقل بين الصفحات
+  sidebarItems.forEach(item => {
+    item.addEventListener('click', () => {
+      sidebarItems.forEach(i => i.classList.remove('active'));
+      pages.forEach(p => p.classList.remove('active'));
+      item.classList.add('active');
+      const pageId = item.getAttribute('data-page');
+      document.getElementById(pageId).classList.add('active');
+
+      if (pageId === 'medicines') renderMedicinesTable();
+      if (pageId === 'sales') {
+        populateSalesMedicineSelect();
+        renderSalesTable();
+      }
+      if (pageId === 'orders') renderOrdersTable();
+    });
+  });
+
+  // طي القائمة الجانبية
+  toggleSidebarBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+    toggleSidebarBtn.classList.toggle('collapsed');
+  });
+
+  // الوضع الداكن
+  darkModeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    darkModeToggle.textContent = document.body.classList.contains('dark') ? 'تعطيل الوضع الداكن' : 'تفعيل الوضع الداكن';
+  });
+
+  // تسجيل خروج (محاكاة)
+  logoutBtn.addEventListener('click', () => {
+    alert('تم تسجيل الخروج (محاكاة)');
+  });
+
+  // إدارة الأدوية
+  const medicineForm = document.getElementById('medicineForm');
+  const medicineIdInput = document.getElementById('medicineId');
+  const medicineNameInput = document.getElementById('medicineName');
+  const medicineQuantityInput = document.getElementById('medicineQuantity');
+  const medicinePriceInput = document.getElementById('medicinePrice');
+  const addMedicineBtn = document.getElementById('addMedicineBtn');
+  const cancelEditBtn = document
