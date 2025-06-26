@@ -438,50 +438,51 @@
 <body>
   <div class="sidebar" id="sidebar">
     <h2>نظام إدارة الصيدلية</h2>
-    <button onclick="navigate('dashboard')">
+    <button id="dashboardBtn">
       <span class="material-icons">dashboard</span>
       لوحة التحكم
     </button>
-    <button onclick="navigate('medicines')">
+    <button id="medicinesBtn">
       <span class="material-icons">medication</span>
       إدارة الأدوية
     </button>
-    <button onclick="navigate('suppliers')">
+    <button id="suppliersBtn">
       <span class="material-icons">local_shipping</span>
       الموردون
     </button>
-    <button onclick="navigate('customers')">
+    <button id="customersBtn">
       <span class="material-icons">people</span>
       العملاء
     </button>
-    <button onclick="navigate('orders')">
+    <button id="ordersBtn">
       <span class="material-icons">receipt</span>
       الفواتير
     </button>
-    <button onclick="navigate('prescriptions')">
+    <button id="prescriptionsBtn">
       <span class="material-icons">description</span>
       الوصفات الطبية
     </button>
-    <button onclick="navigate('calculator')">
+    <button id="calculatorBtn">
       <span class="material-icons">calculate</span>
       الآلة الحاسبة
     </button>
-    <button onclick="navigate('statistics')">
+    <button id="statisticsBtn">
       <span class="material-icons">bar_chart</span>
       الإحصائيات
     </button>
-    <button onclick="navigate('settings')">
+    <button id="settingsBtn">
       <span class="material-icons">settings</span>
       الإعدادات
     </button>
   </div>
+  
   <div class="main" id="main">
     <div class="topbar">
       <h2 id="page-title">لوحة التحكم</h2>
       <div class="topbar-actions">
-        <span class="material-icons toggle-sidebar" onclick="toggleSidebar()">menu</span>
-        <span class="material-icons toggle-theme" onclick="toggleTheme()">dark_mode</span>
-        <span class="material-icons" onclick="printPage()">print</span>
+        <span class="material-icons toggle-sidebar" id="toggleSidebar">menu</span>
+        <span class="material-icons toggle-theme" id="toggleTheme">dark_mode</span>
+        <span class="material-icons" id="printBtn">print</span>
       </div>
     </div>
 
@@ -569,15 +570,15 @@
           <input type="date" id="medExp">
         </div>
         <div class="btn-group">
-          <button onclick="addMedicine()">إضافة دواء</button>
-          <button class="danger" onclick="clearMedicineForm()">مسح النموذج</button>
+          <button id="addMedicineBtn">إضافة دواء</button>
+          <button class="danger" id="clearMedicineBtn">مسح النموذج</button>
         </div>
       </div>
 
       <div class="card">
         <h3>قائمة الأدوية</h3>
         <div class="search-container">
-          <input type="text" id="med-search" placeholder="ابحث عن دواء..." oninput="searchMedicine(this.value)">
+          <input type="text" id="med-search" placeholder="ابحث عن دواء...">
         </div>
         <table id="medTable">
           <thead>
@@ -618,15 +619,15 @@
           <input type="text" id="supplierAddress" placeholder="أدخل العنوان">
         </div>
         <div class="btn-group">
-          <button onclick="addSupplier()">إضافة مورد</button>
-          <button class="danger" onclick="clearSupplierForm()">مسح النموذج</button>
+          <button id="addSupplierBtn">إضافة مورد</button>
+          <button class="danger" id="clearSupplierBtn">مسح النموذج</button>
         </div>
       </div>
 
       <div class="card">
         <h3>قائمة الموردين</h3>
         <div class="search-container">
-          <input type="text" id="supplier-search" placeholder="ابحث عن مورد..." oninput="searchSupplier(this.value)">
+          <input type="text" id="supplier-search" placeholder="ابحث عن مورد...">
         </div>
         <table id="supplierTable">
           <thead>
@@ -665,22 +666,22 @@
           <input type="text" id="customerMedicalHistory" placeholder="أدخل التاريخ المرضي">
         </div>
         <div class="btn-group">
-          <button onclick="addCustomer()">إضافة عميل</button>
-          <button class="danger" onclick="clearCustomerForm()">مسح النموذج</button>
+          <button id="addCustomerBtn">إضافة عميل</button>
+          <button class="danger" id="clearCustomerBtn">مسح النموذج</button>
         </div>
       </div>
 
       <div class="card">
         <h3>قائمة العملاء</h3>
         <div class="search-container">
-          <input type="text" id="customer-search" placeholder="ابحث عن عميل..." oninput="searchCustomer(this.value)">
+          <input type="text" id="customer-search" placeholder="ابحث عن عميل...">
         </div>
         <table id="customerTable">
           <thead>
             <tr>
               <th>اسم العميل</th>
               <th>رقم الهاتف</th>
-              <th>العنوان</th>
+              <th>العنوا��</th>
               <th>التاريخ المرضي</th>
               <th>إجراءات</th>
             </tr>
@@ -714,7 +715,7 @@
           <input type="number" id="orderQty" min="1" value="1">
         </div>
         
-        <button onclick="addMedicineToOrder()">إضافة إلى الفاتورة</button>
+        <button id="addMedicineToOrderBtn">إضافة إلى الفاتورة</button>
         
         <table id="orderItems">
           <thead>
@@ -737,16 +738,16 @@
         </table>
         
         <div class="btn-group">
-          <button onclick="createOrder()">إنشاء الفاتورة</button>
-          <button class="danger" onclick="clearOrderForm()">إلغاء</button>
-          <button class="no-print" onclick="printOrder()">طباعة الفاتورة</button>
+          <button id="createOrderBtn">إنشاء الفاتورة</button>
+          <button class="danger" id="clearOrderBtn">إلغاء</button>
+          <button class="no-print" id="printOrderBtn">طباعة الفاتورة</button>
         </div>
       </div>
 
       <div class="card">
         <h3>سجل الفواتير</h3>
         <div class="search-container">
-          <input type="text" id="order-search" placeholder="ابحث عن فاتورة..." oninput="searchOrder(this.value)">
+          <input type="text" id="order-search" placeholder="ابحث عن فاتورة...">
         </div>
         <table id="orderTable">
           <thead>
@@ -767,9 +768,529 @@
     <!-- Prescriptions Page -->
     <div id="prescriptions" class="page">
       <div class="card">
-        <h3>إضافة وصفة طبية</
+        <h3>إضافة وصفة طبية</h3>
+        <div id="prescription-message" class="message"></div>
+        <div class="form-group">
+          <label for="prescriptionCustomer">العميل</label>
+     // Edit supplier
+    function editSupplier(id) {
+      const supplier = suppliers.find(s => s.id === id);
+      if (!supplier) return;
+      
+      document.getElementById('supplierName').value = supplier.name;
+      document.getElementById('supplierPhone').value = supplier.phone;
+      document.getElementById('supplierEmail').value = supplier.email;
+      document.getElementById('supplierAddress').value = supplier.address;
+      
+      // Scroll to form
+      document.getElementById('supplierName').scrollIntoView({ behavior: 'smooth' });
+      
+      // Change button to update
+      const addButton = document.querySelector('#suppliers .btn-group button:first-child');
+      addButton.textContent = 'تحديث المورد';
+      addButton.onclick = function() { updateSupplier(id); };
+    }
+
+    // Update supplier
+    function updateSupplier(id) {
+      const supplierIndex = suppliers.findIndex(s => s.id === id);
+      if (supplierIndex === -1) return;
+      
+      const name = document.getElementById('supplierName').value.trim();
+      const phone = document.getElementById('supplierPhone').value.trim();
+      const email = document.getElementById('supplierEmail').value.trim();
+      const address = document.getElementById('supplierAddress').value.trim();
+      
+      // Validate inputs
+      if (!name || !phone) {
+        showMessage('supplier-message', 'يرجى إدخال اسم المورد ورقم الهاتف', 'error');
+        return;
+      }
+      
+      // Update supplier
+      suppliers[supplierIndex] = {
+        id,
+        name,
+        phone,
+        email,
+        address
+      };
+      
+      updateSupplierTable();
+      
+      // Clear form and reset button
+      clearSupplierForm();
+      const addButton = document.querySelector('#suppliers .btn-group button:first-child');
+      addButton.textContent = 'إضافة مورد';
+      addButton.onclick = function() { addSupplier(); };
+      
+      showMessage('supplier-message', 'تم تحديث المورد بنجاح', 'success');
+    }
+
+    // Delete supplier
+    function deleteSupplier(id) {
+      if (confirm('هل أنت متأكد من حذف هذا المورد؟')) {
+        suppliers = suppliers.filter(s => s.id !== id);
+        updateSupplierTable();
+        showMessage('supplier-message', 'تم حذف المورد بنجاح', 'success');
+      }
+    }
+
+    // Search suppliers
+    function searchSupplier(query) {
+      const rows = document.querySelectorAll('#supplierTable tbody tr');
+      const lowerQuery = query.toLowerCase();
+      
+      rows.forEach(row => {
+        const name = row.cells[0].textContent.toLowerCase();
+        const phone = row.cells[1].textContent.toLowerCase();
+        const email = row.cells[2].textContent.toLowerCase();
+        const address = row.cells[3].textContent.toLowerCase();
+        
+        if (name.includes(lowerQuery) || phone.includes(lowerQuery) || 
+            email.includes(lowerQuery) || address.includes(lowerQuery)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Add a new customer
+    function addCustomer() {
+      const name = document.getElementById('customerName').value.trim();
+      const phone = document.getElementById('customerPhone').value.trim();
+      const address = document.getElementById('customerAddress').value.trim();
+      const medicalHistory = document.getElementById('customerMedicalHistory').value.trim();
+      
+      // Validate inputs
+      if (!name || !phone) {
+        showMessage('customer-message', 'يرجى إدخال اسم العميل ورقم الهاتف', 'error');
+        return;
+      }
+      
+      // Create new customer
+      const newCustomer = {
+        id: customers.length > 0 ? Math.max(...customers.map(c => c.id)) + 1 : 1,
+        name,
+        phone,
+        address,
+        medicalHistory
+      };
+      
+      customers.push(newCustomer);
+      updateCustomerTable();
+      updateCustomerDropdowns();
+      
+      // Clear form
+      clearCustomerForm();
+      
+      showMessage('customer-message', 'تم إضافة العميل بنجاح', 'success');
+    }
+
+    // Clear customer form
+    function clearCustomerForm() {
+      document.getElementById('customerName').value = '';
+      document.getElementById('customerPhone').value = '';
+      document.getElementById('customerAddress').value = '';
+      document.getElementById('customerMedicalHistory').value = '';
+    }
+
+    // Update customers table
+    function updateCustomerTable() {
+      const tbody = document.querySelector('#customerTable tbody');
+      tbody.innerHTML = '';
+      
+      customers.forEach(customer => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${customer.name}</td>
+          <td>${customer.phone}</td>
+          <td>${customer.address || '-'}</td>
+          <td>${customer.medicalHistory || '-'}</td>
+          <td class="actions-cell">
+            <button class="no-print" onclick="editCustomer(${customer.id})">تعديل</button>
+            <button class="no-print danger" onclick="deleteCustomer(${customer.id})">حذف</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Edit customer
+    function editCustomer(id) {
+      const customer = customers.find(c => c.id === id);
+      if (!customer) return;
+      
+      document.getElementById('customerName').value = customer.name;
+      document.getElementById('customerPhone').value = customer.phone;
+      document.getElementById('customerAddress').value = customer.address;
+      document.getElementById('customerMedicalHistory').value = customer.medicalHistory;
+      
+      // Scroll to form
+      document.getElementById('customerName').scrollIntoView({ behavior: 'smooth' });
+      
+      // Change button to update
+      const addButton = document.querySelector('#customers .btn-group button:first-child');
+      addButton.textContent = 'تحديث العميل';
+      addButton.onclick = function() { updateCustomer(id); };
+    }
+
+    // Update customer
+    function updateCustomer(id) {
+      const customerIndex = customers.findIndex(c => c.id === id);
+      if (customerIndex === -1) return;
+      
+      const name = document.getElementById('customerName').value.trim();
+      const phone = document.getElementById('customerPhone').value.trim();
+      const address = document.getElementById('customerAddress').value.trim();
+      const medicalHistory = document.getElementById('customerMedicalHistory').value.trim();
+      
+      // Validate inputs
+      if (!name || !phone) {
+        showMessage('customer-message', 'يرجى إدخال اسم العميل ورقم الهاتف', 'error');
+        return;
+      }
+      
+      // Update customer
+      customers[customerIndex] = {
+        id,
+        name,
+        phone,
+        address,
+        medicalHistory
+      };
+      
+      updateCustomerTable();
+      updateCustomerDropdowns();
+      
+      // Clear form and reset button
+      clearCustomerForm();
+      const addButton = document.querySelector('#customers .btn-group button:first-child');
+      addButton.textContent = 'إضافة عميل';
+      addButton.onclick = function() { addCustomer(); };
+      
+      showMessage('customer-message', 'تم تحديث العميل بنجاح', 'success');
+    }
+
+    // Delete customer
+    function deleteCustomer(id) {
+      if (confirm('هل أنت متأكد من حذف هذا العميل؟')) {
+        customers = customers.filter(c => c.id !== id);
+        updateCustomerTable();
+        updateCustomerDropdowns();
+        showMessage('customer-message', 'تم حذف العميل بنجاح', 'success');
+      }
+    }
+
+    // Search customers
+    function searchCustomer(query) {
+      const rows = document.querySelectorAll('#customerTable tbody tr');
+      const lowerQuery = query.toLowerCase();
+      
+      rows.forEach(row => {
+        const name = row.cells[0].textContent.toLowerCase();
+        const phone = row.cells[1].textContent.toLowerCase();
+        const address = row.cells[2].textContent.toLowerCase();
+        const history = row.cells[3].textContent.toLowerCase();
+        
+        if (name.includes(lowerQuery) || phone.includes(lowerQuery) || 
+            address.includes(lowerQuery) || history.includes(lowerQuery)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Update customer dropdowns
+    function updateCustomerDropdowns() {
+      const dropdowns = [
+        document.getElementById('orderCustomer'),
+        document.getElementById('prescriptionCustomer')
+      ];
+      
+      dropdowns.forEach(dropdown => {
+        if (!dropdown) return;
+        
+        // Save current value
+        const currentValue = dropdown.value;
+        
+        // Clear options except first
+        while (dropdown.options.length > 1) {
+          dropdown.remove(1);
+        }
+        
+        // Add customers
+        customers.forEach(customer => {
+          const option = document.createElement('option');
+          option.value = customer.id;
+          option.textContent = customer.name + ' - ' + customer.phone;
+          dropdown.appendChild(option);
+        });
+        
+        // Restore current value if still exists
+        if (currentValue && dropdown.querySelector(`option[value="${currentValue}"]`)) {
+          dropdown.value = currentValue;
+        }
+      });
+    }
+
+    // Update medicine dropdowns
+    function updateMedicineDropdowns() {
+      const dropdowns = [
+        document.getElementById('orderMedicine'),
+        document.getElementById('prescriptionMedicine')
+      ];
+      
+      dropdowns.forEach(dropdown => {
+        if (!dropdown) return;
+        
+        // Save current value
+        const currentValue = dropdown.value;
+        
+        // Clear options except first
+        while (dropdown.options.length > 1) {
+          dropdown.remove(1);
+        }
+        
+        // Add medicines
+        medicines.forEach(medicine => {
+          if (medicine.qty > 0) { // Only show medicines with available quantity
+            const option = document.createElement('option');
+            option.value = medicine.id;
+            option.textContent = medicine.name + ' (' + medicine.generic + ') - ' + medicine.price.toFixed(2) + settings.currency;
+            dropdown.appendChild(option);
+          }
+        });
+        
+        // Restore current value if still exists
+        if (currentValue && dropdown.querySelector(`option[value="${currentValue}"]`)) {
+          dropdown.value = currentValue;
+        }
+      });
+    }
+
+    // Add medicine to order
+    function addMedicineToOrder() {
+      const medicineId = parseInt(document.getElementById('orderMedicine').value);
+      const qty = parseInt(document.getElementById('orderQty').value);
+      
+      if (!medicineId || isNaN(qty) || qty <= 0) {
+        showMessage('order-message', 'يرجى اختيار دواء وإدخال كمية صحيحة', 'error');
+        return;
+      }
+      
+      const medicine = medicines.find(m => m.id === medicineId);
+      if (!medicine) {
+        showMessage('order-message', 'الدواء المحدد غير موجود', 'error');
+        return;
+      }
+      
+      if (qty > medicine.qty) {
+        showMessage('order-message', 'الكمية المطلوبة غير متوفرة في المخزون', 'error');
+        return;
+      }
+      
+      // Check if medicine already exists in order
+      const tbody = document.querySelector('#orderItems tbody');
+      let existingRow = null;
+      
+      tbody.querySelectorAll('tr').forEach(row => {
+        if (parseInt(row.dataset.medicineId) === medicineId) {
+          existingRow = row;
+        }
+      });
+      
+      if (existingRow) {
+        // Update existing row
+        const existingQty = parseInt(existingRow.dataset.qty);
+        const newQty = existingQty + qty;
+        
+        if (newQty > medicine.qty) {
+          showMessage('order-message', 'الكمية الإجمالية تتجاوز الكمية المتوفرة في المخزون', 'error');
+          return;
+        }
+        
+        existingRow.dataset.qty = newQty;
+        existingRow.cells[1].textContent = newQty;
+        existingRow.cells[3].textContent = (newQty * medicine.price).toFixed(2);
+      } else {
+        // Add new row
+        const tr = document.createElement('tr');
+        tr.dataset.medicineId = medicineId;
+        tr.dataset.qty = qty;
+        tr.dataset.price = medicine.price;
+        
+        tr.innerHTML = `
+          <td>${medicine.name} (${medicine.generic})</td>
+          <td>${qty}</td>
+          <td>${medicine.price.toFixed(2)}</td>
+          <td>${(qty * medicine.price).toFixed(2)}</td>
+          <td class="actions-cell">
+            <button class="no-print danger" onclick="removeOrderItem(this)">حذف</button>
+          </td>
+        `;
+        
+        tbody.appendChild(tr);
+      }
+      
+      // Update total
+      updateOrderTotal();
+      
+      // Clear quantity field
+      document.getElementById('orderQty').value = 1;
+    }
+
+    // Remove item from order
+    function removeOrderItem(button) {
+      const row = button.closest('tr');
+      row.remove();
+      updateOrderTotal();
+    }
+
+    // Update order total
+    function updateOrderTotal() {
+      const rows = document.querySelectorAll('#orderItems tbody tr');
+      let total = 0;
+      
+      rows.forEach(row => {
+        total += parseFloat(row.cells[3].textContent);
+      });
+      
+      document.getElementById('orderTotal').textContent = total.toFixed(2);
+    }
+
+    // Create order
+    function createOrder() {
+      const customerId = parseInt(document.getElementById('orderCustomer').value);
+      const rows = document.querySelectorAll('#orderItems tbody tr');
+      
+      if (!customerId) {
+        showMessage('order-message', 'يرجى اختيار عميل', 'error');
+        return;
+      }
+      
+      if (rows.length === 0) {
+        showMessage('order-message', 'لا توجد أدوية في الفاتورة', 'error');
+        return;
+      }
+      
+      const customer = customers.find(c => c.id === customerId);
+      if (!customer) {
+        showMessage('order-message', 'العميل المحدد غير موجود', 'error');
+        return;
+      }
+      
+      // Prepare order items
+      const items = [];
+      let total = 0;
+      
+      rows.forEach(row => {
+        const medicineId = parseInt(row.dataset.medicineId);
+        const qty = parseInt(row.dataset.qty);
+        const price = parseFloat(row.dataset.price);
+        
+        items.push({
+          medicineId,
+          qty,
+          price
+        });
+        
+        total += qty * price;
+      });
+      
+      // Create new order
+      const newOrder = {
+        id: currentOrderId++,
+        customerId,
+        date: new Date().toISOString().split('T')[0],
+        items,
+        total,
+        status: 'مكتمل'
+      };
+      
+      orders.push(newOrder);
+      updateOrderTable();
+      
+      // Update medicine quantities
+      items.forEach(item => {
+        const medicine = medicines.find(m => m.id === item.medicineId);
+        if (medicine) {
+          medicine.qty -= item.qty;
+        }
+      });
+      
+      updateMedTable();
+      updateMedicineDropdowns();
+      updateDashboardStats();
+      
+      // Clear form
+      clearOrderForm();
+      
+      showMessage('order-message', 'تم إنشاء الفاتورة بنجاح', 'success');
+    }
+
+    // Clear order form
+    function clearOrderForm() {
+      document.getElementById('orderCustomer').value = '';
+      document.querySelector('#orderItems tbody').innerHTML = '';
+      document.getElementById('orderTotal').textContent = '0.00';
+      document.getElementById('orderQty').value = 1;
+    }
+
+    // Update orders table
+    function updateOrderTable() {
+      const tbody = document.querySelector('#orderTable tbody');
+      tbody.innerHTML = '';
+      
+      orders.forEach(order => {
+        const customer = customers.find(c => c.id === order.customerId);
+        const customerName = customer ? customer.name : 'غير معروف';
+        
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${order.id}</td>
+          <td>${formatDate(order.date)}</td>
+          <td>${customerName}</td>
+          <td>${order.total.toFixed(2)} ${settings.currency}</td>
+          <td>${order.status}</td>
+          <td class="actions-cell">
+            <button class="no-print" onclick="viewOrder(${order.id})">عرض</button>
+            <button class="no-print danger" onclick="deleteOrder(${order.id})">حذف</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // View order details
+    function viewOrder(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      
+      const customer = customers.find(c => c.id === order.customerId);
+      
+      let itemsHtml = '';
+      order.items.forEach(item => {
+        const medicine = medicines.find(m => m.id === item.medicineId);
+        if (medicine) {
+          itemsHtml += `
+            <tr>
+              <td>${medicine.name} (${medicine.generic})</td>
+              <td>${item.qty}</td>
+              <td>${item.price.toFixed(2)}</td>
+              <td>${(item.qty * item.price).toFixed(2)}</td>
+            </tr>
+          `;
+        }
+      });
+      
+      const orderDetails = `
+        <h3>تفاصيل الفاتورة #${order.id}</h3>
+        <p><strong>التاريخ:</strong> ${formatDate(order.date)}</p>
         <p><strong>العميل:</strong> ${customer ? customer.name : 'غير معروف'}</p>
-        <p><strong>الحالة:</strong> ${order.status}</p>
+        
         <table>
           <thead>
             <tr>
@@ -780,21 +1301,7 @@
             </tr>
           </thead>
           <tbody>
-      `;
-      
-      order.items.forEach(item => {
-        const medicine = medicines.find(m => m.id === item.medicineId);
-        details += `
-          <tr>
-            <td>${medicine ? medicine.name : 'غير معروف'}</td>
-            <td>${item.qty}</td>
-            <td>${item.price.toFixed(2)} ${settings.currency}</td>
-            <td>${(item.qty * item.price).toFixed(2)} ${settings.currency}</td>
-          </tr>
-        `;
-      });
-      
-      details += `
+            ${itemsHtml}
           </tbody>
           <tfoot>
             <tr>
@@ -805,16 +1312,14 @@
         </table>
       `;
       
-      // Show in a dialog
-      alert(details);
+      alert(orderDetails);
     }
 
     // Delete order
-    function deleteOrder(orderId) {
-      if (confirm('هل أنت متأكد من حذف هذه الفاتورة؟ لا يمكن التراجع عن هذا الإجراء.')) {
-        orders = orders.filter(o => o.id !== orderId);
+    function deleteOrder(id) {
+      if (confirm('هل أنت متأكد من حذف هذه الفاتورة؟')) {
+        orders = orders.filter(o => o.id !== id);
         updateOrderTable();
-        updateDashboardStats();
         showMessage('order-message', 'تم حذف الفاتورة بنجاح', 'success');
       }
     }
@@ -825,13 +1330,13 @@
       const lowerQuery = query.toLowerCase();
       
       rows.forEach(row => {
-        const id = row.cells[0].textContent.toLowerCase();
+        const orderId = row.cells[0].textContent.toLowerCase();
         const date = row.cells[1].textContent.toLowerCase();
         const customer = row.cells[2].textContent.toLowerCase();
         const total = row.cells[3].textContent.toLowerCase();
         const status = row.cells[4].textContent.toLowerCase();
         
-        if (id.includes(lowerQuery) || date.includes(lowerQuery) || 
+        if (orderId.includes(lowerQuery) || date.includes(lowerQuery) || 
             customer.includes(lowerQuery) || total.includes(lowerQuery) || 
             status.includes(lowerQuery)) {
           row.style.display = '';
@@ -841,141 +1346,28 @@
       });
     }
 
-    // Print order
-    function printOrder() {
-      const customerId = parseInt(document.getElementById('orderCustomer').value);
-      const rows = document.querySelectorAll('#orderItems tbody tr');
-      
-      if (isNaN(customerId) {
-        showMessage('order-message', 'يرجى اختيار عميل', 'error');
-        return;
-      }
-      
-      if (rows.length === 0) {
-        showMessage('order-message', 'يرجى إضافة أدوية إلى الفاتورة', 'error');
-        return;
-      }
-      
-      const customer = customers.find(c => c.id === customerId);
-      const today = new Date().toISOString().split('T')[0];
-      
-      let printContent = `
-        <div style="text-align: center; margin-bottom: 20px;">
-          <h2>${settings.pharmacyName}</h2>
-          <p>${settings.pharmacyAddress}</p>
-          <p>هاتف: ${settings.pharmacyPhone}</p>
-        </div>
-        <h3 style="text-align: center;">فاتورة بيع</h3>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-          <div>
-            <p><strong>رقم الفاتورة:</strong> ${currentOrderId}</p>
-            <p><strong>التاريخ:</strong> ${formatDate(today)}</p>
-          </div>
-          <div>
-            <p><strong>العميل:</strong> ${customer ? customer.name : 'غير معروف'}</p>
-            <p><strong>هاتف العميل:</strong> ${customer ? customer.phone : '-'}</p>
-          </div>
-        </div>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-          <thead>
-            <tr style="background-color: #f5f5f5;">
-              <th style="padding: 8px; border: 1px solid #ddd;">الدواء</th>
-              <th style="padding: 8px; border: 1px solid #ddd;">الكمية</th>
-              <th style="padding: 8px; border: 1px solid #ddd;">السعر</th>
-              <th style="padding: 8px; border: 1px solid #ddd;">الإجمالي</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
-      
-      let total = 0;
-      
-      rows.forEach(row => {
-        const medicineId = parseInt(row.dataset.medicineId);
-        const medicine = medicines.find(m => m.id === medicineId);
-        const qty = parseInt(row.cells[1].textContent);
-        const price = parseFloat(row.cells[2].textContent);
-        const itemTotal = qty * price;
-        total += itemTotal;
-        
-        printContent += `
-          <tr>
-            <td style="padding: 8px; border: 1px solid #ddd;">${medicine ? medicine.name : 'غير معروف'}</td>
-            <td style="padding: 8px; border: 1px solid #ddd;">${qty}</td>
-            <td style="padding: 8px; border: 1px solid #ddd;">${price.toFixed(2)} ${settings.currency}</td>
-            <td style="padding: 8px; border: 1px solid #ddd;">${itemTotal.toFixed(2)} ${settings.currency}</td>
-          </tr>
-        `;
-      });
-      
-      printContent += `
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="3" style="text-align: left; padding: 8px; border: 1px solid #ddd;"><strong>المجموع:</strong></td>
-              <td style="padding: 8px; border: 1px solid #ddd;"><strong>${total.toFixed(2)} ${settings.currency}</strong></td>
-            </tr>
-          </tfoot>
-        </table>
-        <div style="margin-top: 30px; text-align: center;">
-          <p>شكراً لثقتكم بنا</p>
-          <p>${settings.pharmacyName}</p>
-        </div>
-      `;
-      
-      // Open print window
-      const printWindow = window.open('', '_blank');
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>فاتورة #${currentOrderId}</title>
-            <style>
-              body { font-family: Arial, sans-serif; margin: 20px; }
-              table { width: 100%; border-collapse: collapse; }
-              th, td { padding: 8px; text-align: right; border: 1px solid #ddd; }
-              h2, h3 { color: #1976d2; }
-            </style>
-          </head>
-          <body>
-            ${printContent}
-            <script>
-              window.onload = function() {
-                window.print();
-              };
-            </script>
-          </body>
-        </html>
-      `);
-      printWindow.document.close();
-    }
-
     // Add medicine to prescription
     function addMedicineToPrescription() {
       const medicineId = parseInt(document.getElementById('prescriptionMedicine').value);
       const qty = parseInt(document.getElementById('prescriptionMedicineQty').value);
       const dosage = document.getElementById('prescriptionDosage').value.trim();
       
-      if (isNaN(medicineId) {
-        showMessage('prescription-message', 'يرجى اختيار دواء', 'error');
-        return;
-      }
-      
-      if (isNaN(qty) {
-        showMessage('prescription-message', 'يرجى إدخال كمية صحيحة', 'error');
-        return;
-      }
-      
-      if (!dosage) {
-        showMessage('prescription-message', 'يرجى إدخال الجرعة', 'error');
+      if (!medicineId || isNaN(qty) || qty <= 0 || !dosage) {
+        showMessage('prescription-message', 'يرجى اختيار دواء وإدخال كمية وجرعة صحيحة', 'error');
         return;
       }
       
       const medicine = medicines.find(m => m.id === medicineId);
-      if (!medicine) return;
+      if (!medicine) {
+        showMessage('prescription-message', 'الدواء المحدد غير موجود', 'error');
+        return;
+      }
       
+      // Add to prescription items table
       const tbody = document.querySelector('#prescriptionItems tbody');
       const tr = document.createElement('tr');
       tr.dataset.medicineId = medicineId;
+      
       tr.innerHTML = `
         <td>${medicine.name} (${medicine.generic})</td>
         <td>${qty}</td>
@@ -984,11 +1376,12 @@
           <button class="no-print danger" onclick="removePrescriptionItem(this)">حذف</button>
         </td>
       `;
+      
       tbody.appendChild(tr);
       
-      // Reset medicine selection
+      // Clear medicine fields
       document.getElementById('prescriptionMedicine').value = '';
-      document.getElementById('prescriptionMedicineQty').value = '1';
+      document.getElementById('prescriptionMedicineQty').value = 1;
       document.getElementById('prescriptionDosage').value = '';
     }
 
@@ -1003,9 +1396,9 @@
       const doctor = document.getElementById('prescriptionDoctor').value.trim();
       const date = document.getElementById('prescriptionDate').value;
       const notes = document.getElementById('prescriptionNotes').value.trim();
-      const rows = document.querySelectorAll('#prescriptionItems tbody tr');
+      const items = document.querySelectorAll('#prescriptionItems tbody tr');
       
-      if (isNaN(customerId)) {
+      if (!customerId) {
         showMessage('prescription-message', 'يرجى اختيار عميل', 'error');
         return;
       }
@@ -1015,18 +1408,26 @@
         return;
       }
       
-      if (rows.length === 0) {
-        showMessage('prescription-message', 'يرجى إضافة أدوية إلى الوصفة', 'error');
+      if (items.length === 0) {
+        showMessage('prescription-message', 'لا توجد أدوية في الوصفة', 'error');
         return;
       }
       
-      // Get prescription items
-      const items = Array.from(rows).map(row => {
-        const medicineId = parseInt(row.dataset.medicineId);
-        const qty = parseInt(row.cells[1].textContent);
-        const dosage = row.cells[2].textContent;
-        
-        return { medicineId, qty, dosage };
+      const customer = customers.find(c => c.id === customerId);
+      if (!customer) {
+        showMessage('prescription-message', 'العميل المحدد غير موجود', 'error');
+        return;
+      }
+      
+      // Prepare prescription items
+      const prescriptionItems = [];
+      
+      items.forEach(row => {
+        prescriptionItems.push({
+          medicineId: parseInt(row.dataset.medicineId),
+          qty: parseInt(row.cells[1].textContent),
+          dosage: row.cells[2].textContent
+        });
       });
       
       // Create new prescription
@@ -1036,7 +1437,7 @@
         doctor,
         date,
         notes,
-        items
+        items: prescriptionItems
       };
       
       prescriptions.push(newPrescription);
@@ -1056,7 +1457,7 @@
       document.getElementById('prescriptionNotes').value = '';
       document.querySelector('#prescriptionItems tbody').innerHTML = '';
       document.getElementById('prescriptionMedicine').value = '';
-      document.getElementById('prescriptionMedicineQty').value = '1';
+      document.getElementById('prescriptionMedicineQty').value = 1;
       document.getElementById('prescriptionDosage').value = '';
     }
 
@@ -1067,14 +1468,16 @@
       
       prescriptions.forEach(prescription => {
         const customer = customers.find(c => c.id === prescription.customerId);
+        const customerName = customer ? customer.name : 'غير معروف';
+        
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${prescription.id}</td>
           <td>${formatDate(prescription.date)}</td>
-          <td>${customer ? customer.name : 'غير معروف'}</td>
+          <td>${customerName}</td>
           <td>${prescription.doctor}</td>
           <td class="actions-cell">
-            <button class="no-print" onclick="viewPrescriptionDetails(${prescription.id})">عرض</button>
+            <button class="no-print" onclick="viewPrescription(${prescription.id})">عرض</button>
             <button class="no-print danger" onclick="deletePrescription(${prescription.id})">حذف</button>
           </td>
         `;
@@ -1083,19 +1486,34 @@
     }
 
     // View prescription details
-    function viewPrescriptionDetails(prescriptionId) {
-      const prescription = prescriptions.find(p => p.id === prescriptionId);
+    function viewPrescription(id) {
+      const prescription = prescriptions.find(p => p.id === id);
       if (!prescription) return;
       
       const customer = customers.find(c => c.id === prescription.customerId);
       
-      let details = `
+      let itemsHtml = '';
+      prescription.items.forEach(item => {
+        const medicine = medicines.find(m => m.id === item.medicineId);
+        if (medicine) {
+          itemsHtml += `
+            <tr>
+              <td>${medicine.name} (${medicine.generic})</td>
+              <td>${item.qty}</td>
+              <td>${item.dosage}</td>
+            </tr>
+          `;
+        }
+      });
+      
+      const prescriptionDetails = `
         <h3>تفاصيل الوصفة الطبية #${prescription.id}</h3>
         <p><strong>التاريخ:</strong> ${formatDate(prescription.date)}</p>
         <p><strong>العميل:</strong> ${customer ? customer.name : 'غير معروف'}</p>
         <p><strong>الطبيب:</strong> ${prescription.doctor}</p>
-        <p><strong>ملاحظات:</strong> ${prescription.notes || 'لا توجد'}</p>
-        <h4>الأدوية:</h4>
+        <p><strong>ملاحظات:</strong> ${prescription.notes || 'لا توجد ملاحظات'}</p>
+        
+        <h4>أدوية الوصفة:</h4>
         <table>
           <thead>
             <tr>
@@ -1105,34 +1523,20 @@
             </tr>
           </thead>
           <tbody>
-      `;
-      
-      prescription.items.forEach(item => {
-        const medicine = medicines.find(m => m.id === item.medicineId);
-        details += `
-          <tr>
-            <td>${medicine ? medicine.name : 'غير معروف'}</td>
-            <td>${item.qty}</td>
-            <td>${item.dosage}</td>
-          </tr>
-        `;
-      });
-      
-      details += `
+            ${itemsHtml}
           </tbody>
         </table>
       `;
       
-      // Show in a dialog
-      alert(details);
+      alert(prescriptionDetails);
     }
 
     // Delete prescription
-    function deletePrescription(prescriptionId) {
-      if (confirm('هل أنت متأكد من حذف هذه الوصفة الطبية؟ لا يمكن التراجع عن هذا الإجراء.')) {
-        prescriptions = prescriptions.filter(p => p.id !== prescriptionId);
+    function deletePrescription(id) {
+      if (confirm('هل أنت متأكد من حذف هذه الوصفة الطبية؟')) {
+        prescriptions = prescriptions.filter(p => p.id !== id);
         updatePrescriptionTable();
-        showMessage('prescription-message', 'تم حذف الوصفة الطبية بن��اح', 'success');
+        showMessage('prescription-message', 'تم حذف الوصفة الطبية بنجاح', 'success');
       }
     }
 
@@ -1142,12 +1546,12 @@
       const lowerQuery = query.toLowerCase();
       
       rows.forEach(row => {
-        const id = row.cells[0].textContent.toLowerCase();
+        const prescriptionId = row.cells[0].textContent.toLowerCase();
         const date = row.cells[1].textContent.toLowerCase();
         const customer = row.cells[2].textContent.toLowerCase();
         const doctor = row.cells[3].textContent.toLowerCase();
         
-        if (id.includes(lowerQuery) || date.includes(lowerQuery) || 
+        if (prescriptionId.includes(lowerQuery) || date.includes(lowerQuery) || 
             customer.includes(lowerQuery) || doctor.includes(lowerQuery)) {
           row.style.display = '';
         } else {
@@ -1171,33 +1575,41 @@
     }
 
     function calculate() {
+      const display = document.getElementById('calc-display');
       try {
-        const display = document.getElementById('calc-display');
-        display.value = eval(display.value);
+        // Replace Arabic/English numbers and symbols
+        let expression = display.value
+          .replace(/×/g, '*')
+          .replace(/÷/g, '/')
+          .replace(/٫/g, '.')
+          .replace(/[٠١٢٣٤٥٦٧٨٩]/g, function(d) {
+            return '٠١٢٣٤٥٦٧٨٩'.indexOf(d);
+          });
+        
+        display.value = eval(expression);
       } catch (e) {
-        alert('تعبير رياضي غير صحيح');
-        clearCalc();
+        display.value = 'خطأ';
       }
     }
 
     // Update dashboard statistics
     function updateDashboardStats() {
-      // Total medicines
+      // Medicine count
       document.getElementById('med-count').textContent = medicines.length;
       
       // Expiring soon and expired medicines
       const today = new Date();
-      const expiringSoonDate = new Date();
-      expiringSoonDate.setDate(today.getDate() + settings.daysBeforeExpiry);
-      
       let expiringSoon = 0;
       let expired = 0;
       
       medicines.forEach(med => {
         const expDate = new Date(med.exp);
-        if (expDate < today) {
+        const timeDiff = expDate.getTime() - today.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        
+        if (daysDiff <= 0) {
           expired++;
-        } else if (expDate <= expiringSoonDate) {
+        } else if (daysDiff <= settings.daysBeforeExpiry) {
           expiringSoon++;
         }
       });
@@ -1210,12 +1622,11 @@
       document.getElementById('sales').textContent = totalSales.toFixed(2);
       
       // Recent orders
-      const recentOrdersTbody = document.getElementById('recent-orders');
-      recentOrdersTbody.innerHTML = '';
+      const recentOrders = [...orders].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+      const tbody = document.querySelector('#recent-orders');
+      tbody.innerHTML = '';
       
-      const sortedOrders = [...orders].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
-      
-      sortedOrders.forEach(order => {
+      recentOrders.forEach(order => {
         const customer = customers.find(c => c.id === order.customerId);
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -1225,7 +1636,7 @@
           <td>${order.total.toFixed(2)} ${settings.currency}</td>
           <td>${order.status}</td>
         `;
-        recentOrdersTbody.appendChild(tr);
+        tbody.appendChild(tr);
       });
     }
 
@@ -1235,8 +1646,6 @@
       tbody.innerHTML = '';
       
       const today = new Date();
-      const expiringSoonDate = new Date();
-      expiringSoonDate.setDate(today.getDate() + settings.daysBeforeExpiry);
       
       medicines.forEach(med => {
         const expDate = new Date(med.exp);
@@ -1265,45 +1674,26 @@
 
     // Update charts
     function updateCharts() {
-      // This would be more sophisticated in a real app
-      // For now, we'll just simulate some data changes
-      const salesChart = Chart.getChart("salesChart");
-      if (salesChart) {
-        salesChart.data.datasets[0].data = salesChart.data.datasets[0].data.map(
-          () => Math.floor(Math.random() * 25000) + 5000
-        );
-        salesChart.update();
-      }
-      
-      const medicinesChart = Chart.getChart("medicinesChart");
-      if (medicinesChart) {
-        medicinesChart.data.datasets[0].data = medicinesChart.data.datasets[0].data.map(
-          () => Math.floor(Math.random() * 40) + 5
-        );
-        medicinesChart.update();
-      }
-      
-      const expiryChart = Chart.getChart("expiryChart");
-      if (expiryChart) {
-        expiryChart.data.datasets[0].data = expiryChart.data.datasets[0].data.map(
-          () => Math.floor(Math.random() * 20) + 1
-        );
-        expiryChart.data.datasets[1].data = expiryChart.data.datasets[1].data.map(
-          () => Math.floor(Math.random() * 15) + 1
-        );
-        expiryChart.update();
-      }
+      // This function would update chart data when needed
+      // In a real app, you would fetch actual data here
     }
 
-    // Format date
+    // Format date for display
     function formatDate(dateString) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString('ar-EG', options);
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('ar-EG');
     }
 
     // Print current page
     function printPage() {
       window.print();
+    }
+
+    // Print order
+    function printOrder() {
+      // In a real app, this would generate a printable order invoice
+      alert('سيتم طباعة الفاتورة');
     }
   </script>
 </body>
