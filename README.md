@@ -1,204 +1,266 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>نظام إدارة الصيدلية</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام إدارة الصيدلية - 7 نجوم</title>
   <style>
     :root {
-      --main-bg: #f4f6f8;
-      --card-bg: #ffffff;
-      --primary: #3a86ff;
-      --text-color: #222;
-      --button-bg: #3a86ff;
-    }[data-theme="dark"] {
-  --main-bg: #121212;
-  --card-bg: #1e1e1e;
-  --primary: #90caf9;
-  --text-color: #ffffff;
-  --button-bg: #2196f3;
-}
-
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: var(--main-bg);
-  color: var(--text-color);
-}
-header {
-  background: var(--primary);
-  color: white;
-  padding: 1rem;
-  text-align: center;
-}
-button {
-  padding: 0.6rem 1.2rem;
-  background: var(--button-bg);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-input, select {
-  padding: 0.6rem;
-  margin: 0.5rem 0;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-main {
-  padding: 1.5rem;
-}
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
-.card {
-  background: var(--card-bg);
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-.card h3 {
-  color: var(--primary);
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--card-bg);
-  margin-top: 1rem;
-}
-th, td {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  text-align: center;
-}
-th {
-  background: #e9f0fb;
-}
-.hidden {
-  display: none;
-}
-.top-controls {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-
+      --main-color: #3a86ff;
+      --bg-light: #f4f6f8;
+      --bg-dark: #121212;
+      --text-light: #fff;
+      --text-dark: #222;
+      --card-bg-light: #fff;
+      --card-bg-dark: #1e1e1e;
+      --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      margin: 0;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      transition: all 0.3s ease-in-out;
+    }
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-light);
+    }
+    header {
+      background: var(--main-color);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      position: relative;
+    }
+    .toggle-mode {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    main {
+      padding: 2rem;
+    }
+    .hidden {
+      display: none;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: var(--card-bg-light);
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: background 0.3s;
+    }
+    body.dark .card {
+      background: var(--card-bg-dark);
+    }
+    button {
+      background: var(--main-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    input, select {
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 100%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg-light);
+    }
+    body.dark table {
+      background: var(--card-bg-dark);
+    }
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    th {
+      background: #e9f0fb;
+    }
+    body.dark th {
+      background: #2a2a2a;
+    }
   </style>
 </head>
-<body data-theme="light">
+<body>
   <header>
-    <h1>نظام إدارة الصيدلية</h1>
-    <div class="top-controls">
-      <button onclick="toggleTheme()">تبديل الوضع</button>
-      <button onclick="logout()">تسجيل الخروج</button>
-    </div>
+    <h1>نظام إدارة الصيدلية - 7 نجوم</h1>
+    <button class="toggle-mode" onclick="toggleMode()">🌓</button>
   </header>
   <main>
-    <section id="dashboard">
-      <div class="cards">
-        <div class="card"><h3>عدد الأدوية</h3><p>10</p></div>
-        <div class="card"><h3>المبيعات</h3><p>1500 جنيه</p></div>
-        <div class="card"><h3>الطلبيات</h3><p>5</p></div>
-        <div class="card"><h3>الآلة الحاسبة</h3><button onclick="showCalculator()">افتح</button></div>
+    <div class="cards">
+      <div class="card">
+        <h3>الأدوية</h3>
+        <p><button onclick="showSection('medicines')">عرض</button></p>
       </div>
-      <div style="margin-top: 2rem; text-align:center">
-        <button onclick="showSection('medicines')">الأدوية</button>
-        <button onclick="showSection('sales')">المبيعات</button>
-        <button onclick="showSection('orders')">الطلبيات</button>
+      <div class="card">
+        <h3>المبيعات</h3>
+        <p><button onclick="showSection('sales')">عرض</button></p>
       </div>
-    </section><section id="medicines" class="hidden">
+      <div class="card">
+        <h3>الطلبيات</h3>
+        <p><button onclick="showSection('orders')">عرض</button></p>
+      </div>
+      <div class="card">
+        <h3>آلة حاسبة</h3>
+        <p><button onclick="showSection('calculator')">فتح</button></p>
+      </div>
+    </div><section id="medicines" class="hidden">
   <h2>إدارة الأدوية</h2>
-  <input type="text" placeholder="بحث عن دواء...">
+  <input type="text" id="medSearch" placeholder="ابحث باسم الدواء..." oninput="renderMedicines()">
+  <button onclick="addMedicine()">+ إضافة دواء</button>
   <table>
-    <thead><tr><th>الاسم</th><th>الكمية</th><th>انتهاء الصلاحية</th></tr></thead>
-    <tbody><tr><td>باراسيتامول</td><td>20</td><td>2025-12-31</td></tr></tbody>
+    <thead><tr><th>الاسم</th><th>الكمية</th><th>الانتهاء</th><th>إجراءات</th></tr></thead>
+    <tbody id="medTable"></tbody>
   </table>
-  <button onclick="showSection('dashboard')">رجوع</button>
 </section>
 
 <section id="sales" class="hidden">
   <h2>المبيعات</h2>
-  <input type="text" placeholder="اسم الدواء">
-  <input type="number" placeholder="الكمية المباعة">
-  <input type="number" placeholder="السعر">
-  <button>تسجيل بيع</button>
-  <button onclick="showSection('dashboard')">رجوع</button>
+  <p>سجل بيع دواء:</p>
+  <input type="text" id="saleName" placeholder="اسم الدواء">
+  <input type="number" id="saleQty" placeholder="الكمية">
+  <button onclick="recordSale()">تسجيل</button>
+  <ul id="salesLog"></ul>
 </section>
 
 <section id="orders" class="hidden">
   <h2>الطلبيات</h2>
-  <input type="text" placeholder="اسم المورد">
-  <input type="text" placeholder="الدواء المطلوب">
-  <input type="number" placeholder="الكمية">
-  <button>إضافة طلبية</button>
-  <button onclick="showSection('dashboard')">رجوع</button>
+  <input type="text" id="orderName" placeholder="اسم الدواء">
+  <input type="number" id="orderQty" placeholder="الكمية المطلوبة">
+  <button onclick="addOrder()">إضافة</button>
+  <ul id="orderList"></ul>
 </section>
 
 <section id="calculator" class="hidden">
-  <h2>الآلة الحاسبة</h2>
-  <input id="calcDisplay" type="text" readonly>
-  <div>
-    <button onclick="calc('1')">1</button>
-    <button onclick="calc('2')">2</button>
-    <button onclick="calc('3')">3</button>
-    <button onclick="calc('+')">+</button><br>
-    <button onclick="calc('4')">4</button>
-    <button onclick="calc('5')">5</button>
-    <button onclick="calc('6')">6</button>
-    <button onclick="calc('-')">-</button><br>
-    <button onclick="calc('7')">7</button>
-    <button onclick="calc('8')">8</button>
-    <button onclick="calc('9')">9</button>
-    <button onclick="calc('*')">*</button><br>
-    <button onclick="calc('0')">0</button>
-    <button onclick="calc('/')">/</button>
-    <button onclick="calc('C')">C</button>
-    <button onclick="calc('=')">=</button>
+  <h2>آلة حاسبة</h2>
+  <input type="text" id="calcDisplay" readonly>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;">
+    "123+456-*/0.=C".split('').forEach(c => document.write(`<button onclick="calcInput('${c}')">${c}</button>`));
   </div>
-  <button onclick="showSection('dashboard')">رجوع</button>
 </section>
 
   </main>  <script>
-    function toggleTheme() {
-      const body = document.body;
-      const current = body.getAttribute('data-theme');
-      body.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
-    }
-
-    function logout() {
-      alert("تم تسجيل الخروج");
-    }
+    let medicines = JSON.parse(localStorage.getItem('meds')) || [];
+    let orders = JSON.parse(localStorage.getItem('orders')) || [];
+    let sales = JSON.parse(localStorage.getItem('sales')) || [];
 
     function showSection(id) {
-      document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
+      document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
+      if (id === 'medicines') renderMedicines();
+      if (id === 'orders') renderOrders();
+      if (id === 'sales') renderSales();
     }
 
-    function showCalculator() {
-      showSection('calculator');
-    }
-
-    let calcInput = "";
-    function calc(val) {
-      const display = document.getElementById('calcDisplay');
-      if (val === 'C') {
-        calcInput = "";
-      } else if (val === '=') {
-        try {
-          calcInput = eval(calcInput).toString();
-        } catch {
-          calcInput = "خطأ";
-        }
-      } else {
-        calcInput += val;
+    function addMedicine() {
+      const name = prompt('اسم الدواء:');
+      const qty = +prompt('الكمية:');
+      const expiry = prompt('تاريخ الانتهاء (YYYY-MM-DD):');
+      if (name && qty && expiry) {
+        medicines.push({ name, qty, expiry });
+        localStorage.setItem('meds', JSON.stringify(medicines));
+        renderMedicines();
       }
-      display.value = calcInput;
+    }
+
+    function renderMedicines() {
+      const table = document.getElementById('medTable');
+      const search = document.getElementById('medSearch').value;
+      table.innerHTML = '';
+      medicines.filter(m => m.name.includes(search)).forEach((m, i) => {
+        table.innerHTML += `<tr>
+          <td>${m.name}</td><td>${m.qty}</td><td>${m.expiry}</td>
+          <td><button onclick="deleteMed(${i})">حذف</button></td>
+        </tr>`;
+      });
+    }
+
+    function deleteMed(i) {
+      if (confirm('تأكيد الحذف؟')) {
+        medicines.splice(i, 1);
+        localStorage.setItem('meds', JSON.stringify(medicines));
+        renderMedicines();
+      }
+    }
+
+    function addOrder() {
+      const name = document.getElementById('orderName').value;
+      const qty = document.getElementById('orderQty').value;
+      if (name && qty) {
+        orders.push({ name, qty });
+        localStorage.setItem('orders', JSON.stringify(orders));
+        renderOrders();
+      }
+    }
+
+    function renderOrders() {
+      const list = document.getElementById('orderList');
+      list.innerHTML = '';
+      orders.forEach((o, i) => {
+        list.innerHTML += `<li>${o.name} - ${o.qty} <button onclick="deleteOrder(${i})">حذف</button></li>`;
+      });
+    }
+
+    function deleteOrder(i) {
+      orders.splice(i, 1);
+      localStorage.setItem('orders', JSON.stringify(orders));
+      renderOrders();
+    }
+
+    function recordSale() {
+      const name = document.getElementById('saleName').value;
+      const qty = +document.getElementById('saleQty').value;
+      if (name && qty) {
+        sales.push({ name, qty });
+        localStorage.setItem('sales', JSON.stringify(sales));
+        renderSales();
+      }
+    }
+
+    function renderSales() {
+      const list = document.getElementById('salesLog');
+      list.innerHTML = '';
+      sales.forEach(s => {
+        list.innerHTML += `<li>${s.name} - ${s.qty}</li>`;
+      });
+    }
+
+    let calc = '';
+    function calcInput(c) {
+      const d = document.getElementById('calcDisplay');
+      if (c === 'C') calc = '';
+      else if (c === '=') {
+        try { calc = eval(calc).toString(); } catch { calc = 'خطأ'; }
+      } else calc += c;
+      d.value = calc;
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle('dark');
     }
   </script></body>
 </html>
