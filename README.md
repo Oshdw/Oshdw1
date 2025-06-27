@@ -20,6 +20,7 @@
       --card-dark: #1e1e1e;
       --text-light: #ffffff;
       --text-dark: #212121;
+      --text-gray: #757575;
       --border-light: #e0e0e0;
       --border-dark: #424242;
       --sidebar-width: 280px;
@@ -52,15 +53,15 @@
       height: 100vh;
       padding: 1rem;
       position: fixed;
-      right: 0;
+      right: -280px;
       top: 0;
       overflow-y: auto;
-      transition: transform 0.3s ease-in-out;
+      transition: right 0.3s ease-in-out;
       z-index: 1000;
     }
 
-    .sidebar.hidden {
-      transform: translateX(100%);
+    .sidebar.visible {
+      right: 0;
     }
 
     .sidebar h2 {
@@ -68,6 +69,16 @@
       margin: 1rem 0;
       padding-bottom: 1rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .sidebar h2 img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
     }
 
     .sidebar-menu {
@@ -108,7 +119,7 @@
     }
 
     .main {
-      margin-right: var(--sidebar-width);
+      margin-right: 0;
       padding: 1.5rem;
       flex-grow: 1;
       transition: margin-right 0.3s;
@@ -127,15 +138,24 @@
       margin-bottom: 1.5rem;
       padding-bottom: 1rem;
       border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 0;
+      background-color: var(--background-light);
+      z-index: 100;
+      padding-top: 1rem;
     }
 
     body.dark .topbar {
       border-bottom-color: var(--border-dark);
+      background-color: var(--background-dark);
     }
 
     .topbar h2 {
       font-size: 1.8rem;
       color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     body.dark .topbar h2 {
@@ -325,6 +345,11 @@
     body.dark th, 
     body.dark td {
       border-bottom-color: var(--border-dark);
+      color: var(--text-light);
+    }
+
+    body.dark td {
+      color: var(--text-gray);
     }
 
     th {
@@ -427,23 +452,101 @@
       flex: 1;
     }
 
-    .select2-container {
-      width: 100% !important;
+    .calculator-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .calculator-display {
+      grid-column: span 4;
+      background-color: var(--card-light);
+      padding: 1rem;
+      text-align: left;
+      font-size: 1.5rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-light);
+      min-height: 60px;
+      word-break: break-all;
+    }
+
+    body.dark .calculator-display {
+      background-color: var(--card-dark);
+      border-color: var(--border-dark);
+    }
+
+    .calculator-btn {
+      padding: 1rem;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: var(--primary);
+      color: white;
+      transition: background-color 0.2s;
+    }
+
+    .calculator-btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .calculator-btn.operator {
+      background-color: var(--warning);
+    }
+
+    .calculator-btn.operator:hover {
+      background-color: #ff8f00;
+    }
+
+    .calculator-btn.equals {
+      background-color: var(--success);
+      grid-column: span 2;
+    }
+
+    .calculator-btn.equals:hover {
+      background-color: #2e7d32;
+    }
+
+    .calculator-btn.clear {
+      background-color: var(--danger);
+    }
+
+    .calculator-btn.clear:hover {
+      background-color: #c62828;
+    }
+
+    .signature {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      border-top: 1px solid var(--border-light);
+      color: var(--text-gray);
+      font-size: 0.9rem;
+    }
+
+    body.dark .signature {
+      border-top-color: var(--border-dark);
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
     }
 
     @media (max-width: 768px) {
       .sidebar {
-        width: 80%;
-        max-width: 300px;
-        transform: translateX(100%);
+        width: 85%;
+        right: -85%;
       }
-
+      
       .sidebar.visible {
-        transform: translateX(0);
+        right: 0;
       }
 
       .main {
-        margin-right: 0;
         padding: 1rem;
       }
 
@@ -455,12 +558,26 @@
       .grid {
         grid-template-columns: 1fr;
       }
+      
+      .calculator-container {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .calculator-btn {
+        padding: 0.8rem;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="sidebar" id="sidebar">
-    <h2>نظام إدارة الصيدلية</h2>
+    <h2>
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTQ0OCAwSDY0QzI4LjcgMCAwIDI4LjcgMCA2NHYzODRjMCAzNS4zIDI4LjcgNjQgNjQgNjRoMzg0YzM1LjMgMCA2NC0yOC43IDY0LTY0VjY0YzAtMzUuMy0yOC43LTY0LTY0LTY0ek0yNTYgMTYwYzM1LjMgMCA2NCAyOC43IDY0IDY0cy0yOC43IDY0LTY0IDY0LTY0LTI4LjctNjQtNjQgMjguNy02NCA2NC02NHptODAgMTkySDE3NmMtOC44IDAtMTYtNy4yLTE2LTE2cy03LjItMTYtMTYtMTZoLTE2Yy04LjggMC0xNiA3LjItMTYgMTZ2OTZjMCA4LjggNy4yIDE2IDE2IDE2aDM2MGM4LjggMCAxNi03LjIgMTYtMTZ2LTk2YzAtOC44LTcuMi0xNi0xNi0xNnptLTk2LTk2Yy0xNy43IDAtMzIgMTQuMy0zMiAzMnMxNC4zIDMyIDMyIDMyIDMyLTE0LjMgMzItMzItMTQuMy0zMi0zMi0zMnoiLz48L3N2Zz4=" alt="Logo" class="logo">
+      نظام إدارة الصيدلية
+    </h2>
     <div class="sidebar-menu">
       <button id="dashboardBtn" class="active">
         <span class="material-icons">dashboard</span>
@@ -486,6 +603,10 @@
         <span class="material-icons">description</span>
         الوصفات الطبية
       </button>
+      <button id="calculatorBtn">
+        <span class="material-icons">calculate</span>
+        الآلة الحاسبة
+      </button>
       <button id="statisticsBtn">
         <span class="material-icons">bar_chart</span>
         الإحصائيات
@@ -499,7 +620,10 @@
   
   <div class="main" id="main">
     <div class="topbar">
-      <h2 id="page-title">لوحة التحكم</h2>
+      <h2 id="page-title">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjMTk3NmQyIiBkPSJNNDQ4IDBINjRDMjguNyAwIDAgMjguNyAwIDY0djM4NGMwIDM1LjMgMjguNyA2NCA2NCA2NGgzODRjMzUuMyAwIDY0LTI4LjcgNjQtNjRWNjRjMC0zNS4zLTI4LjctNjQtNjQtNjR6TTI1NiAxNjBjMzUuMyAwIDY0IDI4LjcgNjQgNjRzLTI4LjcgNjQtNjQgNjQtNjQtMjguNy02NC02NCAyOC43LTY0IDY0LTY0em04MCAxOTJIMTc2Yy04LjggMC0xNi03LjItMTYtMTZzLTcuMi0xNi0xNi0xNmgtMTZjLTguOCAwLTE2IDcuMi0xNiAxNnY5NmMwIDguOCA3LjIgMTYgMTYgMTZoMzYwYzguOCAwIDE2LTcuMiAxNi0xNnYtOTZjMC04LjgtNy4yLTE2LTE2LTE2em0tOTYtOTZjLTE3LjcgMC0zMiAxNC4zLTMyIDMyczE0LjMgMzIgMzIgMzIgMzItMTQuMyAzMi0zMi0xNC4zLTMyLTMyLTMyeiIvPjwvc3ZnPg==" alt="Logo" class="logo">
+        لوحة التحكم
+      </h2>
       <div class="topbar-actions">
         <button class="topbar-action-btn" id="toggleSidebar">
           <span class="material-icons">menu</span>
@@ -1010,6 +1134,37 @@
       </div>
     </div>
 
+    <div id="calculator" class="page">
+      <div class="card">
+        <h3>آلة حاسبة</h3>
+        <div class="calculator-display" id="calculatorDisplay">0</div>
+        <div class="calculator-container">
+          <button class="calculator-btn clear" onclick="clearCalculator()">C</button>
+          <button class="calculator-btn operator" onclick="appendToCalculator('/')">/</button>
+          <button class="calculator-btn operator" onclick="appendToCalculator('*')">×</button>
+          <button class="calculator-btn operator" onclick="appendToCalculator('-')">-</button>
+          
+          <button class="calculator-btn" onclick="appendToCalculator('7')">7</button>
+          <button class="calculator-btn" onclick="appendToCalculator('8')">8</button>
+          <button class="calculator-btn" onclick="appendToCalculator('9')">9</button>
+          <button class="calculator-btn operator" onclick="appendToCalculator('+')">+</button>
+          
+          <button class="calculator-btn" onclick="appendToCalculator('4')">4</button>
+          <button class="calculator-btn" onclick="appendToCalculator('5')">5</button>
+          <button class="calculator-btn" onclick="appendToCalculator('6')">6</button>
+          <button class="calculator-btn" onclick="appendToCalculator('.')">.</button>
+          
+          <button class="calculator-btn" onclick="appendToCalculator('1')">1</button>
+          <button class="calculator-btn" onclick="appendToCalculator('2')">2</button>
+          <button class="calculator-btn" onclick="appendToCalculator('3')">3</button>
+          <button class="calculator-btn equals" onclick="calculateResult()">=</button>
+          
+          <button class="calculator-btn" onclick="appendToCalculator('0')">0</button>
+          <button class="calculator-btn" onclick="backspaceCalculator()">←</button>
+        </div>
+      </div>
+    </div>
+
     <div id="statistics" class="page">
       <div class="card">
         <h3>إحصائيات المبيعات</h3>
@@ -1136,9 +1291,10 @@
       </div>
     </div>
 
-    <footer style="text-align: center; margin-top: 2rem; padding: 1rem; border-top: 1px solid var(--border-light);">
+    <div class="signature">
       <p>نظام إدارة الصيدلية &copy; <span id="currentYear"></span></p>
-    </footer>
+      <p>تمت البرمجة بواسطة عمر بابكر - Omer Bk</p>
+    </div>
   </div>
 
   <script>
@@ -1151,6 +1307,9 @@
     let settings = {};
     let currentOrderItems = [];
     let currentPrescriptionItems = [];
+    let calculatorValue = '0';
+    let calculatorPreviousValue = '0';
+    let calculatorOperation = null;
     
     // تهيئة التطبيق
     document.addEventListener('DOMContentLoaded', function() {
@@ -1166,11 +1325,10 @@
       
       // تعيين معالج الأحداث للقائمة الجانبية
       document.getElementById('toggleSidebar').addEventListener('click', function() {
-        document.getElementById('sidebar').classList.toggle('hidden');
-        document.getElementById('main').classList.toggle('full');
+        document.getElementById('sidebar').classList.toggle('visible');
       });
 
-      // تعيين معالج الأحدا�� لتبديل الوضع الليلي
+      // تعيين معالج الأحداث لتبديل الوضع الليلي
       document.getElementById('toggleTheme').addEventListener('click', function() {
         document.body.classList.toggle('dark');
       });
@@ -1183,6 +1341,7 @@
         customers: document.getElementById('customersBtn'),
         orders: document.getElementById('ordersBtn'),
         prescriptions: document.getElementById('prescriptionsBtn'),
+        calculator: document.getElementById('calculatorBtn'),
         statistics: document.getElementById('statisticsBtn'),
         settings: document.getElementById('settingsBtn')
       };
@@ -1194,6 +1353,7 @@
         customers: document.getElementById('customers'),
         orders: document.getElementById('orders'),
         prescriptions: document.getElementById('prescriptions'),
+        calculator: document.getElementById('calculator'),
         statistics: document.getElementById('statistics'),
         settings: document.getElementById('settings')
       };
@@ -1218,6 +1378,11 @@
           
           // تحديث عنوان الصفحة
           document.getElementById('page-title').textContent = this.textContent.trim();
+          
+          // إخفاء القائمة الجانبية بعد اختيار الصفحة (للهواتف)
+          if (window.innerWidth <= 768) {
+            document.getElementById('sidebar').classList.remove('visible');
+          }
           
           // إذا كانت صفحة الإحصائيات، قم بتحديث الرسوم البيانية
           if (key === 'statistics') {
@@ -1271,6 +1436,9 @@
       
       // تحديث الإحصائيات على لوحة التحكم
       updateDashboardStats();
+      
+      // تحديث شاشة الآلة الحاسبة
+      updateCalculatorDisplay();
     });
 
     // ========== دوال الأعمال ==========
@@ -1420,6 +1588,11 @@
       const medicine = medicines.find(m => m.id === medicineId);
       if (!medicine) {
         showAlert('error', 'الدواء المحدد غير موجود');
+        return;
+      }
+      
+      if (medicine.quantity < quantity) {
+        showAlert('error', `الكمية المتاحة غير كافية (المتاح: ${medicine.quantity})`);
         return;
       }
       
@@ -1806,6 +1979,53 @@
       );
       
       updatePrescriptionsTable(filtered);
+    }
+    
+    // ========== دوال الآلة الحاسبة ==========
+    
+    function appendToCalculator(value) {
+      if (calculatorValue === '0' && value !== '.') {
+        calculatorValue = value;
+      } else {
+        calculatorValue += value;
+      }
+      updateCalculatorDisplay();
+    }
+    
+    function clearCalculator() {
+      calculatorValue = '0';
+      calculatorPreviousValue = '0';
+      calculatorOperation = null;
+      updateCalculatorDisplay();
+    }
+    
+    function backspaceCalculator() {
+      if (calculatorValue.length === 1) {
+        calculatorValue = '0';
+      } else {
+        calculatorValue = calculatorValue.slice(0, -1);
+      }
+      updateCalculatorDisplay();
+    }
+    
+    function calculateResult() {
+      try {
+        // استبدال علامة الضرب لتفادي مشاكل التقييم
+        const expression = calculatorValue.replace(/×/g, '*');
+        calculatorValue = eval(expression).toString();
+        updateCalculatorDisplay();
+      } catch (error) {
+        calculatorValue = 'خطأ';
+        updateCalculatorDisplay();
+        setTimeout(() => {
+          calculatorValue = '0';
+          updateCalculatorDisplay();
+        }, 1000);
+      }
+    }
+    
+    function updateCalculatorDisplay() {
+      document.getElementById('calculatorDisplay').textContent = calculatorValue;
     }
     
     // ========== دوال التحديث ==========
