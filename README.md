@@ -688,7 +688,7 @@
       margin-top: 2rem;
     }
 
-    /* تذييل الصفحة */
+    /* تذ��يل الصفحة */
     footer {
       text-align: center;
       margin-top: 3rem;
@@ -1386,23 +1386,23 @@
         <h3>الآلة الحاسبة</h3>
         <div class="calculator">
           <div class="calculator-display" id="calc-display">0</div>
-          <button class="calculator-btn clear" onclick="clearCalculator()">AC</button>
-          <button class="calculator-btn operator" onclick="appendToDisplay('+')">+</button>
-          <button class="calculator-btn operator" onclick="appendToDisplay('-')">-</button>
-          <button class="calculator-btn operator" onclick="appendToDisplay('*')">×</button>
-          <button class="calculator-btn operator" onclick="appendToDisplay('/')">÷</button>
-          <button class="calculator-btn" onclick="appendToDisplay('7')">7</button>
-          <button class="calculator-btn" onclick="appendToDisplay('8')">8</button>
-          <button class="calculator-btn" onclick="appendToDisplay('9')">9</button>
-          <button class="calculator-btn" onclick="appendToDisplay('4')">4</button>
-          <button class="calculator-btn" onclick="appendToDisplay('5')">5</button>
-          <button class="calculator-btn" onclick="appendToDisplay('6')">6</button>
-          <button class="calculator-btn" onclick="appendToDisplay('1')">1</button>
-          <button class="calculator-btn" onclick="appendToDisplay('2')">2</button>
-          <button class="calculator-btn" onclick="appendToDisplay('3')">3</button>
-          <button class="calculator-btn" onclick="appendToDisplay('0')">0</button>
-          <button class="calculator-btn" onclick="appendToDisplay('.')">.</button>
-          <button class="calculator-btn equals" onclick="calculate()">=</button>
+          <button class="calculator-btn clear">AC</button>
+          <button class="calculator-btn operator">+</button>
+          <button class="calculator-btn operator">-</button>
+          <button class="calculator-btn operator">×</button>
+          <button class="calculator-btn operator">÷</button>
+          <button class="calculator-btn">7</button>
+          <button class="calculator-btn">8</button>
+          <button class="calculator-btn">9</button>
+          <button class="calculator-btn">4</button>
+          <button class="calculator-btn">5</button>
+          <button class="calculator-btn">6</button>
+          <button class="calculator-btn">1</button>
+          <button class="calculator-btn">2</button>
+          <button class="calculator-btn">3</button>
+          <button class="calculator-btn">0</button>
+          <button class="calculator-btn">.</button>
+          <button class="calculator-btn equals">=</button>
         </div>
       </div>
     </div>
@@ -1742,6 +1742,26 @@
       }
     }
     
+    // Initialize calculator buttons
+    function initCalculator() {
+      const calculatorButtons = document.querySelectorAll('.calculator-btn');
+      calculatorButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const buttonText = button.textContent;
+          
+          if (button.classList.contains('clear')) {
+            clearCalculator();
+          } else if (button.classList.contains('equals')) {
+            calculate();
+          } else if (button.classList.contains('operator')) {
+            appendToDisplay(` ${buttonText} `);
+          } else {
+            appendToDisplay(buttonText);
+          }
+        });
+      });
+    }
+    
     // Initialize charts
     function initCharts() {
       // Expiry Chart
@@ -1917,8 +1937,8 @@
         <tr>
           <td>${supplier.name}</td>
           <td>${supplier.phone}</td>
-          <td>${supplier.email}</td>
-          <td>${supplier.address}</td>
+          <td>${supplier.email || 'لا يوجد'}</td>
+          <td>${supplier.address || 'لا يوجد'}</td>
           <td class="actions-cell">
             <button class="btn btn-sm btn-outline" onclick="editSupplier(${supplier.id})">
               <span class="material-icons">edit</span>
@@ -1936,7 +1956,7 @@
         <tr>
           <td>${customer.name}</td>
           <td>${customer.phone}</td>
-          <td>${customer.address}</td>
+          <td>${customer.address || 'لا يوجد'}</td>
           <td>${customer.medicalHistory || 'لا يوجد'}</td>
           <td class="actions-cell">
             <button class="btn btn-sm btn-outline" onclick="editCustomer(${customer.id})">
@@ -2707,18 +2727,63 @@
       loadSampleData();
       loadSettings();
       initCharts();
+      initCalculator();
       renderData();
       checkExpiryMedicines();
       
       // Set up event listeners for print buttons
       document.getElementById('printOrderBtn').addEventListener('click', () => {
-        // This would print the current order being created
-        showAlert('info', 'سيتم تنفيذ هذه الوظيفة في النسخة الكاملة');
+        const customerId = parseInt(document.getElementById('orderCustomer').value);
+        const rows = document.querySelectorAll('#orderItems tbody tr');
+        
+        if (!customerId || rows.length === 0) {
+          showAlert('error', 'الرجاء إكمال الفاتورة قبل الطباعة');
+          return;
+        }
+        
+        // Create a temporary order for printing
+        const customer = customers.find(c => c.id === customerId);
+        const today = new Date().toISOString().split('T')[0];
+        
+        const tempOrder = {
+          id: 'مسودة',
+          date: today,
+          customer: customer.name,
+          amount: parseFloat(document.getElementById('orderNetTotal').textContent),
+          status: 'مسودة'
+        };
+        
+        printOrder(tempOrder);
       });
       
       document.getElementById('printPrescriptionBtn').addEventListener('click', () => {
-        // This would print the current prescription being created
-        showAlert('info', 'سيتم تنفيذ هذه الوظيفة في النسخة الكاملة');
+        const customerId = parseInt(document.getElementById('prescriptionCustomer').value);
+        const doctor = document.getElementById('prescriptionDoctor').value;
+        const rows = document.querySelectorAll('#prescriptionItems tbody tr');
+        
+        if (!customerId || !doctor || rows.length === 0) {
+          showAlert('error', 'الرجاء إكمال الوصفة الطبية قبل الطباعة');
+          return;
+        }
+        
+        // Create a temporary prescription for printing
+        const customer = customers.find(c => c.id === customerId);
+        const today = new Date().toISOString().split('T')[0];
+        
+        const tempPrescription = {
+          id: 'مسودة',
+          date: today,
+          customer: customer.name,
+          doctor: doctor,
+          notes: document.getElementById('prescriptionNotes').value,
+          items: Array.from(rows).map(row => ({
+            medicine: row.cells[0].textContent,
+            dosage: row.cells[1].textContent,
+            duration: row.cells[2].textContent
+          }))
+        };
+        
+        printPrescription(tempPrescription);
       });
     });
     
@@ -2757,9 +2822,50 @@
       document.getElementById('sales').textContent = totalSales.toFixed(2);
     }
     
-    // Edit functions (to be implemented)
+    // Edit functions
     window.editMedicine = function(id) {
-      showAlert('info', 'سيتم تنفيذ وظيفة التعديل في النسخة الكاملة');
+      const medicine = medicines.find(m => m.id === id);
+      if (!medicine) return;
+      
+      document.getElementById('medName').value = medicine.name;
+      document.getElementById('medGeneric').value = medicine.generic;
+      document.getElementById('medCategory').value = medicine.category;
+      document.getElementById('medQty').value = medicine.quantity;
+      document.getElementById('medPrice').value = medicine.price;
+      document.getElementById('medExp').value = medicine.expiry;
+      
+      // Scroll to form
+      document.getElementById('medicines').scrollIntoView();
+      
+      // Show message
+      document.getElementById('med-message').innerHTML = `
+        <span class="material-icons">info</span>
+        أنت تقوم بتعديل الدواء: ${medicine.name}
+      `;
+      document.getElementById('med-message').className = 'alert alert-info';
+      document.getElementById('med-message').style.display = 'flex';
+      
+      // Change add button to update button
+      const addBtn = document.getElementById('addMedicineBtn');
+      addBtn.innerHTML = '<span class="material-icons">save</span> تحديث الدواء';
+      addBtn.onclick = function() {
+        medicine.name = document.getElementById('medName').value;
+        medicine.generic = document.getElementById('medGeneric').value;
+        medicine.category = document.getElementById('medCategory').value;
+        medicine.quantity = parseInt(document.getElementById('medQty').value);
+        medicine.price = parseFloat(document.getElementById('medPrice').value);
+        medicine.expiry = document.getElementById('medExp').value;
+        
+        renderData();
+        showAlert('success', 'تم تحديث الدواء بنجاح');
+        document.getElementById('med-message').style.display = 'none';
+        
+        // Reset button
+        addBtn.innerHTML = '<span class="material-icons">save</span> إضافة دواء';
+        addBtn.onclick = document.getElementById('addMedicineBtn').onclick;
+        
+        document.getElementById('clearMedicineBtn').click();
+      };
     };
     
     window.deleteMedicine = function(id) {
@@ -2771,7 +2877,44 @@
     };
     
     window.editSupplier = function(id) {
-      showAlert('info', 'سيتم تنفيذ وظيفة التعديل في النسخة الكاملة');
+      const supplier = suppliers.find(s => s.id === id);
+      if (!supplier) return;
+      
+      document.getElementById('supplierName').value = supplier.name;
+      document.getElementById('supplierPhone').value = supplier.phone;
+      document.getElementById('supplierEmail').value = supplier.email;
+      document.getElementById('supplierAddress').value = supplier.address;
+      
+      // Scroll to form
+      document.getElementById('suppliers').scrollIntoView();
+      
+      // Show message
+      document.getElementById('supplier-message').innerHTML = `
+        <span class="material-icons">info</span>
+        أنت تقوم بتعديل المورد: ${supplier.name}
+      `;
+      document.getElementById('supplier-message').className = 'alert alert-info';
+      document.getElementById('supplier-message').style.display = 'flex';
+      
+      // Change add button to update button
+      const addBtn = document.getElementById('addSupplierBtn');
+      addBtn.innerHTML = '<span class="material-icons">save</span> تحديث المورد';
+      addBtn.onclick = function() {
+        supplier.name = document.getElementById('supplierName').value;
+        supplier.phone = document.getElementById('supplierPhone').value;
+        supplier.email = document.getElementById('supplierEmail').value;
+        supplier.address = document.getElementById('supplierAddress').value;
+        
+        renderData();
+        showAlert('success', 'تم تحديث المورد بنجاح');
+        document.getElementById('supplier-message').style.display = 'none';
+        
+        // Reset button
+        addBtn.innerHTML = '<span class="material-icons">save</span> إضافة مورد';
+        addBtn.onclick = document.getElementById('addSupplierBtn').onclick;
+        
+        document.getElementById('clearSupplierBtn').click();
+      };
     };
     
     window.deleteSupplier = function(id) {
@@ -2783,7 +2926,44 @@
     };
     
     window.editCustomer = function(id) {
-      showAlert('info', 'سيتم تنفيذ وظيفة التعديل في النسخة الكاملة');
+      const customer = customers.find(c => c.id === id);
+      if (!customer) return;
+      
+      document.getElementById('customerName').value = customer.name;
+      document.getElementById('customerPhone').value = customer.phone;
+      document.getElementById('customerAddress').value = customer.address;
+      document.getElementById('customerMedicalHistory').value = customer.medicalHistory;
+      
+      // Scroll to form
+      document.getElementById('customers').scrollIntoView();
+      
+      // Show message
+      document.getElementById('customer-message').innerHTML = `
+        <span class="material-icons">info</span>
+        أنت تقوم بتعديل العميل: ${customer.name}
+      `;
+      document.getElementById('customer-message').className = 'alert alert-info';
+      document.getElementById('customer-message').style.display = 'flex';
+      
+      // Change add button to update button
+      const addBtn = document.getElementById('addCustomerBtn');
+      addBtn.innerHTML = '<span class="material-icons">save</span> تحديث العميل';
+      addBtn.onclick = function() {
+        customer.name = document.getElementById('customerName').value;
+        customer.phone = document.getElementById('customerPhone').value;
+        customer.address = document.getElementById('customerAddress').value;
+        customer.medicalHistory = document.getElementById('customerMedicalHistory').value;
+        
+        renderData();
+        showAlert('success', 'تم تحديث العميل بنجاح');
+        document.getElementById('customer-message').style.display = 'none';
+        
+        // Reset button
+        addBtn.innerHTML = '<span class="material-icons">save</span> إضافة عميل';
+        addBtn.onclick = document.getElementById('addCustomerBtn').onclick;
+        
+        document.getElementById('clearCustomerBtn').click();
+      };
     };
     
     window.deleteCustomer = function(id) {
@@ -2795,11 +2975,114 @@
     };
     
     window.viewOrder = function(id) {
-      showAlert('info', 'سيتم تنفيذ وظيفة العرض في النسخة الكاملة');
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      
+      const printContent = document.getElementById('printContent');
+      printContent.innerHTML = `
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h2>${localStorage.getItem('pharmacyName') || 'صيدليتنا'}</h2>
+          <p>${localStorage.getItem('pharmacyAddress') || ''}</p>
+          <p>هاتف: ${localStorage.getItem('pharmacyPhone') || ''}</p>
+        </div>
+        
+        <div style="margin-bottom: 30px;">
+          <h3 style="text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 10px;">تفاصيل الفاتورة</h3>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+            <div>
+              <p><strong>رقم الفاتورة:</strong> #${order.id}</p>
+              <p><strong>التاريخ:</strong> ${order.date}</p>
+            </div>
+            <div>
+              <p><strong>العميل:</strong> ${order.customer}</p>
+              <p><strong>الحالة:</strong> ${order.status}</p>
+            </div>
+          </div>
+          
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+              <tr style="background-color: #f5f5f5;">
+                <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">الدواء</th>
+                <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">الكمية</th>
+                <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">السعر</th>
+                <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">الإجمالي</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">أدوية متنوعة</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">1</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${order.amount.toFixed(2)} ج.م</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${order.amount.toFixed(2)} ج.م</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" style="padding: 10px; text-align: left; border: 1px solid #ddd;"><strong>المجموع:</strong></td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><strong>${order.amount.toFixed(2)} ج.م</strong></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      `;
+      
+      document.getElementById('printModal').style.display = 'block';
     };
     
     window.viewPrescription = function(id) {
-      showAlert('info', 'سيتم تنفيذ وظيفة العرض في النسخة الكاملة');
+      const prescription = prescriptions.find(p => p.id === id);
+      if (!prescription) return;
+      
+      const printContent = document.getElementById('printContent');
+      printContent.innerHTML = `
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h2>${localStorage.getItem('pharmacyName') || 'صيدليتنا'}</h2>
+          <p>${localStorage.getItem('pharmacyAddress') || ''}</p>
+          <p>هاتف: ${localStorage.getItem('pharmacyPhone') || ''}</p>
+        </div>
+        
+        <div style="margin-bottom: 30px;">
+          <h3 style="text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 10px;">تفاصيل الوصفة الطبية</h3>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+            <div>
+              <p><strong>رقم الوصفة:</strong> #${prescription.id}</p>
+              <p><strong>التاريخ:</strong> ${prescription.date}</p>
+            </div>
+            <div>
+              <p><strong>العميل:</strong> ${prescription.customer}</p>
+              <p><strong>الطبيب:</strong> ${prescription.doctor}</p>
+            </div>
+          </div>
+          
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+              <tr style="background-color: #f5f5f5;">
+                <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">الدواء</th>
+                <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">الجرعة</th>
+                <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">المدة</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${prescription.items.map(item => `
+                <tr>
+                  <td style="padding: 10px; border: 1px solid #ddd;">${item.medicine}</td>
+                  <td style="padding: 10px; border: 1px solid #ddd;">${item.dosage}</td>
+                  <td style="padding: 10px; border: 1px solid #ddd;">${item.duration}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          
+          ${prescription.notes ? `
+            <div style="margin-bottom: 20px;">
+              <h4 style="border-bottom: 1px solid #ddd; padding-bottom: 5px;">ملاحظات:</h4>
+              <p>${prescription.notes}</p>
+            </div>
+          ` : ''}
+        </div>
+      `;
+      
+      document.getElementById('printModal').style.display = 'block';
     };
   </script>
 </body>
