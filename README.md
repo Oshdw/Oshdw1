@@ -869,15 +869,15 @@
       </div>
     </div>
 
-  <div id="alertContainer"></div>
+    <div id="alertContainer"></div>
 
-  <div id="dashboard" class="page active">
+    <div id="dashboard" class="page active">
       <div class="card">
         <h3>مرحبا بك في نظام إدارة الصيدلية</h3>
         <p>يمكنك استخدام القائمة الجانبية للوصول إلى مختلف أجزاء النظام</p>
       </div>
 
-  <div class="grid">
+      <div class="grid">
         <div class="stat-card">
           <span class="material-icons icon">medication</span>
           <h4>إجمالي الأدوية</h4>
@@ -900,11 +900,11 @@
         </div>
       </div>
 
-  <div class="card">
+      <div class="card">
         <h3>أحدث الفواتير</h3>
         <div class="table-responsive">
           <table id="recentOrdersTable">
-           <thead>
+            <thead>
               <tr>
                 <th>رقم الفاتورة</th>
                 <th>العميل</th>
@@ -921,27 +921,27 @@
       </div>
     </div>
 
-  <div id="medicines" class="page">
+    <div id="medicines" class="page">
       <!-- محتوى صفحة الأدوية -->
     </div>
 
-   <div id="suppliers" class="page">
+    <div id="suppliers" class="page">
       <!-- محتوى صفحة الموردين -->
     </div>
 
-  <div id="customers" class="page">
+    <div id="customers" class="page">
       <!-- محتوى صفحة العملاء -->
     </div>
 
-  <div id="orders" class="page">
+    <div id="orders" class="page">
       <!-- محتوى صفحة الفواتير -->
     </div>
 
-  <div id="prescriptions" class="page">
+    <div id="prescriptions" class="page">
       <!-- محتوى صفحة الوصفات الطبية -->
     </div>
 
-  <div id="quickSale" class="page">
+    <div id="quickSale" class="page">
       <div class="card">
         <h3>البيع المباشر</h3>
         <div class="search-container">
@@ -952,11 +952,11 @@
           </button>
         </div>
         
-  <div id="quickSaleItems">
+        <div id="quickSaleItems">
           <!-- سيتم ملؤها بالبيانات -->
         </div>
         
-  <div class="card" style="margin-top: 1.5rem;">
+        <div class="card" style="margin-top: 1.5rem;">
           <h3>فاتورة البيع المباشر</h3>
           <div class="table-responsive">
             <table id="quickSaleTable">
@@ -982,7 +982,7 @@
             </table>
           </div>
           
-  <button id="completeQuickSaleBtn" class="btn btn-success" style="margin-top: 1.5rem;">
+          <button id="completeQuickSaleBtn" class="btn btn-success" style="margin-top: 1.5rem;">
             <span class="material-icons">check_circle</span>
             إتمام البيع
           </button>
@@ -990,15 +990,15 @@
       </div>
     </div>
 
-  <div id="calculator" class="page">
+    <div id="calculator" class="page">
       <!-- محتوى صفحة الآلة الحاسبة -->
     </div>
 
-  <div id="statistics" class="page">
+    <div id="statistics" class="page">
       <!-- محتوى صفحة الإحصائيات -->
     </div>
 
-  <div id="admin" class="page">
+    <div id="admin" class="page">
       <div class="card">
         <div class="user-profile">
           <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzE5NzZkMiIgZD0iTTEyLDJBMTAsMTAgMCAwLDAgMiwxMkExMCwxMCAwIDAsMCAxMiwyMkExMCwxMCAwIDAsMCAyMiwxMkExMCwxMCAwIDAsMCAxMiwyTTEyLDRBOCw4IDAgMCwxIDIwLDEyQTgsOCAwIDAsMSAxMiwyMEE4LDggMCAwLDEgNCwxMkE4LDggMCAwLDEgMTIsNE0xMiw2QTIsMiAwIDAsMCAxMCw4QTIsMiAwIDAsMCAxMiwxMEEyLDIgMCAwLDAgMTQsOEEyLDIgMCAwLDAgMTIsNk0xMiwxM0E1LDUgMCAwLDAgNywxOEE1LDUgMCAwLDAgMTIsMjNBNSw1IDAgMCwwIDE3LDE4QTUsNSAwIDAsMCAxMiwxM1oiIC8+PC9zdmc+" alt="صورة المستخدم">
@@ -1009,7 +1009,7 @@
           </div>
         </div>
         
-   <div class="user-stats">
+        <div class="user-stats">
           <div class="user-stat">
             <h5>عدد المستخدمين</h5>
             <p>3</p>
@@ -1024,7 +1024,7 @@
           </div>
         </div>
         
-  <h3>أدوات التحكم</h3>
+        <h3>أدوات التحكم</h3>
         <div class="admin-controls">
           <div class="admin-control-card" onclick="navigateTo('medicines')">
             <span class="material-icons">medication</span>
@@ -1060,28 +1060,29 @@
       </div>
     </div>
 
-   <div id="settings" class="page">
+    <div id="settings" class="page">
       <!-- محتوى صفحة الإعدادات -->
     </div>
 
-  <div class="signature">
+    <div class="signature">
       <p>نظام إدارة الصيدلية &copy; <span id="currentYear"></span></p>
       <p>تمت البرمجة بواسطة عمر بابكر - Omer Bk</p>
     </div>
   </div>
-<!-- استمرار لصفحة HTML --
- <!-- Modal للنسخ الاحتياطي -->
+<!-- استمرار لصفحة HTML -->
+
+    <!-- Modal للنسخ الاحتياطي -->
     <div id="backupModal" style="position: fixed; top: 0; right: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 2000;">
       <div style="background-color: var(--card-light); padding: 2rem; border-radius: 10px; max-width: 500px; width: 90%;">
         <h3 style="margin-bottom: 1.5rem; color: var(--primary);">النسخ الاحتياطي</h3>
         
-   <div style="margin-bottom: 1.5rem;">
+        <div style="margin-bottom: 1.5rem;">
           <button id="createBackupBtn" class="btn btn-info" style="width: 100%; margin-bottom: 1rem;">
             <span class="material-icons">backup</span>
             إنشاء نسخة احتياطية
           </button>
           
-  <div style="margin-bottom: 1rem;">
+          <div style="margin-bottom: 1rem;">
             <label for="restoreFile" style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--primary);">استعادة نسخة احتياطية</label>
             <input type="file" id="restoreFile" class="form-control" style="margin-bottom: 1rem;">
             <button id="restoreBackupBtn" class="btn btn-warning" style="width: 100%;">
@@ -1091,15 +1092,15 @@
           </div>
         </div>
         
-  <button onclick="document.getElementById('backupModal').style.display = 'none'" class="btn" style="width: 100%;">
+        <button onclick="document.getElementById('backupModal').style.display = 'none'" class="btn" style="width: 100%;">
           <span class="material-icons">close</span>
           إغلاق
         </button>
       </div>
     </div>
 
-   <!-- Modal قائمة المستخدم -->
-  <div id="userMenuModal" style="position: fixed; top: 60px; left: 10px; background-color: var(--card-light); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 2000; display: none; min-width: 200px;">
+    <!-- Modal قائمة المستخدم -->
+    <div id="userMenuModal" style="position: fixed; top: 60px; left: 10px; background-color: var(--card-light); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 2000; display: none; min-width: 200px;">
       <div style="padding: 1rem; border-bottom: 1px solid var(--border-light);">
         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
           <span class="material-icons" style="color: var(--primary);">account_circle</span>
@@ -1118,17 +1119,18 @@
         </button>
       </div>
     </div>
-<!-- Modal تأكيد البيع -->
+
+    <!-- Modal تأكيد البيع -->
     <div id="confirmSaleModal" style="position: fixed; top: 0; right: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 2000;">
       <div style="background-color: var(--card-light); padding: 2rem; border-radius: 10px; max-width: 400px; width: 90%;">
         <h3 style="margin-bottom: 1.5rem; color: var(--primary); text-align: center;">تأكيد عملية البيع</h3>
         
-<div style="margin-bottom: 1.5rem; text-align: center;">
+        <div style="margin-bottom: 1.5rem; text-align: center;">
           <p style="margin-bottom: 1rem;">هل أنت متأكد من إتمام عملية البيع؟</p>
           <p style="font-weight: bold; font-size: 1.2rem;">المبلغ الإجمالي: <span id="confirmSaleTotal">0</span> ج.س</p>
         </div>
         
-  <div style="display: flex; gap: 1rem;">
+        <div style="display: flex; gap: 1rem;">
           <button onclick="document.getElementById('confirmSaleModal').style.display = 'none'" class="btn btn-danger" style="flex: 1;">
             <span class="material-icons">close</span>
             إلغاء
@@ -1140,7 +1142,8 @@
         </div>
       </div>
     </div>
- <!-- Modal إشعارات -->
+
+    <!-- Modal إشعارات -->
     <div id="notificationsModal" style="position: fixed; top: 60px; left: 10px; background-color: var(--card-light); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 2000; display: none; width: 300px; max-height: 400px; overflow-y: auto;">
       <div style="padding: 1rem; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center;">
         <h4 style="color: var(--primary);">الإشعارات</h4>
@@ -1177,7 +1180,8 @@
         </button>
       </div>
     </div>
-<!-- Modal الأدوية منتهية الصلاحية -->
+
+    <!-- Modal الأدوية منتهية الصلاحية -->
     <div id="expiredMedicinesModal" style="position: fixed; top: 0; right: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 2000;">
       <div style="background-color: var(--card-light); padding: 1.5rem; border-radius: 10px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
         <h3 style="margin-bottom: 1.5rem; color: var(--danger); display: flex; align-items: center; gap: 0.5rem;">
@@ -1185,7 +1189,7 @@
           أدوية منتهية الصلاحية
         </h3>
         
-   <div class="table-responsive">
+        <div class="table-responsive">
           <table style="width: 100%;">
             <thead>
               <tr style="background-color: var(--danger); color: white;">
@@ -1200,7 +1204,7 @@
           </table>
         </div>
         
-   <button onclick="document.getElementById('expiredMedicinesModal').style.display = 'none'" class="btn" style="margin-top: 1.5rem; width: 100%;">
+        <button onclick="document.getElementById('expiredMedicinesModal').style.display = 'none'" class="btn" style="margin-top: 1.5rem; width: 100%;">
           <span class="material-icons">close</span>
           إغلاق
         </button>
@@ -1227,56 +1231,56 @@
       lastLogin: new Date()
     };
     
-  // تهيئة التطبيق
+    // تهيئة التطبيق
     document.addEventListener('DOMContentLoaded', function() {
       // تعيين السنة الحالية
       document.getElementById('currentYear').textContent = new Date().getFullYear();
       
-  // تعيين تاريخ اليوم لحقول التاريخ
+      // تعيين تاريخ اليوم لحقول التاريخ
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('orderDate').value = today;
       document.getElementById('prescriptionDate').value = today;
       document.getElementById('statsFromDate').value = today;
       document.getElementById('statsToDate').value = today;
       
-  // معالج حدث فتح/إغلاق القائمة الجانبية
+      // معالج حدث فتح/إغلاق القائمة الجانبية
       document.getElementById('toggleSidebar').addEventListener('click', function() {
         document.getElementById('sidebar').classList.toggle('visible');
         document.getElementById('sidebarOverlay').classList.toggle('visible');
         document.body.classList.toggle('sidebar-open');
       });
       
-  // معالج حدث النقر على overlay لإغلاق القائمة الجانبية
+      // معالج حدث النقر على overlay لإغلاق القائمة الجانبية
       document.getElementById('sidebarOverlay').addEventListener('click', function() {
         document.getElementById('sidebar').classList.remove('visible');
         this.classList.remove('visible');
         document.body.classList.remove('sidebar-open');
       });
 
-  // معالج حدث لتبديل الوضع الليلي
+      // معالج حدث لتبديل الوضع الليلي
       document.getElementById('toggleTheme').addEventListener('click', function() {
         document.body.classList.toggle('dark');
         localStorage.setItem('darkMode', document.body.classList.contains('dark'));
       });
       
-  // معالج حدث قائمة المستخدم
+      // معالج حدث قائمة المستخدم
       document.getElementById('userMenuBtn').addEventListener('click', function(e) {
         e.stopPropagation();
         const modal = document.getElementById('userMenuModal');
         modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
       });
       
-  // إغلاق قا��مة المستخدم عند النقر خارجها
+      // إغلاق قائمة المستخدم عند النقر خارجها
       document.addEventListener('click', function() {
         document.getElementById('userMenuModal').style.display = 'none';
       });
       
-  // تحميل وضع العرض المظلم من localStorage
+      // تحميل وضع العرض المظلم من localStorage
       if (localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark');
       }
       
-  // تعيين معالج الأحداث لأزرار التنقل
+      // تعيين معالج الأحداث لأزرار التنقل
       const navButtons = {
         dashboard: document.getElementById('dashboardBtn'),
         medicines: document.getElementById('medicinesBtn'),
@@ -1291,7 +1295,7 @@
         settings: document.getElementById('settingsBtn')
       };
 
-  const pages = {
+      const pages = {
         dashboard: document.getElementById('dashboard'),
         medicines: document.getElementById('medicines'),
         suppliers: document.getElementById('suppliers'),
@@ -1305,80 +1309,80 @@
         settings: document.getElementById('settings')
       };
 
-  Object.keys(navButtons).forEach(key => {
+      Object.keys(navButtons).forEach(key => {
         navButtons[key].addEventListener('click', function() {
           // إزالة النشاط من جميع الأزرار
           Object.values(navButtons).forEach(btn => {
             btn.classList.remove('active');
           });
           
-  // إضافة النشاط للزر المحدد
+          // إضافة النشاط للزر المحدد
           this.classList.add('active');
           
-  // إخفاء جميع الصفحات
+          // إخفاء جميع الصفحات
           Object.values(pages).forEach(page => {
             page.classList.remove('active');
           });
           
-  // إظهار الصفحة المحددة
+          // إظهار الصفحة المحددة
           pages[key].classList.add('active');
           
-  // تحديث عنوان الصفحة
+          // تحديث عنوان الصفحة
           document.getElementById('page-title').textContent = this.textContent.trim();
           
-  // إغلاق القائمة الجانبية بعد اختيار الصفحة (للهواتف)
+          // إغلاق القائمة الجانبية بعد اختيار الصفحة (للهواتف)
           if (window.innerWidth <= 768) {
             document.getElementById('sidebar').classList.remove('visible');
             document.getElementById('sidebarOverlay').classList.remove('visible');
             document.body.classList.remove('sidebar-open');
           }
           
-  // إذا كانت صفحة الإحصائيات، قم بتحديث الرسوم البيانية
+          // إذا كانت صفحة الإحصائيات، قم بتحديث الرسوم البيانية
           if (key === 'statistics') {
             updateCharts();
           }
           
-  // إذا كانت صفحة البيع المباشر، قم بتحديث قائمة الأدوية
+          // إذا كانت صفحة البيع المباشر، قم بتحديث قائمة الأدوية
           if (key === 'quickSale') {
             updateQuickSaleItems();
           }
         });
       });
 
-  // معالج حدث إضافة دواء جديد
+      // معالج حدث إضافة دواء جديد
       document.getElementById('addMedicineBtn')?.addEventListener('click', addMedicine);
       
-  // معالج حدث إضافة مورد جديد
+      // معالج حدث إضافة مورد جديد
       document.getElementById('addSupplierBtn')?.addEventListener('click', addSupplier);
       
-  // معالج حدث إضافة عميل جديد
+      // معالج حدث إضافة عميل جديد
       document.getElementById('addCustomerBtn')?.addEventListener('click', addCustomer);
       
-  // معالج حدث إضافة عنصر للفاتورة
+      // معالج حدث إضافة عنصر للفاتورة
       document.getElementById('addToOrderBtn')?.addEventListener('click', addToOrder);
       
-  // معالج حدث حفظ الفاتورة
+      // معالج حدث حفظ الفاتورة
       document.getElementById('saveOrderBtn')?.addEventListener('click', saveOrder);
       
-  // معالج حدث إضافة عنصر للوصفة
+      // معالج حدث إضافة عنصر للوصفة
       document.getElementById('addToPrescriptionBtn')?.addEventListener('click', addToPrescription);
       
-  // معالج حدث حفظ الوصفة
+      // معالج حدث حفظ الوصفة
       document.getElementById('savePrescriptionBtn')?.addEventListener('click', savePrescription);
       
-  // معالج حدث حفظ الإعدادات
+      // معالج حدث حفظ الإعدادات
       document.getElementById('saveSettingsBtn')?.addEventListener('click', saveSettings);
       
-   // معالج حدث إنشاء نسخة احتياطية
+      // معالج حدث إنشاء نسخة احتياطية
       document.getElementById('createBackupBtn')?.addEventListener('click', createBackup);
       
-   // معالج حدث استعادة النسخة الاحتياطية
+      // معالج حدث استعادة النسخة الاحتياطية
       document.getElementById('restoreBackupBtn')?.addEventListener('click', restoreBackup);
       
-   // معالج حدث توليد الإحصائيات
+      // معالج حدث توليد الإحصائيات
       document.getElementById('generateStatsBtn')?.addEventListener('click', generateStatistics);
       
-  // معالج أحداث البحث
+      // معالج أحداث البحث
       document.getElementById('searchMedicineBtn')?.addEventListener('click', searchMedicines);
       document.getElementById('searchSupplierBtn')?.addEventListener('click', searchSuppliers);
       document.getElementById('searchCustomerBtn')?.addEventListener('click', searchCustomers);
@@ -1386,29 +1390,29 @@
       document.getElementById('searchPrescriptionBtn')?.addEventListener('click', searchPrescriptions);
       document.getElementById('quickSaleSearchBtn')?.addEventListener('click', searchQuickSaleItems);
       
-   // معالج حدث إتمام البيع المباشر
+      // معالج حدث إتمام البيع المباشر
       document.getElementById('completeQuickSaleBtn')?.addEventListener('click', confirmQuickSale);
       document.getElementById('finalConfirmSaleBtn')?.addEventListener('click', completeQuickSale);
 
-   // تحميل البيانات الأولية
+      // تحميل البيانات الأولية
       loadSampleData();
       
-  // تحديث الإحصائيات على لوحة التحكم
+      // تحديث الإحصائيات على لوحة التحكم
       updateDashboardStats();
       
-  // تحديث شاشة الآلة الحاسبة
+      // تحديث شاشة الآلة الحاسبة
       updateCalculatorDisplay();
       
-   // تحميل الإعدادات
+      // تحميل الإعدادات
       loadSettings();
       
-  // التحقق من الأدوية المنتهية الصلاحية
+      // التحقق من الأدوية المنتهية الصلاحية
       checkExpiredMedicines();
     });
 
- // ========== دوال الأعمال ==========
+    // ========== دوال الأعمال ==========
     
-  function addMedicine() {
+    function addMedicine() {
       const name = document.getElementById('medName').value;
       const scientificName = document.getElementById('medScientificName').value;
       const price = document.getElementById('medPrice').value;
@@ -1419,12 +1423,12 @@
       const supplier = document.getElementById('medSupplier').value;
       const description = document.getElementById('medDescription').value;
       
-   if (!name || !price || !quantity || !category) {
+      if (!name || !price || !quantity || !category) {
         showAlert('error', 'الرجاء إدخال جميع البيانات المطلوبة');
         return;
       }
       
-   const newMedicine = {
+      const newMedicine = {
         id: Date.now(),
         name: name,
         scientificName: scientificName,
@@ -1438,13 +1442,13 @@
         barcode: generateBarcode()
       };
       
-  medicines.push(newMedicine);
+      medicines.push(newMedicine);
       updateMedicinesTable();
       updateSelectOptions();
       
-   showAlert('success', 'تم إضافة الدواء بنجاح');
+      showAlert('success', 'تم إضافة الدواء بنجاح');
       
-  // مسح الحقول
+      // مسح الحقول
       document.getElementById('medName').value = '';
       document.getElementById('medScientificName').value = '';
       document.getElementById('medPrice').value = '';
@@ -1455,9 +1459,10 @@
       document.getElementById('medSupplier').value = '';
       document.getElementById('medDescription').value = '';
       
-  updateDashboardStats();
+      updateDashboardStats();
     }
-      function addSupplier() {
+    
+    function addSupplier() {
       const name = document.getElementById('supplierName').value;
       const phone = document.getElementById('supplierPhone').value;
       const email = document.getElementById('supplierEmail').value;
@@ -1465,12 +1470,12 @@
       const address = document.getElementById('supplierAddress').value;
       const notes = document.getElementById('supplierNotes').value;
       
-   if (!name || !phone) {
+      if (!name || !phone) {
         showAlert('error', 'الرجاء إدخال اسم المورد ورقم الهاتف');
         return;
       }
       
-   const newSupplier = {
+      const newSupplier = {
         id: Date.now(),
         name: name,
         phone: phone,
@@ -1480,23 +1485,23 @@
         notes: notes
       };
       
-  suppliers.push(newSupplier);
+      suppliers.push(newSupplier);
       updateSuppliersTable();
       updateSelectOptions();
       
-   showAlert('success', 'تم إضافة المورد بنجاح');
+      showAlert('success', 'تم إضافة المورد بنجاح');
       
-  document.getElementById('supplierName').value = '';
+      document.getElementById('supplierName').value = '';
       document.getElementById('supplierPhone').value = '';
       document.getElementById('supplierEmail').value = '';
       document.getElementById('supplierCompany').value = '';
       document.getElementById('supplierAddress').value = '';
       document.getElementById('supplierNotes').value = '';
       
-  updateDashboardStats();
+      updateDashboardStats();
     }
     
-  function addCustomer() {
+    function addCustomer() {
       const name = document.getElementById('customerName').value;
       const phone = document.getElementById('customerPhone').value;
       const age = document.getElementById('customerAge').value;
@@ -1504,12 +1509,12 @@
       const address = document.getElementById('customerAddress').value;
       const medicalHistory = document.getElementById('customerMedicalHistory').value;
       
-   if (!name || !phone) {
+      if (!name || !phone) {
         showAlert('error', 'الرجاء إدخال اسم العميل ورقم الهاتف');
         return;
       }
       
-   const newCustomer = {
+      const newCustomer = {
         id: Date.now(),
         name: name,
         phone: phone,
@@ -1519,37 +1524,42 @@
         medicalHistory: medicalHistory
       };
       
-   customers.push(newCustomer);
-     updateCustomersTable();
+      customers.push(newCustomer);
+      updateCustomersTable();
       updateSelectOptions();
       
-   showAlert('success', 'تم إضافة العميل بنجاح');
+      showAlert('success', 'تم إضافة العميل بنجاح');
       
-  document.getElementById('customerName').value = '';
+      document.getElementById('customerName').value = '';
       document.getElementById('customerPhone').value = '';
       document.getElementById('customerAge').value = '';
       document.getElementById('customerGender').value = 'ذكر';
       document.getElementById('customerAddress').value = '';
       document.getElementById('customerMedicalHistory').value = '';
       
-  updateDashboardStats();
+      updateDashboardStats();
     }
+    
     function addToOrder() {
       const medicineId = parseInt(document.getElementById('orderMedicine').value);
       const quantity = parseInt(document.getElementById('orderQuantity').value);
+      
       if (!medicineId || !quantity || quantity < 1) {
         showAlert('error', 'الرجاء اختيار دواء وكمية صحيحة');
         return;
       }
+      
       const medicine = medicines.find(m => m.id === medicineId);
       if (!medicine) {
         showAlert('error', 'الدواء المحدد غير موجود');
         return;
       }
+      
       if (medicine.quantity < quantity) {
         showAlert('error', `الكمية المتاحة غير كافية (المتاح: ${medicine.quantity})`);
         return;
       }
+      
       const existingItem = currentOrderItems.find(item => item.medicineId === medicineId);
       if (existingItem) {
         existingItem.quantity += quantity;
@@ -1561,27 +1571,34 @@
           quantity: quantity
         });
       }
+      
       updateOrderItemsTable();
       document.getElementById('orderQuantity').value = '1';
     }
+    
     function saveOrder() {
       const customerId = parseInt(document.getElementById('orderCustomer').value);
       const date = document.getElementById('orderDate').value;
       const notes = document.getElementById('orderNotes').value;
+      
       if (!customerId) {
         showAlert('error', 'الرجاء اختيار عميل');
         return;
       }
+      
       if (currentOrderItems.length === 0) {
         showAlert('error', 'الرجاء إضافة أدوية للفاتورة');
         return;
       }
+      
       const customer = customers.find(c => c.id === customerId);
       if (!customer) {
         showAlert('error', 'العميل المحدد غير موجود');
         return;
       }
+      
       const total = currentOrderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      
       const newOrder = {
         id: Date.now(),
         customerId: customerId,
@@ -1591,70 +1608,88 @@
         total: total,
         notes: notes
       };
+      
       orders.push(newOrder);
+      
       currentOrderItems.forEach(item => {
         const medicine = medicines.find(m => m.id === item.medicineId);
         if (medicine) {
           medicine.quantity -= item.quantity;
         }
       });
+      
       currentOrderItems = [];
       updateOrderItemsTable();
+      
       document.getElementById('orderCustomer').value = '';
       document.getElementById('orderDate').value = new Date().toISOString().split('T')[0];
       document.getElementById('orderNotes').value = '';
+      
       updateOrdersTable();
       updateMedicinesTable();
+      
       showAlert('success', 'تم حفظ الفاتورة بنجاح');
+      
       updateDashboardStats();
     }
+    
     function addToPrescription() {
       const medicineId = parseInt(document.getElementById('prescriptionMedicine').value);
       const dosage = document.getElementById('prescriptionDosage').value;
       const duration = document.getElementById('prescriptionDuration').value;
+      
       if (!medicineId || !dosage || !duration) {
         showAlert('error', 'الرجاء إدخال جميع بيانات الدواء');
         return;
       }
+      
       const medicine = medicines.find(m => m.id === medicineId);
       if (!medicine) {
         showAlert('error', 'الدواء المحدد غير موجود');
         return;
       }
+      
       currentPrescriptionItems.push({
         medicineId: medicineId,
         name: medicine.name,
         dosage: dosage,
         duration: duration
       });
+      
       updatePrescriptionItemsTable();
       
-document.getElementById('prescriptionDosage').value = '';
+      document.getElementById('prescriptionDosage').value = '';
       document.getElementById('prescriptionDuration').value = '';
     }
+    
     function savePrescription() {
       const customerId = parseInt(document.getElementById('prescriptionCustomer').value);
       const date = document.getElementById('prescriptionDate').value;
       const doctor = document.getElementById('prescriptionDoctor').value;
       const diagnosis = document.getElementById('prescriptionDiagnosis').value;
       const notes = document.getElementById('prescriptionNotes').value;
+      
       if (!customerId) {
         showAlert('error', 'الرجاء اختيار عميل');
         return;
       }
+      
       if (!doctor) {
         showAlert('error', 'الرجاء إدخال اسم الطبيب');
         return;
       }
+      
       if (currentPrescriptionItems.length === 0) {
         showAlert('error', 'الرجاء إضافة أدوية للوصفة');
         return;
       }
+      
       const customer = customers.find(c => c.id === customerId);
       if (!customer) {
         showAlert('error', 'العميل المحدد غير موجود');
         return;
       }
+      
       const newPrescription = {
         id: Date.now(),
         customerId: customerId,
@@ -1666,18 +1701,22 @@ document.getElementById('prescriptionDosage').value = '';
         notes: notes
       };
       
-prescriptions.push(newPrescription);
+      prescriptions.push(newPrescription);
+      
       currentPrescriptionItems = [];
       updatePrescriptionItemsTable();
       
-  document.getElementById('prescriptionCustomer').value = '';
+      document.getElementById('prescriptionCustomer').value = '';
       document.getElementById('prescriptionDate').value = new Date().toISOString().split('T')[0];
       document.getElementById('prescriptionDoctor').value = '';
       document.getElementById('prescriptionDiagnosis').value = '';
       document.getElementById('prescriptionNotes').value = '';
+      
       updatePrescriptionsTable();
+      
       showAlert('success', 'تم حفظ الوصفة الطبية بنجاح');
     }
+    
     function saveSettings() {
       const name = document.getElementById('pharmacyName').value;
       const phone = document.getElementById('pharmacyPhone').value;
@@ -1686,8 +1725,8 @@ prescriptions.push(newPrescription);
       const invoicePrefix = document.getElementById('invoicePrefix').value;
       const invoiceStartingNumber = document.getElementById('invoiceStartingNumber').value;
       const invoiceFooter = document.getElementById('invoiceFooter').value;
-
-   settings = {
+      
+      settings = {
         pharmacyName: name,
         pharmacyPhone: phone,
         pharmacyEmail: email,
@@ -1698,9 +1737,11 @@ prescriptions.push(newPrescription);
         currency: 'ج.س'
       };
       
-  localStorage.setItem('pharmacySettings', JSON.stringify(settings));
+      localStorage.setItem('pharmacySettings', JSON.stringify(settings));
+      
       showAlert('success', 'تم حفظ الإعدادات بنجاح');
     }
+    
     function createBackup() {
       const data = {
         medicines: medicines,
@@ -2088,7 +2129,7 @@ prescriptions.push(newPrescription);
       suppliers = [
         { id: 1, name: 'شركة الأدوية المتحدة', phone: '0123456789', email: 'info@unitedpharma.com', company: 'الأدوية المتحدة', address: 'القاهرة، مصر', notes: 'مورد رئيسي للأدوية' },
         { id: 2, name: 'المصنع العربي للأدوية', phone: '0111222333', email: 'sales@arabianpharma.com', company: 'المصنع العربي', address: 'الإسكندرية، مصر', notes: 'متخصص في المضادات الحيوية' },
-        { id: 3, name: 'الدلتا للمستح��رات الطبية', phone: '0100555666', email: 'contact@deltamed.com', company: 'دلتا ميد', address: 'المنصورة، مصر', notes: 'مورد للمكملات الغذائية' }
+        { id: 3, name: 'الدلتا للمستحضرات الطبية', phone: '0100555666', email: 'contact@deltamed.com', company: 'دلتا ميد', address: 'المنصورة، مصر', notes: 'مورد للمكملات الغذائية' }
       ];
       
       customers = [
