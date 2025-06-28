@@ -1059,7 +1059,17 @@
         </div>
       </div>
     </div>
-    <!-- استمرار لصفحة HTML -->
+
+    <div id="settings" class="page">
+      <!-- محتوى صفحة الإعدادات -->
+    </div>
+
+    <div class="signature">
+      <p>نظام إدارة الصيدلية &copy; <span id="currentYear"></span></p>
+      <p>تمت البرمجة بواسطة عمر بابكر - Omer Bk</p>
+    </div>
+  </div>
+<!-- استمرار لصفحة HTML -->
 
     <!-- Modal للنسخ الاحتياطي -->
     <div id="backupModal" style="position: fixed; top: 0; right: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 2000;">
@@ -1200,16 +1210,7 @@
         </button>
       </div>
     </div>
-    <div id="settings" class="page">
-      <!-- محتوى صفحة الإعدادات -->
-    </div>
-
-    <div class="signature">
-      <p>نظام إدارة الصيدلية &copy; <span id="currentYear"></span></p>
-      <p>تمت البرمجة بواسطة عمر بابكر - Omer Bk</p>
-    </div>
-  </div>
-    <script>
+<script>
     // بيانات التطبيق
     let medicines = [];
     let suppliers = [];
