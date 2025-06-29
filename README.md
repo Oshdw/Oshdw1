@@ -1917,7 +1917,7 @@
       let topCustomer = '-';
       if (Object.keys(customerSales).length > 0) {
         const sorted = Object.entries(customerSales).sort((a, b) => b[1].total - a[1].total);
-        topCustomer = `${sorted[0][1].name} (${sorted[0][1].total.toFixed(2)} ج.م)`;
+        topCustomer = `${sorted[0][1].name} (${sorted[0][1].total.toFixed(2)} ج.س)`;
       }
       document.getElementById('statsTopCustomer').textContent = topCustomer;
       
@@ -2039,7 +2039,7 @@
         row.innerHTML = `
           <td>${medicine.name}</td>
           <td>${medicine.scientificName || '-'}</td>
-          <td>${medicine.price.toFixed(2)} ج.م</td>
+          <td>${medicine.price.toFixed(2)} ج.س</td>
           <td>${medicine.quantity}</td>
           <td>${medicine.category}</td>
           <td class="actions-cell">
@@ -2173,7 +2173,7 @@
       
       // تحديث الإجمالي
       const total = currentOrderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-      document.getElementById('orderTotal').textContent = total.toFixed(2) + ' ج.م';
+      document.getElementById('orderTotal').textContent = total.toFixed(2) + ' ج.س';
     }
     
     function updatePrescriptionItemsTable() {
@@ -2739,7 +2739,7 @@
             <td>${item.name}</td>
             <td>${item.price.toFixed(2)} ج.م</td>
             <td>${item.quantity}</td>
-            <td>${(item.price * item.quantity).toFixed(2)} ج.م</td>
+            <td>${(item.price * item.quantity).toFixed(2)} ج.س</td>
           </tr>
         `;
       });
@@ -2769,7 +2769,7 @@
                 <tfoot>
                   <tr>
                     <td colspan="3" style="text-align: left; font-weight: bold; padding: 0.75rem;">الإجمالي:</td>
-                    <td style="font-weight: bold; padding: 0.75rem;">${order.total.toFixed(2)} ج.م</td>
+                    <td style="font-weight: bold; padding: 0.75rem;">${order.total.toFixed(2)} ج.س</td>
                   </tr>
                 </tfoot>
               </table>
