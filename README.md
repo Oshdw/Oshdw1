@@ -661,7 +661,7 @@
         <div class="stat-card">
           <span class="material-icons icon">attach_money</span>
           <h4>إجمالي المبيعات</h4>
-          <div class="value" id="totalSales">0 ج.م</div>
+          <div class="value" id="totalSales">0 ج.س</div>
         </div>
       </div>
 
@@ -2737,7 +2737,7 @@
         itemsHtml += `
           <tr>
             <td>${item.name}</td>
-            <td>${item.price.toFixed(2)} ج.م</td>
+            <td>${item.price.toFixed(2)} ج.س</td>
             <td>${item.quantity}</td>
             <td>${(item.price * item.quantity).toFixed(2)} ج.س</td>
           </tr>
